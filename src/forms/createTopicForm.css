@@ -1,0 +1,9 @@
+.create-topic-form{
+    max-width: 500px;
+    padding: 20px 12px 10px 20px;
+    font: 13px Arial, Helvetica, sans-serif;
+}
+
+.create-topic-form span.required{
+    color:red;
+}
