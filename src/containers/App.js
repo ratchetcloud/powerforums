@@ -9,6 +9,9 @@ import { history } from '../stores/store'
 import './App.css'
 import { userLogin } from '../actions/userActions'
 
+// Jihye : add User Register
+import UserRegister from './UserRegister'
+
 class App extends Component {
     constructor(props) {
         super(props)
@@ -39,6 +42,7 @@ class App extends Component {
                             <Route path="/nodelist/:nodeId" component={NodeList} />
                             <Route path="/role" component={RoleList} />
                             <Route path="/user" component={UserList} />
+                            <Route path="/register" component={UserRegister} />
                         </Switch>
                     </ConnectedRouter>
                 </div>
