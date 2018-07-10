@@ -41,6 +41,8 @@ const renderField = ({ input, label, type, placeholder, meta: { touched, error }
     </div>
 )
 
+//Jihye: for changing as basic register, separate permission and register / remove country selection
+/*
 const renderPermissions = ({ fields, meta: { touched, error, submitFailed } }) => (
     <ul>
         <li>
@@ -68,6 +70,7 @@ const renderPermissions = ({ fields, meta: { touched, error, submitFailed } }) =
         )}
     </ul>
 )
+*/
 
 class CreateUserForm extends Component {
     constructor(props) {
@@ -82,7 +85,7 @@ class CreateUserForm extends Component {
 
     render() {
         const {error, handleSubmit, pristine, reset, submitting} = this.props;
-
+        console.log(this.props)
         return (
             <div className="create-user-form">
                 {error && <strong>{error}</strong>}
@@ -108,14 +111,6 @@ class CreateUserForm extends Component {
                                placeholder="Please enter the user account Id"
                                component={renderField}
                                type="text" />
-                    </div>
-                    <div>
-                        <FieldArray name="roles" component={renderPermissions} />
-                    </div>
-                    <div>
-                        <Field name="notes" component={notes =>
-                            <IntegrationReactSelect />
-                        }/>
                     </div>
                     <div>
                         <button type="submit" disabled={submitting}>Create User</button>
