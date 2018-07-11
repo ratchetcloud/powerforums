@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux"
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Link } from 'react-router-dom'
 import NodeList from './NodeList'
 import RoleList from './RoleList'
 import UserList from './UserList'
@@ -34,9 +34,10 @@ class App extends Component {
 
         } else {
             return (
-                <div>
-                    <h1>React/Redux User Interface</h1>
-                    <ConnectedRouter history={history}>
+                    <div>
+                        <h1>React/Redux User Interface</h1>
+                       
+                        <ConnectedRouter history={history}>
                         <Switch>
                             <Route exact path="/" component={NodeList} />
                             <Route path="/nodelist/:nodeId" component={NodeList} />
@@ -44,8 +45,8 @@ class App extends Component {
                             <Route path="/user" component={UserList} />
                             <Route path="/register" component={UserRegister} />
                         </Switch>
-                    </ConnectedRouter>
-                </div>
+                        </ConnectedRouter>
+                    </div>
             )
         }
     }

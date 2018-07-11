@@ -82,7 +82,6 @@ class UserList extends Component {
                     </div>
 
                     {this.renderUserList(this.props.users)}
-                    <div><CreateUserForm /></div>
                 </div>
             )
         }  else if (this.props.error) {
