@@ -26,7 +26,6 @@ class CreateReplyForm extends Component {
     }
 
     handleFormSubmit(formValues) {
-console.log('CreateReplyForm, handleFormSubmit', formValues)
         // Add "not user related" values to form, and trigger the submission with merged value set.
         return this.props.handleFormSubmit(Object.assign({
                 type: "Reply",
@@ -45,7 +44,6 @@ console.log('CreateReplyForm, handleFormSubmit', formValues)
         } else {
             var commentLabel = <div>{this.props.commentLabel}</div>
         }
-
         return (
             <div className="create-reply-form">
                 {error && <strong>{error}</strong>}
@@ -77,7 +75,9 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-CreateReplyForm = reduxForm({ enableReinitialize: false, onSubmit: () => {} }) (CreateReplyForm)
+//CreateReplyForm = reduxForm({ enableReinitialize: false, onSubmit: () => {} }) (CreateReplyForm)
+
+CreateReplyForm = reduxForm({form: 'createReplyForm'}) (CreateReplyForm)
 
 CreateReplyForm = connect(mapStateToProps, mapDispatchToProps) (CreateReplyForm)
 

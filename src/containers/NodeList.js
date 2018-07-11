@@ -94,7 +94,7 @@ class NodeList extends Component {
                 var creationForms = <div><CreateTopicForm /><CreateForumForm /></div>
 
             } else if (this.props.parentNode.type == "Topic" || this.props.parentNode.type == "Reply") {
-                var creationForms = <div><CreateReplyForm form={'CreateReplyForm'} /></div>
+                var creationForms = <div><CreateReplyForm /></div>
             }
 
             return (
