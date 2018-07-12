@@ -7,3 +7,7 @@
 .create-forum-form span.required{
     color:red;
 }
+
+.create-forum-form input[type="text"] {
+	width: 100%;
+}
