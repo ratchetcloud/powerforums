@@ -28,6 +28,16 @@ const renderField = ({ input, label, type, placeholder, meta: { touched, error }
     </div>
 )
 
+const renderTextareaField = ({ input, label, placeholder, meta: { touched, error } }) => (
+    <div>
+        <label>{label}</label>
+        <div>
+            <textarea {...input} placeholder={placeholder} />
+            {touched && error && <span>{error}</span>}
+        </div>
+    </div>
+)
+
 class CreateTopicForm extends Component {
     constructor(props) {
         super(props)
@@ -67,7 +77,7 @@ class CreateTopicForm extends Component {
                     </div>
                     <div>
                         <Field name="content"
-                               component="textarea"
+                               component={renderTextareaField}
                                label="Message"
                                placeholder="Please enter your message" />
                     </div>
