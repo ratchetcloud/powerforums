@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { nodeListFetch } from '../actions/nodeListActions'
-
 import './CreateReplyForm.css'
 import '../client'
 
@@ -31,14 +30,11 @@ class CreateReplyForm extends Component {
                 type: "Reply",
                 sticky: false,
                 parentId: this.props.parentId
-            },
-            formValues
-        ))
+        }, formValues));
     }
 
     render() {
         const {error, handleSubmit, pristine, reset, submitting} = this.props
-
         if (this.props.hasOwnProperty('commentLabel') && this.props.commentLabel === '') {
             var commentLabel = ''
         } else {
@@ -47,7 +43,7 @@ class CreateReplyForm extends Component {
         return (
             <div className="create-reply-form">
                 {error && <strong>{error}</strong>}
-                <form>
+                <form onSubmit={handleSubmit(formValues => this.handleFormSubmit(formValues))}>
                     {commentLabel}
                     <div>
                         <Field name="content"
@@ -66,7 +62,7 @@ class CreateReplyForm extends Component {
 }
 
 const mapStateToProps = state => ({
-    parentId: state.nodeList.parentNodeId,
+    parentId: state.nodeList.parentNodeId
 })
 
 const mapDispatchToProps = dispatch => ({
