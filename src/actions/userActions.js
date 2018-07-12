@@ -5,14 +5,16 @@ import {
 } from "../constants/userActionTypes"
 import { userListFetch } from "../actions/userListActions"
 
-export const userLogin = (username, md5password) => (dispatch, getState, client) => {
+export const userLogin = (username, password) => (dispatch, getState, client) => {
     // We want to handle an Async action, dispatch a "Loading" action.
     dispatch(userLoginPending())
 
-    client.login(username, md5password).then(response => {
+    client.login(username, password).then(response => {
         // When API call is successful.
         // Set authorization header in API HTTP middleware.
         client.setAuthorizationToken(response.token);
+
+        // TODO: Save token on client
 
         // Dispatch a fulfilled action.
         dispatch(userLoginFulfilled(response))
@@ -39,30 +41,19 @@ const userLoginRejected = data => ({
 })
 
 export const userLogout = () => (dispatch, getState, client) => {
-    // We want to handle an Async action, dispatch a "Loading" action.
     dispatch(userLogoutPending())
 
-    client.logout().then(response => {
-        // When API call is successful, dispatch a fulfilled action.
-        dispatch(userLogoutFulfilled(response))
-    }).catch(response => {
-        // When an error (network or applicative) occurs, dispatch a rejected action.
-        dispatch(userLogoutRejected(response))
-    })
+    // TODO: Remove session on client or server
+
+    dispatch(userLogoutFulfilled())
 }
 
 const userLogoutPending = () => ({
     type: USER_LOGOUT_PENDING
 })
 
-const userLogoutFulfilled = data => ({
-    type: USER_LOGOUT_FULFILLED,
-    payload: data
-})
-
-const userLogoutRejected = data => ({
-    type: USER_LOGOUT_REJECTED,
-    payload: data
+const userLogoutFulfilled = () => ({
+    type: USER_LOGOUT_FULFILLED
 })
 
 export const userDelete = userId => (dispatch, getState, client) => {
