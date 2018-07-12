@@ -9,7 +9,6 @@ import { connect } from "react-redux"
 class Node extends Component {
     constructor(props) {
         super(props)
-
         this.onNodeClickHandler = this.onNodeClickHandler.bind(this)
         this.onDeleteClickHandler = this.onDeleteClickHandler.bind(this)
         this.onEditClickHandler = this.onEditClickHandler.bind(this)
@@ -20,6 +19,7 @@ class Node extends Component {
     onNodeClickHandler(event) {
         event.stopPropagation()
         this.props.nodeListChangeParentNode(this.props.content._id)
+        this.props.history.push("/nodelist/" + this.props.content._id, null)  
     }
 
     onEditClickHandler(event) {

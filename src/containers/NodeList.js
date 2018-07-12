@@ -30,6 +30,17 @@ class NodeList extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.location !== this.props.location){
+            if(this.props.match.params.hasOwnProperty('nodeId')) {
+                this.props.parentNodeChange(this.props.match.params.nodeId)
+            } else {
+                this.props.parentNodeChange("5ade661da8744f2fccacabe2")
+
+            }
+        }
+    }
+
     handlePageChangeClick(data) {
         // When a page change is detected.
         // Trigger the change page action.
@@ -47,7 +58,8 @@ class NodeList extends Component {
             return (
                 <Node key={node._id}
                       content={node}
-                      nodeListChangeParentNode={this.props.parentNodeChange} />
+                      nodeListChangeParentNode={this.props.parentNodeChange}
+                      history={this.props.history} />
             )
         })
     }
@@ -100,7 +112,8 @@ class NodeList extends Component {
             return (
                 <div className="container">
                     <Navigation nodeListParentNodeChange={this.props.parentNodeChange}
-                                parentNodeAncestorList={parentNodeAncestorList} />
+                                parentNodeAncestorList={parentNodeAncestorList} 
+                                history={this.props.history}/>
                     {parentNodeDisplay}
                     <div>
                         <select id="paginaion-select"
