@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux"
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Link } from 'react-router-dom'
 import NodeList from './NodeList'
 import RoleList from './RoleList'
 import UserList from './UserList'
@@ -8,6 +8,9 @@ import { ConnectedRouter } from 'react-router-redux'
 import { history } from '../stores/store'
 import './App.css'
 import { userLogin } from '../actions/userActions'
+
+// Jihye: add User Register
+import UserRegister from './UserRegister'
 
 class App extends Component {
     constructor(props) {
@@ -31,17 +34,19 @@ class App extends Component {
 
         } else {
             return (
-                <div>
-                    <h1>React/Redux User Interface</h1>
-                    <ConnectedRouter history={history}>
+                    <div>
+                        <h1>React/Redux User Interface</h1>
+                       
+                        <ConnectedRouter history={history}>
                         <Switch>
                             <Route exact path="/" component={NodeList} />
                             <Route path="/nodelist/:nodeId" component={NodeList} />
                             <Route path="/role" component={RoleList} />
                             <Route path="/user" component={UserList} />
+                            <Route path="/register" component={UserRegister} />
                         </Switch>
-                    </ConnectedRouter>
-                </div>
+                        </ConnectedRouter>
+                    </div>
             )
         }
     }

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { nodeListFetch } from '../actions/nodeListActions'
-
 import './CreateReplyForm.css'
 import '../client'
 
@@ -26,30 +25,25 @@ class CreateReplyForm extends Component {
     }
 
     handleFormSubmit(formValues) {
-console.log('CreateReplyForm, handleFormSubmit', formValues)
         // Add "not user related" values to form, and trigger the submission with merged value set.
         return this.props.handleFormSubmit(Object.assign({
                 type: "Reply",
                 sticky: false,
                 parentId: this.props.parentId
-            },
-            formValues
-        ))
+        }, formValues));
     }
 
     render() {
         const {error, handleSubmit, pristine, reset, submitting} = this.props
-
         if (this.props.hasOwnProperty('commentLabel') && this.props.commentLabel === '') {
             var commentLabel = ''
         } else {
             var commentLabel = <div>{this.props.commentLabel}</div>
         }
-
         return (
             <div className="create-reply-form">
                 {error && <strong>{error}</strong>}
-                <form>
+                <form onSubmit={handleSubmit(formValues => this.handleFormSubmit(formValues))}>
                     {commentLabel}
                     <div>
                         <Field name="content"
@@ -68,7 +62,7 @@ console.log('CreateReplyForm, handleFormSubmit', formValues)
 }
 
 const mapStateToProps = state => ({
-    parentId: state.nodeList.parentNodeId,
+    parentId: state.nodeList.parentNodeId
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -77,7 +71,9 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-CreateReplyForm = reduxForm({ enableReinitialize: false, onSubmit: () => {} }) (CreateReplyForm)
+//CreateReplyForm = reduxForm({ enableReinitialize: false, onSubmit: () => {} }) (CreateReplyForm)
+
+CreateReplyForm = reduxForm({form: 'createReplyForm'}) (CreateReplyForm)
 
 CreateReplyForm = connect(mapStateToProps, mapDispatchToProps) (CreateReplyForm)
 
