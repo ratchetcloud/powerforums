@@ -4,6 +4,14 @@ import {
     USER_LOGOUT_PENDING, USER_LOGOUT_FULFILLED, USER_LOGOUT_REJECTED
 } from "../constants/userActionTypes"
 import { userListFetch } from "../actions/userListActions"
+import jwt from "jsonwebtoken";
+
+export const meFromToken = (token) => (dispatch, getState, client) => {
+    // If there is data on client sessionStorage, use that data
+    // and dispatch userLoginFulfilled as if login is success
+    let decoded = jwt.decode(token, {complete: true});
+    dispatch(userLoginFulfilled(token, decoded.payload))
+}
 
 export const userLogin = (username, password) => (dispatch, getState, client) => {
     // We want to handle an Async action, dispatch a "Loading" action.
@@ -11,14 +19,12 @@ export const userLogin = (username, password) => (dispatch, getState, client) =>
 
     client.login(username, password).then(response => {
         // When API call is successful.
-        // Set authorization header in API HTTP middleware.
-        client.setAuthorizationToken(response.token);
 
-        // TODO: Save token on client
+        // Save token on client so that login state remains after refresh
+        sessionStorage.setItem('jwtToken', response.token);
 
         // Dispatch a fulfilled action.
-        dispatch(userLoginFulfilled(response))
-
+        dispatch(userLoginFulfilled(response.token, response.currentUser))
 
     }).catch(response => {
         // When an error (network or applicative) occurs, dispatch a rejected action.
@@ -30,10 +36,19 @@ const userLoginPending = () => ({
     type: USER_LOGIN_PENDING
 })
 
-const userLoginFulfilled = data => ({
-    type: USER_LOGIN_FULFILLED,
-    payload: data
-})
+const userLoginFulfilled = (token, currentUser) => (dispatch, getState, client) => {
+    // Set authorization header in API HTTP middleware.
+    client.setAuthorizationToken(token);
+
+    // Dispatch real action for reducers
+    dispatch({
+        type: USER_LOGIN_FULFILLED,
+        payload: {
+            token: token,
+            currentUser: currentUser
+        }
+    })
+}
 
 const userLoginRejected = data => ({
     type: USER_LOGIN_REJECTED,
@@ -43,7 +58,7 @@ const userLoginRejected = data => ({
 export const userLogout = () => (dispatch, getState, client) => {
     dispatch(userLogoutPending())
 
-    // TODO: Remove session on client or server
+    sessionStorage.removeItem('jwtToken');
 
     dispatch(userLogoutFulfilled())
 }

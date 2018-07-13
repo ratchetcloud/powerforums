@@ -8,6 +8,7 @@ import RoleList from './RoleList'
 import UserList from './UserList'
 import CurrentUserInfo from './CurrentUserInfo'
 import LoginForm from '../forms/loginForm'
+import * as userActions from "../actions/userActions";
 import { history } from '../stores/store'
 import './App.css'
 
@@ -17,6 +18,10 @@ import UserRegister from './UserRegister'
 class App extends Component {
     constructor(props) {
         super(props)
+    }
+
+    componentWillMount() {
+        this.props.loadUserFromLocal();
     }
 
     render() {
@@ -59,9 +64,13 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    // authenticate: (username, md5password) => {
-    //     dispatch(userLogin(username, md5password))
-    // }
+    loadUserFromLocal: () => {
+        let token = sessionStorage.getItem('jwtToken');
+        if (!token || token === '')
+            return;
+
+        dispatch(userActions.meFromToken(token));
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) (App)
