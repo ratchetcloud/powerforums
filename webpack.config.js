@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const publicPath = '/dist/';
+const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
@@ -44,18 +44,18 @@ module.exports = {
     },
     entry: './src/index.js',
     output: {
-        path: path.join(__dirname, publicPath),
-        filename: 'bundle.js'
-    //  publicPath: publicPath,
-    //  sourceMapFilename: '[name].map'
+        path: path.join(__dirname, '/dist'),
+        filename: 'bundle.js',
+        publicPath: ASSET_PATH,
+        //  sourceMapFilename: '[name].map'
     },
     plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
         }),
         new HtmlWebPackPlugin({
-          template: "./src/index.html",
-          filename: "./index.html"
+            template: "./src/index.html",
+            filename: "./index.html"
         }),
         new webpack.HotModuleReplacementPlugin()
     ],
@@ -70,7 +70,7 @@ module.exports = {
         },*/
         noInfo: false,
         stats: 'minimal',
-        // publicPath: publicPath,
+        publicPath: ASSET_PATH,
         // contentBase: path.join(__dirname, "dist"),
         hot: true,
         compress: true
