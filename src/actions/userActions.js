@@ -59,6 +59,7 @@ export const userLogout = () => (dispatch, getState, client) => {
     dispatch(userLogoutPending())
 
     sessionStorage.removeItem('jwtToken');
+    client.setAuthorizationToken(false);
 
     dispatch(userLogoutFulfilled())
 }
