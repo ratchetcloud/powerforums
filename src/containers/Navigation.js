@@ -12,6 +12,7 @@ export default class Navigation extends Component {
 
     onItemClickHandler(nodeid, position) {
         this.props.nodeListParentNodeChange(nodeid);
+        this.props.history.push("/nodelist/" + nodeid, null)  
     }
 
     render() {
