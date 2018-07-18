@@ -49,8 +49,6 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.user.authentication.loading,
-    currentUser: state.user.authentication.currentUser,
 })
 
 const mapDispatchToProps = dispatch => ({

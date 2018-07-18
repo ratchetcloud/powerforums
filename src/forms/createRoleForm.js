@@ -8,6 +8,7 @@ import '../client';
 import {
     PERMISSION_LIST
 } from '../constants/permissions';
+import {blurIfNoPermission} from "../utils/permissionChecker";
 
 const permissionSelect = PERMISSION_LIST.map(value => {
     return {value: value, label: value};
@@ -90,8 +91,8 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-CreateRoleForm = reduxForm({form: 'createRoleForm'})(CreateRoleForm);
-
-CreateRoleForm = connect(mapStateToProps, mapDispatchToProps)(CreateRoleForm);
-
-export default CreateRoleForm;
+export default blurIfNoPermission(
+    connect(mapStateToProps, mapDispatchToProps)
+        (reduxForm({form: 'createRoleForm'})
+            (CreateRoleForm))
+)
