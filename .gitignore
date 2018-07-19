@@ -62,3 +62,6 @@ typings/
 
 # compiled code
 dist/
+
+# IDE
+.idea

@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux"
 import { Route, Switch, Link } from 'react-router-dom'
+import { ConnectedRouter } from 'react-router-redux'
+
 import NodeList from './NodeList'
 import RoleList from './RoleList'
 import UserList from './UserList'
-import { ConnectedRouter } from 'react-router-redux'
+import CurrentUserInfo from './CurrentUserInfo'
+import LoginForm from '../forms/loginForm'
+import * as userActions from "../actions/userActions";
 import { history } from '../stores/store'
 import './App.css'
-import { userLogin } from '../actions/userActions'
 
 // Jihye: add User Register
 import UserRegister from './UserRegister'
@@ -17,26 +20,27 @@ class App extends Component {
         super(props)
     }
 
+    componentWillMount() {
+        this.props.loadUserFromLocal();
+    }
+
     render() {
-        if (this.props.currentUser === false && this.props.loading === false && this.props.error === false) {
-            // If there user is not authentified yet. Authenticate him.
-            // TODO: move params as env variable? When we know where they are suppose to come from...
-            this.props.authenticate('Remi', 'password')
-            return <div></div>
+        const { currentUser, loading } = this.props;
 
-        } else if (this.props.currentUser === false && this.props.loading === true) {
+        if (currentUser === false && loading === false) {
+            // If there user is not authenticated, show LoginForm (whether error or not)
+            return <LoginForm />
+
+        } else if (currentUser === false && loading === true) {
             // If authentication request is pending, return nothing.
-            return <div></div>
-
-        } else if (this.props.error !== false) {
-            // If authentication request failed.
-            return <div><p>Authentication error: {this.props.error}.</p></div>
+            return <div>Loading..</div>
 
         } else {
             return (
                     <div>
                         <h1>React/Redux User Interface</h1>
-                       
+                        <CurrentUserInfo />
+
                         <ConnectedRouter history={history}>
                         <Switch>
                             <Route exact path="/" component={NodeList} />
@@ -55,14 +59,18 @@ class App extends Component {
 const mapStateToProps = state => ({
     loading: state.user.authentication.loading,
     currentUser: state.user.authentication.currentUser,
-    token: state.user.authentication.token,
-    error: state.user.authentication.error
+    //token: state.user.authentication.token,
+    //error: state.user.authentication.error
 })
 
 const mapDispatchToProps = dispatch => ({
-    authenticate: (username, md5password) => {
-        dispatch(userLogin(username, md5password))
-    }
+    loadUserFromLocal: () => {
+        let token = sessionStorage.getItem('jwtToken');
+        if (!token || token === '')
+            return;
+
+        dispatch(userActions.meFromToken(token));
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) (App)

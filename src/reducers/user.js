@@ -44,7 +44,7 @@ export const userReducer = (state = initialState, action) => {
             return {...state, ...{ authentication: {...state.authentication, ...{ loading: true, currentUser: false, error: false }} }};
             break;
         case USER_LOGOUT_FULFILLED:
-            return {...state, ...{ authentication: {...state.authentication, ...{ loading: false, currentUser: action.payload, error: false }} }};
+            return {...state, ...{ authentication: {...state.authentication, ...{ loading: false, currentUser: false, token: false, error: false }} }};
             break;
         case USER_LOGOUT_REJECTED:
             return {...state, ...{ authentication: {...state.authentication, ...{ loading: false, currentUser: false, error: action.payload }} }};
