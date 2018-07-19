@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import img_forum from '../public/images/forum-128.png';
 import img_trash from '../public/images/trash-128.png';
 import { connect } from "react-redux";
+import { NavLink } from 'react-router-dom'
 
 /**
  * Component for Forum rendering.
@@ -31,7 +32,9 @@ class Forum extends Component {
                     <img src={img_forum} style={{width: 32}} alt="Channel" />
                 </div>
                 <div>
-                    <p><strong>{this.props.content.title}</strong></p>
+                    <NavLink to={this.props.url}>
+                        <p><strong>{this.props.content.title}</strong></p>
+                    </NavLink>
                     <p>{this.props.content.description}</p>
                 </div>
                 <div className="right">

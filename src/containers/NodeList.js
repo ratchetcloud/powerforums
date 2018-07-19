@@ -109,7 +109,6 @@ class NodeList extends Component {
             } else if (this.props.parentNode.type == "Topic" || this.props.parentNode.type == "Reply") {
                 var creationForms = <div><CreateReplyForm /></div>
             }
-
             return (
                 <div className="container">
                     <Navigation nodeListParentNodeChange={this.props.parentNodeChange}

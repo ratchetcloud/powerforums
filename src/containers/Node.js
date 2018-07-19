@@ -60,12 +60,11 @@ class Node extends Component {
             return (
                 <Well>
                     <div style={{display: 'none'}}>{this.props.content._id}</div>
-                    <NavLink to={url}>
                     <Forum key={this.props.content._id}
                            content={this.props.content}
+                           url={url}
                            // onClick={this.onNodeClickHandler}
                            onDelete={this.onDeleteClickHandler} />
-                    </NavLink>
                 </Well>
             )
         } else if (this.props.content.type === "Topic") {
@@ -73,14 +72,13 @@ class Node extends Component {
             return (
                 <Well>
                     <div style={{display: 'none'}}>{this.props.content._id}</div>
-                    <NavLink to={url}>
                     <Topic key={this.props.content._id}
                            content={this.props.content}
                            display={this.props.display}
+                           url={url}
                            // onClick={this.onNodeClickHandler}
                            onDelete={this.onDeleteClickHandler}
                            onStick={this.onStickClickHandler} />
-                    </NavLink>
                 </Well>
             )
         } else if (this.props.content.type === "Reply") {
