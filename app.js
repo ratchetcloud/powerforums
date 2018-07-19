@@ -4,26 +4,18 @@ const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-if (process.env.DB_USERNAME == "") {
-    var connectString = "mongodb://" +
-        process.env.DB_HOST + ":" +
-        process.env.DB_PORT + "/" +
-        process.env.DB_NAME;
-} else {
-    var connectString = "mongodb://" +
-        process.env.DB_USERNAME +
-        ":" +
-        process.env.DB_PASSWORD +
-        "@" +
-        process.env.DB_HOST +
-        ":" +
-        process.env.DB_PORT +
-        "/" +
-        process.env.DB_NAME;
-}
-
 // MongoDB connection.
-mongoose.connect(connectString);
+const mongoEnv = {
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || '27017',
+    username: process.env.DB_USERNAME || '',
+    password: process.env.DB_PASSWORD || '',
+    db: process.env.DB_NAME || ''
+};
+mongoose.connect('mongodb://' +
+    (mongoEnv.username !== "") ? (mongoEnv.username + ':' + mongoEnv.password + '@') : '' +
+    mongoEnv.host + ':' + mongoEnv.port + '/' + mongoEnv.db
+);
 
 // Include routes files.
 const nodeRoutes = require('./api/routes/nodeRoutes');
@@ -50,7 +42,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Routes handeled.
+// Routes handled.
 app.use('/node', nodeRoutes);
 app.use('/report', reportRoutes);
 app.use('/user', userRoutes);
