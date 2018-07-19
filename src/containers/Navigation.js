@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './Navigation.css';
+import { NavLink } from 'react-router-dom'
 
 /**
  *
@@ -21,7 +22,10 @@ export default class Navigation extends Component {
         return (
             <ul className="navigationBar">
                 {this.props.parentNodeAncestorList.map((content, index) => {
-                    return <li key={content._id} onClick={() => self.onItemClickHandler(content._id, index)}>{content.title}</li>
+                    var url = "/nodelist/"+content._id
+                    return  <NavLink to={url}>
+                                <li key={content._id} onClick={() => self.onItemClickHandler(content._id, index)}>{content.title}</li>
+                            </NavLink>
                 })}
             </ul>
         );
