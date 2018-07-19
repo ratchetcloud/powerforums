@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
+import { blurIfNoPermission } from '../utils/permissionChecker'
 import { nodeListFetch } from '../actions/nodeListActions'
 import './CreateTopicForm.css'
 import '../client'
@@ -101,9 +102,8 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-CreateTopicForm = reduxForm({form: 'createTopicForm'}) (CreateTopicForm)
-
-CreateTopicForm = connect(mapStateToProps, mapDispatchToProps) (CreateTopicForm)
-
-export default CreateTopicForm
-
+export default blurIfNoPermission(
+    connect(mapStateToProps, mapDispatchToProps)
+        (reduxForm({form: 'createTopicForm'})
+            (CreateTopicForm))
+)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
+import { blurIfNoPermission } from "../utils/permissionChecker";
 import { nodeListFetch } from '../actions/nodeListActions'
 import './CreateReplyForm.css'
 import '../client'
@@ -71,10 +72,9 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-//CreateReplyForm = reduxForm({ enableReinitialize: false, onSubmit: () => {} }) (CreateReplyForm)
 
-CreateReplyForm = reduxForm({form: 'createReplyForm'}) (CreateReplyForm)
-
-CreateReplyForm = connect(mapStateToProps, mapDispatchToProps) (CreateReplyForm)
-
-export default CreateReplyForm
+export default blurIfNoPermission(
+    connect(mapStateToProps, mapDispatchToProps)
+        (reduxForm({form: 'createReplyForm'})
+            (CreateReplyForm))
+)
