@@ -4,10 +4,10 @@ import { Route, Switch, Link } from 'react-router-dom'
 import NodeList from './NodeList'
 import RoleList from './RoleList'
 import UserList from './UserList'
-import { ConnectedRouter } from 'react-router-redux'
 import { history } from '../stores/store'
 import './App.css'
 import { userLogin } from '../actions/userActions'
+import { withRouter } from 'react-router'
 
 // Jihye: add User Register
 import UserRegister from './UserRegister'
@@ -36,8 +36,6 @@ class App extends Component {
             return (
                     <div>
                         <h1>React/Redux User Interface</h1>
-                       
-                        <ConnectedRouter history={history}>
                         <Switch>
                             <Route exact path="/" component={NodeList} />
                             <Route path="/nodelist/:nodeId" component={NodeList} />
@@ -45,7 +43,6 @@ class App extends Component {
                             <Route path="/user" component={UserList} />
                             <Route path="/register" component={UserRegister} />
                         </Switch>
-                        </ConnectedRouter>
                     </div>
             )
         }
@@ -65,4 +62,4 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) (App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps) (App))

@@ -5,22 +5,23 @@ import Topic from './Topic'
 import Reply from './Reply'
 import { nodeDelete, nodeReport, nodeStick, nodeEditAllow } from "../actions/nodeActions"
 import { connect } from "react-redux"
+import { NavLink } from 'react-router-dom'
 
 class Node extends Component {
     constructor(props) {
         super(props)
-        this.onNodeClickHandler = this.onNodeClickHandler.bind(this)
+        // this.onNodeClickHandler = this.onNodeClickHandler.bind(this)
         this.onDeleteClickHandler = this.onDeleteClickHandler.bind(this)
         this.onEditClickHandler = this.onEditClickHandler.bind(this)
         this.onReportClickHandler = this.onReportClickHandler.bind(this)
         this.onStickClickHandler = this.onStickClickHandler.bind(this)
     }
 
-    onNodeClickHandler(event) {
-        event.stopPropagation()
-        this.props.nodeListChangeParentNode(this.props.content._id)
-        this.props.history.push("/nodelist/" + this.props.content._id, null)  
-    }
+    // onNodeClickHandler(event) {
+    //     event.stopPropagation()
+    //     this.props.nodeListChangeParentNode(this.props.content._id)
+    //     // this.props.history.push("/nodelist/" + this.props.content._id, null)  
+    // }
 
     onEditClickHandler(event) {
         event.stopPropagation()
@@ -53,15 +54,18 @@ class Node extends Component {
     }
 
     render() {
+        var url = "/nodelist/" + this.props.content._id
         if (this.props.content.type === "Forum") {
             // If Node is a Forum.
             return (
                 <Well>
                     <div style={{display: 'none'}}>{this.props.content._id}</div>
+                    <NavLink to={url}>
                     <Forum key={this.props.content._id}
                            content={this.props.content}
-                           onClick={this.onNodeClickHandler}
+                           // onClick={this.onNodeClickHandler}
                            onDelete={this.onDeleteClickHandler} />
+                    </NavLink>
                 </Well>
             )
         } else if (this.props.content.type === "Topic") {
@@ -69,12 +73,14 @@ class Node extends Component {
             return (
                 <Well>
                     <div style={{display: 'none'}}>{this.props.content._id}</div>
+                    <NavLink to={url}>
                     <Topic key={this.props.content._id}
                            content={this.props.content}
                            display={this.props.display}
-                           onClick={this.onNodeClickHandler}
+                           // onClick={this.onNodeClickHandler}
                            onDelete={this.onDeleteClickHandler}
                            onStick={this.onStickClickHandler} />
+                    </NavLink>
                 </Well>
             )
         } else if (this.props.content.type === "Reply") {
