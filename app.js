@@ -13,7 +13,7 @@ const mongoEnv = {
     db: process.env.DB_NAME || ''
 };
 mongoose.connect('mongodb://' +
-    (mongoEnv.username !== "") ? (mongoEnv.username + ':' + mongoEnv.password + '@') : '' +
+    ((mongoEnv.username !== "") ? (mongoEnv.username + ':' + mongoEnv.password + '@') : '') +
     mongoEnv.host + ':' + mongoEnv.port + '/' + mongoEnv.db
 );
 
