@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { blurIfNoPermission } from "../utils/permissionChecker";
 import { nodeListFetch } from '../actions/nodeListActions';
 import './CreateForumForm.css';
 import '../client';
 
 export const createForumFormSubmit = formValues => (dispatch, getState, client) => {
     // Make an API call (createNode) using form values.
-    return client.createNode( formValues )
+     return client.createNode( formValues )
         .then(response => {
             // Node creation was successful, we want to refresh node list.
             dispatch(nodeListFetch())
@@ -84,9 +85,9 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-CreateForumForm = reduxForm({form: 'createForumForm'})(CreateForumForm);
 
-CreateForumForm = connect(mapStateToProps, mapDispatchToProps)(CreateForumForm);
-
-export default CreateForumForm;
-
+export default blurIfNoPermission(
+    connect(mapStateToProps, mapDispatchToProps)
+        (reduxForm({form: 'createForumForm'})
+            (CreateForumForm))
+)

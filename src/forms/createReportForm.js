@@ -4,6 +4,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { nodeListFetch } from '../actions/nodeListActions'
 import './CreateReportForm.css'
 import '../client'
+import {blurIfNoPermission} from "../utils/permissionChecker";
 
 const CreateReportFormSubmit = formValues => (dispatch, getState, client) => {
 console.log('CreateReportFormSubmit', formValues)
@@ -69,8 +70,8 @@ console.log("mapDispatchToProps, handleFormSubmit, formValues", formValues)
     }
 })
 
-CreateReportForm = reduxForm({ enableReinitialize: false })(CreateReportForm)
-
-CreateReportForm = connect(mapStateToProps, mapDispatchToProps)(CreateReportForm)
-
-export default CreateReportForm
+export default blurIfNoPermission(
+    connect(mapStateToProps, mapDispatchToProps)
+        (reduxForm({ enableReinitialize: false })
+            (CreateReportForm))
+)
