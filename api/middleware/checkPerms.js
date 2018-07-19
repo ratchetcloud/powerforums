@@ -1,61 +1,63 @@
-const jwt = require('jsonwebtoken');
-const CanCan = require('cancan');
 const User = require("../models/userModel");
 const Role = require("../models/roleModel");
 const Node = require("../models/nodeModel");
 
-module.exports = (req, res, next) => {
-    const cancan = new CanCan();
-    const { allow, can } = cancan;
 
-    /*
-    res.locals.userData.forEach(permission => {
-        Role.findOne({ _id: permission._id })
-            .exec()
-            .then(role => {
+function isAdmin(node) {
+    // TODO: check current user is admin for this scope
+    return false;
+}
 
-            })
-            .catch(err => {
+const canDoWithNode = (actionType, user, node, nodeAuthor) => {
+    switch (actionType) {
+        case 'CREATE':
+            if (node.type === 'Forum') {
+                // Only Admin can create Forum
+                if (isAdmin(node))
+                    return true;
 
-            });
-    });
-    */
+            }else if (node.type === 'Topic' || node.type === 'Reply') {
+                // Everyone can create Topic or Reply
+                return true;
+            }
+            break;
 
-    var computedPermissions = {};
+        case 'UPDATE':
+            // Only owner of node can update.
+            if (nodeAuthor.equals(user._id)) // cause mongoose.ObjectId
+                return true;
+            break;
 
-    // Get local user.
-    const user = new User(res.locals.userData);
-    console.log("user", user);
-
-
-    if (req.body.parentId !== undefined) {
-        // node_create, getPaginatedChildren
-        var refPermsNodeId = req.body.parentId;
-
-    } else if (req.params.nodeId !== undefined) {
-        // node_delete, getById
-        var refPermsNodeId = req.body.parentId;
-
-    } else if (req.body._id !== undefined) {
-        // node_update
-        var refPermsNodeId = req.body.parentId;
-
-    } else {
-        // ?
-        var refPermsNodeId = 0;
+        case 'DELETE':
+            // Owner or admin can delete
+            if (nodeAuthor.equals(user._id) || isAdmin(node))
+                return true;
+            break;
     }
 
+    // Otherwise, no permission
+    return false;
+};
 
 
-    const node = new Node({ _id: refPermsNodeId });
+module.exports = (modelType, actionType) => (req, res, next) => {
+    const user = new User(res.locals.userData);
 
-    allow(User, 'create', Node, (user, node) => user._id === node.authorinformation._id);
+    switch (modelType) {
+        case Node:
+            if (canDoWithNode(actionType, user, req.node, req.nodeAuthor)) {
+                next();
+                return;
+            }
+            break;
 
-    // console.log(can(user, 'view', product))
-    // => true
+        case User:
+            // TODO
+            break;
 
-    // console.log(can(user, 'edit', product));
-    // => false
-
-    next();
+        case Role:
+            // TODO
+            break;
+    }
+    return res.status(403).json({ message: 'Forbidden' });
 }
