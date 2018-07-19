@@ -13,25 +13,23 @@ import * as userActions from "../actions/userActions";
 import { history } from '../stores/store'
 import './App.css'
 import { withRouter } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.handleGoHome = this.handleGoHome.bind(this);
     }
 
     componentWillMount() {
         this.props.loadUserFromLocal();
     }
 
-    handleGoHome() {
-        history.push("/", null);
-    }
-
     render() {
         return (
             <div>
-                <h1 onClick={this.handleGoHome}>OpenForum</h1>
+                <h1>
+                    <NavLink to="/">OpenForum</NavLink>
+                </h1>
                 <CurrentUserInfo history={history} />
                 <Switch>
                     <Route exact path="/" component={NodeList} />
