@@ -10,7 +10,7 @@ const NodeController = require('../controllers/nodeController');
 router.put("/", checkAuth, checkPerms, NodeController.node_create);
 
 // Get a node by ID.
-router.get('/:nodeId([a-fA-F0-9]{24})?', checkAuth, checkPerms, NodeController.node_getById);
+router.get('/:nodeId([a-fA-F0-9]{24})?', NodeController.node_getById);
 
 // Update a node.
 router.patch('/', checkAuth, checkPerms, NodeController.node_update);
@@ -19,6 +19,6 @@ router.patch('/', checkAuth, checkPerms, NodeController.node_update);
 router.delete('/:nodeId([a-fA-F0-9]{24})?', checkAuth, checkPerms, NodeController.node_delete);
 
 // Get children of a given node, with paginated information.
-router.post('/getPaginatedChildren', checkAuth, checkPerms, NodeController.node_getPaginatedChildren);
+router.post('/getPaginatedChildren', NodeController.node_getPaginatedChildren);
 
 module.exports = router;
