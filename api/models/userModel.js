@@ -1,9 +1,8 @@
-var mongoose = require('mongoose')
-var ObjectId = mongoose.Schema.Types.ObjectId
+const mongoose = require('mongoose');
 
 // User schema.
-var UserSchema = new mongoose.Schema({
-    _id: ObjectId,
+const UserSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     name: String,
     email: {
         type: String,
@@ -16,6 +15,4 @@ var UserSchema = new mongoose.Schema({
     password: String
 });
 
-var User = mongoose.model('User', UserSchema)
-
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', UserSchema);
