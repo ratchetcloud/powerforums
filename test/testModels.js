@@ -8,7 +8,7 @@ const Node = require("../api/models/nodeModel");
 
 
 describe('Test models', function() {
-    it('Create User', function () {
+    it('Create User', function (done) {
         let user = new User({
             _id: new ObjectId(),
             name: 'David',
@@ -17,6 +17,7 @@ describe('Test models', function() {
             roles: []
         });
         user.save();
+        done();
     });
 
     it('Find User', function (done) {

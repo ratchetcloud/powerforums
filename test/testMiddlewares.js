@@ -7,8 +7,8 @@ process.env.JWT_KEY = 'secret';
 
 describe('Test "checkAuth" middleware', function() {
     const checkAuth = require('../api/middleware/checkAuth');
-    var app;
     var server;
+    var app;
 
     before(function (done) {
         app = express();

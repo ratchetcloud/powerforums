@@ -1,10 +1,36 @@
 const mongoose = require("mongoose");
+var server;
 
 before(function (done) {
-    require('../app');
+    let app = require('../app');
 
-    for (let collection in mongoose.connection.collections) {
-        mongoose.connection.collections[collection].remove(function() {});
-    }
-    return done();
+    // Truncate all collection in test db
+    let promises = Object.values(mongoose.connection.collections).map((collection) => {
+       return new Promise(function (resolve) {
+           collection.remove(function () {
+               resolve();
+           });
+       });
+    });
+
+    // Start server and push it to promises.
+    promises.push(new Promise(function (resolve, reject) {
+        server = app.listen(function (err){
+            if (err) return reject();
+            resolve();
+        });
+    }));
+
+    Promise.all(promises)
+        .then(() => {
+            done();
+        })
+        .catch(err => {
+            done(err);
+        });
+});
+
+after(function () {
+    server.close();
+    mongoose.disconnect();
 });
