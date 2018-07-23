@@ -1,15 +1,16 @@
 const express = require('express');
 const supertest = require('supertest');
 const jwt = require('jsonwebtoken');
-const assert = require('assert');
+const checkAuth = require('../api/middleware/checkAuth');
 
 process.env.JWT_KEY = 'secret';
 
 describe('Test "checkAuth" middleware', function() {
-    const checkAuth = require('../api/middleware/checkAuth');
     var server;
     var app;
 
+    // Middleware test is run independently,
+    // so another express app is initialized to for testing.
     before(function (done) {
         app = express();
 

@@ -1,7 +1,3 @@
-const mongoose = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId;
-const assert = require('assert');
-
 const User = require("../api/models/userModel");
 const Topic = require("../api/models/topicModel");
 const Node = require("../api/models/nodeModel");
@@ -10,7 +6,7 @@ const Node = require("../api/models/nodeModel");
 describe('Test models', function() {
     it('Create User', function (done) {
         let user = new User({
-            _id: new ObjectId(),
+            _id: new mongoose.Types.ObjectId(),
             name: 'David',
             email: 'david@email.com',
             accountId: 'david11',
@@ -24,7 +20,7 @@ describe('Test models', function() {
         User.findOne({ name: 'David' })
             .exec()
             .then(user => {
-                if (user.length < 1)
+                if (user == null)
                     done('User not found');
 
                 assert.equal(user.email, 'david@email.com');
@@ -34,7 +30,7 @@ describe('Test models', function() {
 
     it('Create Topic', function (done) {
         let topic = new Topic({
-            _id: new ObjectId(),
+            _id: new mongoose.Types.ObjectId(),
             creationDate: new Date(),
             lastUpdatedDate: new Date(),
             authorInformation: {
