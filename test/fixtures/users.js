@@ -1,5 +1,8 @@
-[
+const ObjectId = mongoose.Types.ObjectId;
+
+module.exports = [
     {
+        "_id": ObjectId("100000000000000000000000"),
         "name": "Admin",
         "email": "admin@openforum.org",
         "accountId": "admin",
@@ -7,6 +10,7 @@
         "permissions": []
     },
     {
+        "_id": ObjectId("100000000000000000000001"),
         "name": "User",
         "email": "user1@openforum.org",
         "accountId": "user1",

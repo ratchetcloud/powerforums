@@ -1,4 +1,5 @@
 const User = require("../api/models/userModel");
+const Node = require("../api/models/nodeModel");
 global.mongoose = require("mongoose");
 global.assert = require('assert');
 
@@ -17,9 +18,18 @@ before(function (done) {
     // All async job is done
     Promise.all(promises)
         .then(() => {
-            // Load fixture users
+            // Load user fixtures
             return new Promise(function (resolve, reject) {
                 User.collection.insertMany(require('./fixtures/users'), function (err, r) {
+                    if (err) reject(err);
+                    resolve();
+                });
+            });
+        })
+        .then(() => {
+            // Load node fixtures
+            return new Promise(function (resolve, reject) {
+                Node.collection.insertMany(require('./fixtures/nodes'), function (err, r) {
                     if (err) reject(err);
                     resolve();
                 });

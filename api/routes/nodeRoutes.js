@@ -1,39 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const loadNode = require('../middleware/loadNode');
 const checkAuth = require('../middleware/checkAuth');
-const checkPerms = require('../middleware/checkPerms');
-const Node = require("../models/nodeModel");
+const loadNodeWithPermssion = require('../middleware/loadNodeWithPermssion');
 
 // Import controllers.
 const NodeController = require('../controllers/nodeController');
 
 // Create a new node. Node can be a Forum, a Topic or a Reply.
 router.post("/",
-    loadNode,
     checkAuth,
-    checkPerms(Node, 'CREATE'),
+    loadNodeWithPermssion,
     NodeController.node_create
 );
 
 // Get a node by ID.
 router.get('/:nodeId([a-fA-F0-9]{24})',
+    loadNodeWithPermssion,
     NodeController.node_getById
 );
 
 // Update a node.
 router.put('/:nodeId([a-fA-F0-9]{24})',
-    loadNode,
     checkAuth,
-    checkPerms(Node, 'UPDATE'),
+    loadNodeWithPermssion,
     NodeController.node_update
 );
 
 // Delete a node.
 router.delete('/:nodeId([a-fA-F0-9]{24})',
-    loadNode,
     checkAuth,
-    checkPerms(Node, 'DELETE'),
+    loadNodeWithPermssion,
     NodeController.node_delete
 );
 
