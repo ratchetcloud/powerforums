@@ -9,7 +9,7 @@ import '../client'
 
 export const updateReplyFormSubmit = formValues => (dispatch, getState, client) => {
     // Make an API call (updateNode) using form values.
-    return client.updateNode( {_id: formValues._id, content: formValues} )
+    return client.updateNode( formValues )
         .then(response => {
             // Node creation was successful, we want to refresh node list.
             dispatch(nodeEditDisable())
