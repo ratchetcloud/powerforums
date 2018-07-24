@@ -12,37 +12,33 @@ import CurrentUserInfo from './CurrentUserInfo'
 import * as userActions from "../actions/userActions";
 import { history } from '../stores/store'
 import './App.css'
+import { withRouter } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.handleGoHome = this.handleGoHome.bind(this);
     }
 
     componentWillMount() {
         this.props.loadUserFromLocal();
     }
 
-    handleGoHome() {
-        history.push("/", null);
-    }
-
     render() {
         return (
             <div>
-                <h1 onClick={this.handleGoHome}>OpenForum</h1>
+                <h1>
+                    <NavLink to="/">OpenForum</NavLink>
+                </h1>
                 <CurrentUserInfo history={history} />
-
-                <ConnectedRouter history={history}>
-                    <Switch>
-                        <Route exact path="/" component={NodeList} />
-                        <Route path="/nodelist/:nodeId" component={NodeList} />
-                        <Route path="/role" component={RoleList} />
-                        <Route path="/user" component={UserList} />
-                        <Route path="/login" component={UserLogin} />
-                        <Route path="/register" component={UserRegister} />
-                    </Switch>
-                </ConnectedRouter>
+                <Switch>
+                    <Route exact path="/" component={NodeList} />
+                    <Route path="/nodelist/:nodeId" component={NodeList} />
+                    <Route path="/role" component={RoleList} />
+                    <Route path="/user" component={UserList} />
+                    <Route path="/login" component={UserLogin} />
+                    <Route path="/register" component={UserRegister} />
+                </Switch>
             </div>
         )
     }
@@ -61,4 +57,4 @@ const mapDispatchToProps = dispatch => ({
     },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) (App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps) (App))

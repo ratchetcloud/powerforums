@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import img_forum from '../public/images/forum-128.png';
 import img_trash from '../public/images/trash-128.png';
 import { connect } from "react-redux";
+import { NavLink } from 'react-router-dom'
 
 /**
  * Component for Forum rendering.
@@ -23,7 +24,6 @@ class Forum extends Component {
             // If user does have delete permission.
             var deleteHTML = <p><img src={img_trash} style={{width: 16}} alt="Delete this topic." onClick={this.props.onDelete} /></p>;
         }
-
         // Formatting.
         return (
             <div key={this.props.index} onClick={this.props.onClick} className='channelBox'>
@@ -31,7 +31,11 @@ class Forum extends Component {
                     <img src={img_forum} style={{width: 32}} alt="Channel" />
                 </div>
                 <div>
-                    <p><strong>{this.props.content.title}</strong></p>
+                    <p>
+                        <NavLink to={"/nodelist/" + this.props.content._id}>
+                            <strong>{this.props.content.title}</strong>
+                        </NavLink>
+                    </p>
                     <p>{this.props.content.description}</p>
                 </div>
                 <div className="right">

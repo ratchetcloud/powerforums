@@ -5,6 +5,8 @@ import img_trash from '../public/images/trash-128.png';
 import img_sticky from '../public/images/sticky-128.png';
 import img_flag from '../public/images/flag-128.png';
 import { connect } from "react-redux";
+import { NavLink } from 'react-router-dom'
+
 
 /**
  * Component for Topic rendering.
@@ -78,7 +80,11 @@ class Topic extends Component {
                         {stickyHTML}
                     </div>
                     <div>
-                        <p><strong>{this.props.content.title}</strong></p>
+                        <p>
+                            <NavLink to={"/nodelist/" + this.props.content._id}>
+                                <strong>{this.props.content.title}</strong>
+                            </NavLink>
+                        </p>
                         <p>{this.props.content.description}</p>
                         <p>Created by <a href={this.props.content.authorInformation._id}>{this.props.content.authorInformation.name}</a>, the {creationDate.toLocaleString()}</p>
                     </div>

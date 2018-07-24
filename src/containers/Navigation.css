@@ -6,7 +6,7 @@
     text-indent: -1em;
 }
 
-.navigationBar li:not(:first-child):before {
+.navigationBar a:not(:first-child) li:before {
     content: " \020 \0BB \020";
 }
 

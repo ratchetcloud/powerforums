@@ -35,6 +35,7 @@ class NodeList extends Component {
             if(this.props.match.params.hasOwnProperty('nodeId')) {
                 this.props.parentNodeChange(this.props.match.params.nodeId)
             } else {
+                //TODO: change this code to dynamic fetch, or something better
                 this.props.parentNodeChange("5ade661da8744f2fccacabe2")
 
             }
@@ -108,7 +109,6 @@ class NodeList extends Component {
             } else if (this.props.parentNode.type == "Topic" || this.props.parentNode.type == "Reply") {
                 var creationForms = <div><CreateReplyForm /></div>
             }
-
             return (
                 <div className="container">
                     <Navigation nodeListParentNodeChange={this.props.parentNodeChange}
