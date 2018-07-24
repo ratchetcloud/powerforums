@@ -54,7 +54,6 @@ class Node extends Component {
     }
 
     render() {
-        var url = "/nodelist/" + this.props.content._id
         if (this.props.content.type === "Forum") {
             // If Node is a Forum.
             return (
@@ -62,7 +61,6 @@ class Node extends Component {
                     <div style={{display: 'none'}}>{this.props.content._id}</div>
                     <Forum key={this.props.content._id}
                            content={this.props.content}
-                           url={url}
                            // onClick={this.onNodeClickHandler}
                            onDelete={this.onDeleteClickHandler} />
                 </Well>
@@ -75,7 +73,6 @@ class Node extends Component {
                     <Topic key={this.props.content._id}
                            content={this.props.content}
                            display={this.props.display}
-                           url={url}
                            // onClick={this.onNodeClickHandler}
                            onDelete={this.onDeleteClickHandler}
                            onStick={this.onStickClickHandler} />

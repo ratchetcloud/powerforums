@@ -24,7 +24,6 @@ class Forum extends Component {
             // If user does have delete permission.
             var deleteHTML = <p><img src={img_trash} style={{width: 16}} alt="Delete this topic." onClick={this.props.onDelete} /></p>;
         }
-
         // Formatting.
         return (
             <div key={this.props.index} onClick={this.props.onClick} className='channelBox'>
@@ -32,9 +31,11 @@ class Forum extends Component {
                     <img src={img_forum} style={{width: 32}} alt="Channel" />
                 </div>
                 <div>
-                    <NavLink to={this.props.url}>
-                        <p><strong>{this.props.content.title}</strong></p>
-                    </NavLink>
+                    <p>
+                        <NavLink to={"/nodelist/" + this.props.content._id}>
+                            <strong>{this.props.content.title}</strong>
+                        </NavLink>
+                    </p>
                     <p>{this.props.content.description}</p>
                 </div>
                 <div className="right">

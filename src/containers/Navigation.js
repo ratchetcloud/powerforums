@@ -22,8 +22,7 @@ export default class Navigation extends Component {
         return (
             <ul className="navigationBar">
                 {this.props.parentNodeAncestorList.map((content, index) => {
-                    var url = "/nodelist/"+content._id
-                    return  <NavLink to={url}>
+                    return  <NavLink to={"/nodelist/"+content._id}>
                                 <li key={content._id} onClick={() => self.onItemClickHandler(content._id, index)}>{content.title}</li>
                             </NavLink>
                 })}

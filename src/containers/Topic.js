@@ -80,9 +80,11 @@ class Topic extends Component {
                         {stickyHTML}
                     </div>
                     <div>
-                        <NavLink to={this.props.url}>
-                            <p><strong>{this.props.content.title}</strong></p>
-                        </NavLink>
+                        <p>
+                            <NavLink to={"/nodelist/" + this.props.content._id}>
+                                <strong>{this.props.content.title}</strong>
+                            </NavLink>
+                        </p>
                         <p>{this.props.content.description}</p>
                         <p>Created by <a href={this.props.content.authorInformation._id}>{this.props.content.authorInformation.name}</a>, the {creationDate.toLocaleString()}</p>
                     </div>
