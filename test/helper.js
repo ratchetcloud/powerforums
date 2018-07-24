@@ -20,8 +20,11 @@ before(function (done) {
         .then(() => {
             // Load user fixtures
             return new Promise(function (resolve, reject) {
-                User.collection.insertMany(require('./fixtures/users'), function (err, r) {
+                let users = require('./fixtures/users');
+                User.collection.insertMany(users, function (err, r) {
                     if (err) reject(err);
+                    global.adminUser = users[0];
+                    global.normalUser = users[1];
                     resolve();
                 });
             });

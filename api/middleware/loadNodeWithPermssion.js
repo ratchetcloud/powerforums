@@ -1,3 +1,11 @@
+/**
+ * Before running nodeController, job for loading `node` is executed firstly.
+ * Permission checking is also executed simultaneously by request METHOD (GET/POST/PUT/DELETE).
+ *
+ * So the nodeController can assume that user has permission to "act" with that node,
+ * with using this middleware.
+ */
+
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const Node = require("../models/nodeModel");
@@ -52,8 +60,11 @@ function load(req) {
     });
 }
 
-function isAdmin(user) {
+function isAdmin(user, node) {
     // TODO: check current user is admin for this scope
+    // Temporally put `isAdmin` property to distinguish admin
+    if (user.isAdmin)
+        return true;
     return false;
 }
 
@@ -73,7 +84,7 @@ const checkPermission = (method, node, user) => {
         case 'POST':
             if (node.type === 'Forum') {
                 // Only Admin can create Forum
-                if (isAdmin(user))
+                if (isAdmin(user, node))
                     return true;
 
             }else if (node.type === 'Topic' || node.type === 'Reply') {
@@ -90,7 +101,7 @@ const checkPermission = (method, node, user) => {
 
         case 'DELETE':
             // Owner or admin can delete
-            if (user && (user._id.equals(node.authorInformation._id) || isAdmin(node)))
+            if (user && (user._id.equals(node.authorInformation._id) || isAdmin(user, node)))
                 return true;
             break;
     }

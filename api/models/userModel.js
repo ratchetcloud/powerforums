@@ -12,7 +12,8 @@ const UserSchema = new mongoose.Schema({
     },
     accountId: String,
     permissions: Array,
-    password: String
+    password: String,
+    isAdmin:Boolean // TODO: move this feature to permissions or roles
 });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -7,6 +7,7 @@ module.exports = [
         "email": "admin@openforum.org",
         "accountId": "admin",
         "password": "$2a$04$rpyFFlFjT6WwfnPFR.ljwec5rof5o5VMs7U4acyM5iJUvqDvqVVN2",
+        "isAdmin":true,
         "permissions": []
     },
     {

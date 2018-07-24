@@ -12,8 +12,9 @@ describe('Test models', function() {
             accountId: 'david11',
             roles: []
         });
-        user.save();
-        done();
+        user.save()
+            .then(document => done())
+            .catch(error => done(error));
     });
 
     it('Find User', function (done) {
@@ -21,11 +22,12 @@ describe('Test models', function() {
             .exec()
             .then(user => {
                 if (user == null)
-                    done('User not found');
+                    return done('User not found');
 
                 assert.equal(user.email, 'david@email.com');
                 done();
-            });
+            })
+            .catch(error => done(error));
     });
 
     it('Create Topic', function (done) {
