@@ -20,7 +20,7 @@ router.get('/:nodeId([a-fA-F0-9]{24})',
 );
 
 // Update a node.
-router.put('/:nodeId([a-fA-F0-9]{24})',
+router.patch('/:nodeId([a-fA-F0-9]{24})',
     checkAuth,
     loadNodeWithPermssion,
     NodeController.node_update

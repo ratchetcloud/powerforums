@@ -25,7 +25,7 @@ module.exports = [
         ],
         "authorInformation": {
             "_id": ObjectId("100000000000000000000000"),
-            "name": "Jerry"
+            "name": "Admin"
         },
         "description": "Blizzard's FPS game"
     },

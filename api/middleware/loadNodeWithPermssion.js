@@ -31,6 +31,7 @@ function load(req) {
 
             case 'GET':
             case 'PUT':
+            case 'PATCH':
             case 'DELETE':
                 // Load instance in db
                 let nodeId = req.params.nodeId;
@@ -70,7 +71,7 @@ function isAdmin(user, node) {
 
 /**
  * Check permission for CRUD Node
- * @param method: GET, POST, PUT, or DELETE
+ * @param method: GET, POST, PUT, PATCH or DELETE
  * @param node: models.nodeModel
  * @param user: Current logged-in user's ID (mongoose.Types.ObjectId)
  * @returns {boolean} True if allowed, false otherwise
@@ -94,6 +95,7 @@ const checkPermission = (method, node, user) => {
             break;
 
         case 'PUT':
+        case 'PATCH':
             // Only owner of node can update.
             if (user && user._id.equals(node.authorInformation._id)) // cause mongoose.ObjectId
                 return true;

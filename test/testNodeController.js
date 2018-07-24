@@ -135,7 +135,7 @@ describe('Test nodeController', function() {
         });
         it('Update topic under forums', function () {
             return supertest(app)
-                .put('/node/' + nodeId)
+                .patch('/node/' + nodeId)
                 .set('Authorization', authHeader)
                 .send({title: 'I love tracer'})
                 .expect(201)
@@ -205,7 +205,7 @@ describe('Test nodeController', function() {
         });
         it('Update reply', function () {
             return supertest(app)
-                .put('/node/' + nodeId)
+                .patch('/node/' + nodeId)
                 .set('Authorization', authHeader)
                 .send({content: 'D.VA!!'})
                 .expect(201)

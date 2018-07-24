@@ -103,7 +103,7 @@ describe('Test middlewares', function() {
                 router = express.Router();
                 router.route('/node').post(setAuthAsNormalUser, loadNodeWithPermssion, responseNode);
                 router.route('/node/:nodeId').get(setAuthAsNormalUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').put(setAuthAsNormalUser, loadNodeWithPermssion, responseNode);
+                router.route('/node/:nodeId').patch(setAuthAsNormalUser, loadNodeWithPermssion, responseNode);
                 router.route('/node/:nodeId').delete(setAuthAsNormalUser, loadNodeWithPermssion, responseNode);
             });
 
@@ -122,7 +122,7 @@ describe('Test middlewares', function() {
             });
             it('Update Forum', function () {
                 return supertest(app)
-                    .put('/node/200000000000000000000001')
+                    .patch('/node/200000000000000000000001')
                     .send({title: 'Some Title'})
                     .expect(403);
             });
@@ -154,7 +154,7 @@ describe('Test middlewares', function() {
             });
             it('Update Topic', function () {
                 return supertest(app)
-                    .put('/node/200000000000000000000002')
+                    .patch('/node/200000000000000000000002')
                     .send({title: 'NewTitle'})
                     .expect(200)
                     .then(response => {
@@ -180,7 +180,7 @@ describe('Test middlewares', function() {
                 router = express.Router();
                 router.route('/node').post(setAuthAsAdminUser, loadNodeWithPermssion, responseNode);
                 router.route('/node/:nodeId').get(setAuthAsAdminUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').put(setAuthAsAdminUser, loadNodeWithPermssion, responseNode);
+                router.route('/node/:nodeId').patch(setAuthAsAdminUser, loadNodeWithPermssion, responseNode);
                 router.route('/node/:nodeId').delete(setAuthAsAdminUser, loadNodeWithPermssion, responseNode);
             });
             it('Create Forum', function () {
@@ -192,7 +192,7 @@ describe('Test middlewares', function() {
             it('Update Forum', function () {
                 // Admin can't. Only owner can update forum.
                 return supertest(app)
-                    .put('/node/200000000000000000000000')
+                    .patch('/node/200000000000000000000000')
                     .send({title: 'Some Title'})
                     .expect(403);
             });
