@@ -4,7 +4,7 @@
   "description": "Forum backend.",
   "main": "index.js",
   "scripts": {
-    "test": "env DB_NAME=forums_test mocha",
+    "test": "env MODE=test env DB_NAME=forums_test mocha",
     "start": "nodemon server.js"
   },
   "author": "",

@@ -24,7 +24,8 @@ const userRoutes = require('./api/routes/userRoutes');
 const roleRoutes = require('./api/routes/roleRoutes');
 
 // Log received requests.
-app.use(morgan('dev'));
+if (process.env.MODE !== 'test')
+    app.use(morgan('dev'));
 
 // Allow to parse post body fields (JSON encoded).
 app.use(bodyParser.urlencoded({ extended: true }));

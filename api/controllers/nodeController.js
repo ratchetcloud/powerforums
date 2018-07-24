@@ -8,6 +8,9 @@ const Topic = require("../models/topicModel");
 const Reply = require("../models/replyModel");
 const User = require("../models/userModel");
 
+// TODO: `sticky` property only can be set by admin
+// TODO: Missing parameter could be abstract, not by hard coded with `hasOwnProperty`
+
 // Create a node. Node can be a Forum, a Topic or a Reply.
 exports.node_create = (req, res) => {
     // Constants.
@@ -72,8 +75,11 @@ exports.node_create = (req, res) => {
 
                 case 'Topic':
                     // When topic creation request.
-                    if (!req.body.hasOwnProperty('content')  || !req.body.hasOwnProperty('description')
-                        || !req.body.hasOwnProperty('title') || !req.body.hasOwnProperty('sticky')) {
+                    // if (!req.body.hasOwnProperty('content')  || !req.body.hasOwnProperty('description')
+                    //     || !req.body.hasOwnProperty('title') || !req.body.hasOwnProperty('sticky')) {
+                    //     return res.status(404).json(errorMissingParameter);
+                    // }
+                    if (!req.body.hasOwnProperty('content') || !req.body.hasOwnProperty('title')) {
                         return res.status(404).json(errorMissingParameter);
                     }
 
@@ -88,7 +94,8 @@ exports.node_create = (req, res) => {
 
                 case 'Reply':
                     // When reply creation request.
-                    if (!req.body.hasOwnProperty('content') || !req.body.hasOwnProperty('sticky')) {
+                    //if (!req.body.hasOwnProperty('content') || !req.body.hasOwnProperty('sticky')) {
+                    if (!req.body.hasOwnProperty('content')) {
                         return res.status(404).json(errorMissingParameter);
                     }
                     newNode = new Reply(Object.assign(nodeAttributes, {
@@ -122,26 +129,15 @@ exports.node_getById = (req, res) => {
 
 // Update a node.
 exports.node_update = (req, res) => {
-    // Constants.
-    const errorMissingParameter = { message: "Can't update node, a parameter is missing." };
-    const errorObjectId = { message: "Provided ObjectId is not valid." };
-    const errorType = { message: "Node cannot be set sticky." };
-
     let node = req.node;
-
-    if (node._id.equals(req.body._id)) {
-        // Param's id and body's id is not equal
-        return res.status(500).json(errorObjectId);
-    }
 
     switch (node.type) {
         case 'Topic':
         case 'Reply':
             // When node is a Topic or a Reply.
-            for (let key in req.body.content) {
-                // skip loop if the property is from prototype
-                if (!req.body.content.hasOwnProperty(key)) continue;
-                node[key] = req.body.content[key]
+            for (let key in req.body) {
+                if (!req.body.hasOwnProperty(key)) continue;
+                node[key] = req.body[key]
             }
             node.save()
                 .then(document => res.status(201).json(document))
@@ -149,17 +145,15 @@ exports.node_update = (req, res) => {
             break;
 
         default:
-            // When node is a Forum, or something else.
-            // Return an error, Forum or what cannot be set sticky.
-            return res.status(500).json(errorType)
+            // TODO: Forum can be changed.
+            // But some attr would be restricted like `sticky`
+            return res.status(500).json({ message: "Forum cannot be updated" })
     }
 };
 
 // Delete a node.
 exports.node_delete = (req, res) => {
     // Constants.
-    const errorMissingParameter = { message: "Can't delete node, a parameter is missing." };
-    const errorObjectId = { message: "Provided ObjectId is not valid." };
     const errorNotFound = { message: "Node to delete could not be found." };
     const successDeleted = { message: "Node and its children were deleted." };
 
@@ -189,7 +183,7 @@ exports.node_delete = (req, res) => {
 // Get children of a given node, with paginated information.
 exports.node_getPaginatedChildren = (req, res) => {
     const perPage = (!req.body.perPage || parseInt(req.body.perPage) < 1) ?
-            1 : parseInt(req.body.perPage);
+            10 : parseInt(req.body.perPage);
     const page = (!req.body.page || parseInt(req.body.page) < 0) ?
             0 : Math.max(0, parseInt(req.body.page));
     const sort = (!req.body.sort || typeof req.body.sort === "Object") ?
@@ -205,7 +199,7 @@ exports.node_getPaginatedChildren = (req, res) => {
         .skip(perPage * page)
         .sort({ type: 'asc', sticky: 'desc', createdDate: 'asc' })
         .exec((err, documents) => {
-            Node.count(filter).exec((err, count) => {
+            Node.countDocuments(filter).exec((err, count) => {
                 res.status(200).json({
                     results: documents,
                     pagination: {
