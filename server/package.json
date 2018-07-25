@@ -1,7 +1,8 @@
 {
-  "name": "restapi",
+  "name": "powerforums-server",
+  "description": "API Server of PowerForums",
+  "repository": "https://github.com/ratchetcloud/powerforums",
   "version": "1.0.0",
-  "description": "Forum backend.",
   "main": "index.js",
   "scripts": {
     "test": "env MODE=test env DB_NAME=forums_test mocha",
