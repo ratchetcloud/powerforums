@@ -15,7 +15,7 @@ const mongoEnv = {
 mongoose.connect('mongodb://' +
     ((mongoEnv.username !== "") ? (mongoEnv.username + ':' + mongoEnv.password + '@') : '') +
     mongoEnv.host + ':' + mongoEnv.port + '/' + mongoEnv.db
-);
+, {useNewUrlParser: true});
 
 // Include routes files.
 const nodeRoutes = require('./api/routes/nodeRoutes');

@@ -1,4 +1,4 @@
-# PowerForums &middot; [![Build Status](https://travis-ci.org/ratchetcloud/powerforums.svg)](https://travis-ci.org/ratchetcloud/powerforums) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ratchetcloud/powerforums/blob/master/LICENSE)
+# PowerForums &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ratchetcloud/powerforums/blob/master/LICENSE) [![Coverage Status](https://coveralls.io/repos/github/ratchetcloud/powerforums/badge.svg?branch=dev-ys)](https://coveralls.io/github/ratchetcloud/powerforums?branch=dev-ys)  [![Build Status](https://travis-ci.org/ratchetcloud/powerforums.svg)](https://travis-ci.org/ratchetcloud/powerforums) 
 
 Scalable forums with essentials forums features.
 
@@ -10,8 +10,9 @@ can be easily scale-out with state-less design.
 
 
 ## Client
-Powered by `react` + `redux`, using `webpack` and `babel` to support most browsers,
-can be deployed to static servers easily.
+Powered by [`react`](https://reactjs.org/) + [`redux`](https://redux.js.org/),
+using [`webpack`](https://webpack.js.org/) and [`babel`](https://babeljs.io/) to support most browsers,
+and can be deployed to static servers easily.
 
 
 ## How to install
