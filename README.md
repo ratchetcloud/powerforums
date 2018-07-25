@@ -1,5 +1,8 @@
 # PowerForums
 
+[![Build Status](https://travis-ci.org/ratchetcloud/powerforums.svg)](https://travis-ci.org/ratchetcloud/powerforums) 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ratchetcloud/powerforums/blob/master/LICENSE)
+
 Scalable forums with essentials forums features.
 
 
