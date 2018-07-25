@@ -1,0 +1,19 @@
+.create-user-form{
+    max-width: 500px;
+    padding: 20px 12px 10px 20px;
+    font: 13px Arial, Helvetica, sans-serif;
+}
+
+.create-user-form span.required{
+    color:red;
+}
+
+form > div > div > * {
+  font-size: 16px;
+  border: none;
+}
+
+.create-user-form input[type="text"] {
+    width: 400px;
+}
+
