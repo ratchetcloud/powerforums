@@ -1,0 +1,26 @@
+{
+  "name": "restapi",
+  "version": "1.0.0",
+  "description": "Forum backend.",
+  "main": "index.js",
+  "scripts": {
+    "test": "env MODE=test env DB_NAME=forums_test mocha",
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5",
+    "supertest": "^3.1.0"
+  },
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.2",
+    "cancan": "^3.1.0",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.0.15",
+    "morgan": "^1.9.0"
+  }
+}
