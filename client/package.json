@@ -1,7 +1,8 @@
 {
-  "name": "frontend",
+  "name": "powerforums-client",
+  "description": "React client of PowerForums",
+  "repository": "https://github.com/ratchetcloud/powerforums",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production"
