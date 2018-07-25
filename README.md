@@ -22,3 +22,9 @@ MongoDB should be in running before starting this service.
 $ npm run start
 ```
 
+## How to test
+We provide test with `mocha`, codes are written in /test directory.
+
+```bash
+$ npm test
+```

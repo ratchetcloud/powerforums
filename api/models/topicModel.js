@@ -1,10 +1,9 @@
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Schema.Types.ObjectId;
+const mongoose = require('mongoose');
 const Node = require("./nodeModel");
-var options = { discriminatorKey: 'type' };
+const options = { discriminatorKey: 'type' };
 
 // Topic schema, inheriting from Node.
-var TopicSchema = new mongoose.Schema({
+const TopicSchema = new mongoose.Schema({
     title: String,
     description: String,
     content: String,
@@ -12,6 +11,4 @@ var TopicSchema = new mongoose.Schema({
     sticky: Boolean
 }, options);
 
-var Topic = Node.discriminator('Topic', TopicSchema);
-
-module.exports = Topic;
+module.exports = Node.discriminator('Topic', TopicSchema);
