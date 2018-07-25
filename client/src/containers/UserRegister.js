@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CreateUserForm from '../forms/createUserForm'
+import SignupUserForm from '../forms/signupUserForm'
 
 
 
@@ -10,7 +10,7 @@ class UserRegister extends Component {
 
 	render(){
 		return (
-			<div><CreateUserForm /></div>
+			<div><SignupUserForm /></div>
 		)
 	}
 }
