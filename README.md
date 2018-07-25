@@ -1,19 +1,17 @@
-# PowerForums
-
-[![Build Status](https://travis-ci.org/ratchetcloud/powerforums.svg)](https://travis-ci.org/ratchetcloud/powerforums) 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ratchetcloud/powerforums/blob/master/LICENSE)
+# PowerForums &middot; [![Build Status](https://travis-ci.org/ratchetcloud/powerforums.svg)](https://travis-ci.org/ratchetcloud/powerforums) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ratchetcloud/powerforums/blob/master/LICENSE)
 
 Scalable forums with essentials forums features.
 
 
 ## Server
-Powered by `express` and `mongodb`.
-Include all `API`s used in client, and APIs are designed `RESTFul`.
+RESTFul API server for forums,
+powered by [`express`](http://expressjs.com/) and [`mongodb`](https://www.mongodb.com/),
+can be easily scale-out with state-less design.
 
 
 ## Client
-Powered by `react` + `redux`.
-Uses `webpack` and `babel` to serve web browsers.
+Powered by `react` + `redux`, using `webpack` and `babel` to support most browsers,
+can be deployed to static servers easily.
 
 
 ## How to install
@@ -22,9 +20,9 @@ Uses `webpack` and `babel` to serve web browsers.
 # Server Part
 $ cd server
 $ npm install 
-$ mongoimport --db forums --collection nodes < /forums-backend/databaseExport/1.1/nodes.json
-$ mongoimport --db forums --collection roles < /forums-backend/databaseExport/1.1/roles.json
-$ mongoimport --db forums --collection users < /forums-backend/databaseExport/1.1/users.json
+$ mongoimport --db forums --collection nodes < databaseExport/1.1/nodes.json
+$ mongoimport --db forums --collection roles < databaseExport/1.1/roles.json
+$ mongoimport --db forums --collection users < databaseExport/1.1/users.json
 
 # Client Part
 $ cd ../client
@@ -32,7 +30,7 @@ $ npm install
 ```
 
 ## How to run
-First, start API server.  
+Firstly, start API server.  
 (MongoDB should be in running before starting this service.)
 
 ```bash
