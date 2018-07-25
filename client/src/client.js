@@ -20,6 +20,18 @@ export default class client {
         this.authorizationHeader = false;
     }
 
+
+    handleSpecificError(error, callback) {
+        switch(error.response.status){
+            case 401:
+                alert("Authentication failed")
+                sessionStorage.removeItem("jwtToken");
+                window.location.reload();
+                return;
+        }
+        return callback(error);
+    }
+
     /**
      *
      * @param authorizationToken
@@ -39,7 +51,7 @@ export default class client {
             return self.httpClient
                 .post('/node', node, { headers: { 'Authorization': this.authorizationHeader } } )
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error))
+                .catch(error => this.handleSpecificError(error, reject))
         })
     }
 
