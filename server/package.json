@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "env MODE=test env DB_NAME=forums_test mocha",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js &"
   },
   "author": "",
   "license": "MIT",
