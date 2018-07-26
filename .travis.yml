@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "8"
+services:
+  - mongodb
+before_install:
+  - cd server
+install:
+  - npm install
+script:
+  - npm run test
+after_success:
+  - npm run test-coverage
+  - npm run coveralls

@@ -1,0 +1,31 @@
+{
+  "name": "powerforums-server",
+  "description": "API Server of PowerForums",
+  "repository": "https://github.com/ratchetcloud/powerforums",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "env MODE=test env DB_NAME=forums_test mocha",
+    "test-coverage": "nyc npm test",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "coveralls": "^3.0.2",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5",
+    "nyc": "^12.0.2",
+    "supertest": "^3.1.0"
+  },
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.2",
+    "cancan": "^3.1.0",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.0.15",
+    "morgan": "^1.9.0"
+  }
+}

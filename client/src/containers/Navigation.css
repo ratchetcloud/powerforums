@@ -1,0 +1,20 @@
+.navigationBar {
+    list-style-type: none;
+    margin-left: 0;
+    margin-bottom: 10px;
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+.navigationBar a:not(:first-child) li:before {
+    content: " \020 \0BB \020";
+}
+
+.navigationBar li{
+    display: inline;
+    margin-left: 0px;
+}
+
+.navigationBar li:last-child {
+    font-weight: bold;
+}
