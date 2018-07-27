@@ -22,6 +22,22 @@ export default class client {
 
     /**
      *
+     * @param error
+     * @param callback
+     */
+    handleSpecificError(error, callback) {
+        switch(error.response.status){
+            case 401:
+                alert("Authentication failed")
+                sessionStorage.removeItem("jwtToken");
+                window.location.reload();
+                return;
+        }
+        return callback(error);
+    }
+
+    /**
+     *
      * @param authorizationToken
      */
     setAuthorizationToken(authorizationToken) {
@@ -39,7 +55,7 @@ export default class client {
             return self.httpClient
                 .post('/node', node, { headers: { 'Authorization': this.authorizationHeader } } )
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error))
+                .catch(error => this.handleSpecificError(error, reject))
         })
     }
 
@@ -54,7 +70,7 @@ export default class client {
             return self.httpClient
                 .delete('/node/' + nodeId, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error))
+                .catch(error => this.handleSpecificError(error, reject))
         })
     }
 
@@ -69,7 +85,7 @@ export default class client {
             return self.httpClient
                 .patch('/node/' + node._id, node, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error))
+                .catch(error => this.handleSpecificError(error, reject))
         })
     }
 
@@ -84,7 +100,7 @@ export default class client {
             return self.httpClient
                 .patch('/node/' + node._id, { sticky: sticky }, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error))
+                .catch(error => this.handleSpecificError(error, reject))
         })
     }
 
@@ -99,7 +115,7 @@ export default class client {
             return self.httpClient
                 .put('/report', param, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error))
+                .catch(error => this.handleSpecificError(error, reject))
         })
     }
 
@@ -123,7 +139,7 @@ export default class client {
                     headers: { 'Authorization': this.authorizationHeader }
                 })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(new Error(error)));
+                .catch(error => this.handleSpecificError(new Error(error), reject));
         });
     }
 
@@ -138,7 +154,7 @@ export default class client {
             self.httpClient
                 .get('/node/' + nodeId, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(new Error(error)))
+                .catch(error => this.handleSpecificError(new Error(error), reject))
         })
     }
 
@@ -157,7 +173,7 @@ export default class client {
                     sort: sort
                 }, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(new Error(error)))
+                .catch(error => this.handleSpecificError(new Error(error), reject))
         })
     }
 
@@ -173,7 +189,7 @@ export default class client {
             return self.httpClient
                 .put('/role', role, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error))
+                .catch(error => this.handleSpecificError(error, reject))
         })
     }
 
@@ -189,7 +205,7 @@ export default class client {
             return self.httpClient
                 .delete('/role/' + roleId, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error))
+                .catch(error => this.handleSpecificError(error, reject))
         })
     }
 
@@ -204,7 +220,7 @@ export default class client {
             return self.httpClient
                 .get('/user/' + authorId, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(new Error(error)));
+                .catch(error => this.handleSpecificError(new Error(error), reject));
         });
     }
 
@@ -223,7 +239,7 @@ export default class client {
                     sort: sort
                 }, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(new Error(error)));
+                .catch(error => this.handleSpecificError(new Error(error), reject));
         });
     }
 
@@ -239,7 +255,7 @@ export default class client {
             return self.httpClient
                 .put('/user', user, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error));
+                .catch(error => this.handleSpecificError(error, reject));
         });
     }
 
@@ -255,7 +271,7 @@ export default class client {
             return self.httpClient
                 .delete('/user/' + userId, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error))
+                .catch(error => this.handleSpecificError(error, reject))
         })
     }
 
@@ -271,7 +287,7 @@ export default class client {
             return self.httpClient
                 .put('/report', report, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
-                .catch(error => reject(error));
+                .catch(error => this.handleSpecificError(error, reject));
         });
     }
 
@@ -293,5 +309,21 @@ export default class client {
                 .then(response => fulfill(response.data))
                 .catch(error => reject(error))
         })
+    }
+
+    /**
+     *
+     *
+     * @param user
+     * @returns Promise
+     */
+    signupUser(user) {
+        var self = this;
+        return new Promise((fulfill, reject) => {
+            return self.httpClient
+                .put('/user/signup', user)
+                .then(response => fulfill(response.data))
+                .catch(error => reject(error));
+        });
     }
 }

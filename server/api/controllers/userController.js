@@ -6,6 +6,9 @@ const jwt = require("jsonwebtoken");
 // Import Models.
 const User = require("../models/userModel");
 
+// generate password hash
+const SALT_ROUNDS = 3;
+
 exports.user_create = (req, res, next) => {
     // Declare error objects for the endpoint.
     const errorMissingParameter = { message: "Can't create user, a parameter is missing." };
@@ -160,4 +163,33 @@ exports.user_login = (req, res, next) => {
         .catch(err => {
             res.status(401).json({ message: "Authentication failed." });
         });
+}
+
+exports.user_signup = (req, res, next) => {
+    // Declare error objects for the endpoint.
+    const errorMissingParameter = { message: "Can't signup, a parameter is missing." };
+    const errorDuplicateParameter = { message: "Can't signup, duplicated user already exist."}
+
+    // Filter user parameters.
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') 
+        || !req.body.hasOwnProperty('accountId') || !req.body.hasOwnProperty('password') 
+        || !req.body.hasOwnProperty('passwordValidation')) {
+        // If a parameter is missing, return an 404 with message.
+        res.status(404).json(errorMissingParameter)
+    } else {
+        bcrypt.hash(req.body.password, SALT_ROUNDS, function(err, hash){
+            // Create user.
+            var user = new User({
+                _id: new ObjectId(),
+                name: req.body.name,
+                email: req.body.email,
+                accountId: req.body.accountId,
+                password: hash
+            })
+            // Save the new user in database.
+            user.save()
+                .then(document => res.status(201).json(document))
+                .catch(error => res.status(500).json(errorDuplicateParameter))
+        });
+    }
 }

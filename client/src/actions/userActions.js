@@ -1,7 +1,8 @@
 import {
     USER_DELETE_PENDING, USER_DELETE_FULFILLED, USER_DELETE_REJECTED,
     USER_LOGIN_PENDING, USER_LOGIN_FULFILLED, USER_LOGIN_REJECTED,
-    USER_LOGOUT_PENDING, USER_LOGOUT_FULFILLED, USER_LOGOUT_REJECTED
+    USER_LOGOUT_PENDING, USER_LOGOUT_FULFILLED, USER_LOGOUT_REJECTED,
+    USER_SIGNUP_PENDING, USER_SIGNUP_FULFILLED, USER_SIGNUP_REJECTED, USER_SIGNUP_ENDED
 } from "../constants/userActionTypes"
 import { userListFetch } from "../actions/userListActions"
 import jwt from "jsonwebtoken";
@@ -70,6 +71,25 @@ const userLogoutPending = () => ({
 
 const userLogoutFulfilled = () => ({
     type: USER_LOGOUT_FULFILLED
+})
+
+
+export const userSignupPending = () => ({
+    type: USER_SIGNUP_PENDING
+})
+
+export const userSignupFulfilled = () => ({
+    // show popup about completion message
+    type: USER_SIGNUP_FULFILLED
+})
+
+export const userSignupRejected = data => ({
+    type: USER_SIGNUP_REJECTED,
+    payload: data
+})
+
+export const userSignupEnded = () => ({
+    type: USER_SIGNUP_ENDED
 })
 
 export const userDelete = userId => (dispatch, getState, client) => {

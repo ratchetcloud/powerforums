@@ -7,7 +7,7 @@ import NodeList from './NodeList'
 import RoleList from './RoleList'
 import UserList from './UserList'
 import UserLogin from './UserLogin'
-import UserRegister from './UserRegister'
+import UserSignup from './UserSignup'
 import CurrentUserInfo from './CurrentUserInfo'
 import * as userActions from "../actions/userActions";
 import { history } from '../stores/store'
@@ -37,7 +37,7 @@ class App extends Component {
                     <Route path="/role" component={RoleList} />
                     <Route path="/user" component={UserList} />
                     <Route path="/login" component={UserLogin} />
-                    <Route path="/register" component={UserRegister} />
+                    <Route path="/signup" component={UserSignup} />
                 </Switch>
             </div>
         )
