@@ -24,6 +24,8 @@ Our services are packed with `Docker`, proudly, so you can easily start service 
 $ docker-compose up 
 ```
 
+Then open [http://localhost:4000](http://localhost:4000).
+
 
 ## Run without Docker
 

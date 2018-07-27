@@ -21,6 +21,9 @@ services:
       DB_NAME: powerforums
 
   client:
-    build: ./client
+    build:
+      context: ./client
+      args:
+        API_URL: http://localhost:3000
     ports:
       - 4000:4000
