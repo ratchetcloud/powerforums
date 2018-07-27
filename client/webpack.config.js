@@ -51,7 +51,8 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development')
+            'process.env.NODE_ENV': JSON.stringify(process.env.mode),
+            'API_URL': JSON.stringify(process.env.API_URL || 'http://localhost:3000')
         }),
         new HtmlWebPackPlugin({
             template: "./src/index.html",

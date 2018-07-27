@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
             if (authHeader[1] !== undefined) {
                 // If authorization header is well formed.
                 const token = authHeader[1];
-                const decoded = jwt.verify(token, process.env.JWT_KEY);
+                const decoded = jwt.verify(token, global.JWT_KEY);
                 res.locals.userData = decoded;
                 next();
             } else {

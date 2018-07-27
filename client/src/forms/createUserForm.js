@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form';
 import TextField from '@material-ui/core/TextField';
 import { userListFetch } from '../actions/userListActions';
-import './CreateUserForm.css';
+import './createUserForm.css';
 import '../client';
 import IntegrationReactSelect from './IntegrationReactSelect';
 
