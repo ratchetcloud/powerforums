@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { nodeListFetch } from '../actions/nodeListActions'
-import './CreateReportForm.css'
+import './createReportForm.css'
 import '../client'
 import {blurIfNoPermission} from "../utils/permissionChecker";
 

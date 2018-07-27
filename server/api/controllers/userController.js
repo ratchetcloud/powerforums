@@ -150,7 +150,7 @@ exports.user_login = (req, res, next) => {
                 name: user.name,
                 permissions: user.permissions
             };
-            const token = jwt.sign(data, process.env.JWT_KEY, { expiresIn: "1h" });
+            const token = jwt.sign(data, global.JWT_KEY, { expiresIn: "1h" });
 
             return res.status(200).json({
                 currentUser: user,

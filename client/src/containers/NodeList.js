@@ -5,9 +5,9 @@ import ReactPaginate from 'react-paginate'
 import { nodeListFetch, parentNodeFetch, paginationChangePage, paginationChangeResultPerPage, parentNodeChange } from '../actions/nodeListActions'
 import Node from "./Node"
 import Navigation from "./Navigation"
-import CreateReplyForm from '../forms/CreateReplyForm'
-import CreateTopicForm from '../forms/CreateTopicForm'
-import CreateForumForm from '../forms/CreateForumForm'
+import CreateReplyForm from '../forms/createReplyForm'
+import CreateTopicForm from '../forms/createTopicForm'
+import CreateForumForm from '../forms/createForumForm'
 
 class NodeList extends Component {
     constructor(props) {

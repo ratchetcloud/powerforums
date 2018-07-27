@@ -6,8 +6,6 @@ const bodyParser = require("body-parser");
 const checkAuth = require('../api/middleware/checkAuth');
 const loadNodeWithPermssion = require('../api/middleware/loadNodeWithPermssion');
 
-process.env.JWT_KEY = 'secret';
-
 describe('Test middlewares', function() {
     var server;
     var app;
@@ -71,7 +69,7 @@ describe('Test middlewares', function() {
         });
         it('Send request with correct token', function () {
             let payload = global.normalUser;
-            let token = jwt.sign(payload, process.env.JWT_KEY);
+            let token = jwt.sign(payload, global.JWT_KEY);
 
             return supertest(app)
                 .get('/')

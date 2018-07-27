@@ -13,15 +13,15 @@ export const history = createHistory();
 const loggerMiddleware = createLogger();
 
 // Build the middleware for intercepting and dispatching navigation actions.
-const routeMiddleware = routerMiddleware(history)
+const routeMiddleware = routerMiddleware(history);
 
-const apiUrl = 'http://localhost:3000';
+console.log('API_URL:', API_URL);
 
 // Create store.
 export const store = createStore(
     combineReducers({...allReducers, ...{router: routerReducer}}),
     applyMiddleware(
-        reduxThunkMiddleware.withExtraArgument(new client(apiUrl)),
+        reduxThunkMiddleware.withExtraArgument(new client(API_URL)),
         loggerMiddleware,
         routeMiddleware
     )

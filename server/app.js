@@ -3,6 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const fs = require('fs');
 
 // MongoDB connection.
 const mongoEnv = {
@@ -10,12 +11,24 @@ const mongoEnv = {
     port: process.env.DB_PORT || '27017',
     username: process.env.DB_USERNAME || '',
     password: process.env.DB_PASSWORD || '',
-    db: process.env.DB_NAME || ''
+    db: process.env.DB_NAME || 'powerforums'
 };
 mongoose.connect('mongodb://' +
     ((mongoEnv.username !== "") ? (mongoEnv.username + ':' + mongoEnv.password + '@') : '') +
     mongoEnv.host + ':' + mongoEnv.port + '/' + mongoEnv.db
 , {useNewUrlParser: true});
+
+
+// Load or generate JWT Key
+let jwtKey;
+try {
+    jwtKey = fs.readFileSync('.jwtkey', 'utf8');
+}catch (e) {
+    jwtKey = (new Date()).valueOf().toString(16) + (Math.random() * Math.pow(10, 20)).toString(16);
+    fs.writeFileSync('.jwtkey', jwtKey, 'utf8');
+}
+global.JWT_KEY = jwtKey;
+
 
 // Include routes files.
 const nodeRoutes = require('./api/routes/nodeRoutes');
