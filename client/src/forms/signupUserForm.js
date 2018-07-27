@@ -8,6 +8,10 @@ import { userSignupPending, userSignupFulfilled, userSignupRejected } from '../a
 
 
 export const signupUserFormSubmit = formValues => (dispatch, getState, client) => {
+    if(formValues.password !== formValues.passwordValidation){
+        throw new SubmissionError({_error: "Check Password and Password Validation field"})
+    }
+
     dispatch(userSignupPending())
 
     return client.signupUser(formValues)
@@ -75,7 +79,14 @@ class SignupUserForm extends Component {
                                label="Password"
                                placeholder="Please enter the password"
                                component={renderField}
-                               type="text" />
+                               type="password" />
+                    </div>
+                    <div>
+                        <Field name="passwordValidation"
+                               label="Password validation"
+                               placeholder="Please reenter the password"
+                               component={renderField}
+                               type="password" />
                     </div>
                     <div>
                         <button type="submit" disabled={submitting}>Create User</button>

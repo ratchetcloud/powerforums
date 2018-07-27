@@ -12,7 +12,6 @@ class UserSignup extends Component {
 
 	render(){
 		const { loading, success } = this.props;
-		console.log(this.props)
         if (loading === false && success === false) {
             // If there user is not authenticated, show LoginForm
             return (

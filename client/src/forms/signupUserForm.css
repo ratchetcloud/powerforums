@@ -17,3 +17,6 @@ form > div > div > * {
     width: 400px;
 }
 
+.signup-user-form input[type="password"]{
+	width: 400px;
+}
