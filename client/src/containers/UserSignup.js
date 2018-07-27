@@ -10,6 +10,10 @@ class UserSignup extends Component {
 		super(props);
 	}
 
+    componentWillUnmount(){
+        this.props.signupEnd() 
+    }
+
 	render(){
 		const { loading, success } = this.props;
         if (loading === false && success === false) {
@@ -27,7 +31,7 @@ class UserSignup extends Component {
         	// signup success
         	return (
         		<div>signup Success.<br />
-	        		<button onClick={(event) => {this.props.signupEnd()} }>
+	        		<button>
 	                        <NavLink to="/">Go home</NavLink>
 	                </button>
                 </div>
