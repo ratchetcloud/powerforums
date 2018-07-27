@@ -171,7 +171,9 @@ exports.user_signup = (req, res, next) => {
     const errorDuplicateParameter = { message: "Can't signup, duplicated user already exist."}
 
     // Filter user parameters.
-    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('accountId') || !req.body.hasOwnProperty('password')) {
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') 
+        || !req.body.hasOwnProperty('accountId') || !req.body.hasOwnProperty('password') 
+        || !req.body.hasOwnProperty('passwordValidation')) {
         // If a parameter is missing, return an 404 with message.
         res.status(404).json(errorMissingParameter)
     } else {
