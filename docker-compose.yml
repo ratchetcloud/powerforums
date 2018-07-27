@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  mongodb:
+    image: mongo
+    restart: always
+
+  mongo-seed:
+    build: mongo_data
+    links:
+      - mongodb
+
+  server:
+    build: ./server
+    links:
+      - mongodb
+    ports:
+      - 3000:3000
+    environment:
+      DB_HOST: mongodb
+      DB_NAME: powerforums
+
+  client:
+    build: ./client
+    ports:
+      - 4000:4000

@@ -5,8 +5,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "env MODE=test env DB_NAME=forums_test mocha",
+    "start": "node server.js",
+    "test": "env MODE=test env DB_NAME=powerforums_test mocha",
     "test-coverage": "nyc npm test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },

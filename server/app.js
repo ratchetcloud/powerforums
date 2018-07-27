@@ -11,7 +11,7 @@ const mongoEnv = {
     port: process.env.DB_PORT || '27017',
     username: process.env.DB_USERNAME || '',
     password: process.env.DB_PASSWORD || '',
-    db: process.env.DB_NAME || ''
+    db: process.env.DB_NAME || 'powerforums'
 };
 mongoose.connect('mongodb://' +
     ((mongoEnv.username !== "") ? (mongoEnv.username + ':' + mongoEnv.password + '@') : '') +
