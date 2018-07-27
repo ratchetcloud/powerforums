@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { blurIfNoPermission } from "../utils/permissionChecker";
 import { nodeListFetch } from '../actions/nodeListActions'
-import './CreateReplyForm.css'
+import './createReplyForm.css'
 import '../client'
 
 export const createReplyFormSubmit = formValues => (dispatch, getState, client) => {

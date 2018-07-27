@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { blurIfNoPermission } from "../utils/permissionChecker";
 import { nodeListFetch } from '../actions/nodeListActions';
-import './CreateForumForm.css';
+import './createForumForm.css';
 import '../client';
 
 export const createForumFormSubmit = formValues => (dispatch, getState, client) => {

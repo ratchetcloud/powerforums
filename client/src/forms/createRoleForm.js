@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import RFReactSelect from './RFREactSelect';
+import RFReactSelect from './RFReactSelect';
 import { roleListFetch } from '../actions/roleListActions';
-import './CreateRoleForm.css';
+import './createRoleForm.css';
 import '../client';
 import {
     PERMISSION_LIST

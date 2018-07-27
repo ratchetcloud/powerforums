@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { blurIfNoPermission } from '../utils/permissionChecker'
 import { nodeListFetch } from '../actions/nodeListActions'
-import './CreateTopicForm.css'
+import './createTopicForm.css'
 import '../client'
 
 export const createTopicFormSubmit = formValues => (dispatch, getState, client) => {
