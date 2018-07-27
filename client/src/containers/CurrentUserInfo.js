@@ -31,7 +31,7 @@ class CurrentUserInfo extends Component {
                         <NavLink to="/login">Login</NavLink>
                     </button>
                     <button>
-                        <NavLink to="/register">Register</NavLink>
+                        <NavLink to="/signup">Register</NavLink>
                     </button>
                 </div>
             )

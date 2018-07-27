@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form';
 import TextField from '@material-ui/core/TextField';
-import { userListFetch } from '../actions/userListActions';
 import './SignupUserForm.css';
-import '../client';
 import IntegrationReactSelect from './IntegrationReactSelect';
+import { userSignupPending, userSignupFulfilled, userSignupRejected } from '../actions/userActions';
+
 
 export const signupUserFormSubmit = formValues => (dispatch, getState, client) => {
-    // Make an API call (createUser) using form values.
-    return client.createUser( formValues )
+    dispatch(userSignupPending())
+
+    return client.signupUser(formValues)
         .then(response => {
-            // Node creation was successful, we want to refresh user list.
-            dispatch(userListFetch())
+            dispatch(userSignupFulfilled())
         })
         .catch(error => {
-            // Node creation failed, we want to display the error (redux-forms managing).
+            dispatch(userSignupRejected(error))
+
             throw new SubmissionError({_error: error.response.data.message})
         });
 }
@@ -38,7 +39,7 @@ class SignupUserForm extends Component {
 
     handleFormSubmit(formValues) {
         // Add "not user related" values to form, and trigger the submission with merged value set.
-        return this.props.handleFormSubmit(formValues);
+        return this.props.signup(formValues);
     }
 
     render() {
@@ -91,7 +92,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    handleFormSubmit: formValues => {
+    signup: formValues => {
         return dispatch(signupUserFormSubmit(formValues));
     }
 });
@@ -101,4 +102,3 @@ SignupUserForm = reduxForm({form: 'signupUserForm'})(SignupUserForm);
 SignupUserForm = connect(mapStateToProps, mapDispatchToProps)(SignupUserForm);
 
 export default SignupUserForm;
-

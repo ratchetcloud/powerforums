@@ -161,3 +161,29 @@ exports.user_login = (req, res, next) => {
             res.status(401).json({ message: "Authentication failed." });
         });
 }
+
+exports.user_signup = (req, res, next) => {
+    // Declare error objects for the endpoint.
+    const errorMissingParameter = { message: "Can't signup, a parameter is missing." };
+    const errorDuplicateParameter = { message: "Can't signup, duplicated user already exist."}
+
+    // Filter user parameters.
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('accountId') || !req.body.hasOwnProperty('password')) {
+        // If a parameter is missing, return an 404 with message.
+        res.status(404).json(errorMissingParameter)
+    } else {
+        // Create user.
+        var user = new User({
+            _id: new ObjectId(),
+            name: req.body.name,
+            email: req.body.email,
+            accountId: req.body.accountId,
+            password: req.body.password
+        })
+
+        // Save the new user in database.
+        user.save()
+            .then(document => res.status(201).json(document))
+            .catch(error => res.status(500).json(errorDuplicateParameter))
+    }
+}

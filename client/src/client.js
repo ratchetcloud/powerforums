@@ -20,7 +20,11 @@ export default class client {
         this.authorizationHeader = false;
     }
 
-
+    /**
+     *
+     * @param error
+     * @param callback
+     */
     handleSpecificError(error, callback) {
         switch(error.response.status){
             case 401:
@@ -303,7 +307,23 @@ export default class client {
                     password: password
                 })
                 .then(response => fulfill(response.data))
-                .catch(error => this.handleSpecificError(error, reject))
+                .catch(error => reject(error))
         })
+    }
+
+    /**
+     *
+     *
+     * @param user
+     * @returns Promise
+     */
+    signupUser(user) {
+        var self = this;
+        return new Promise((fulfill, reject) => {
+            return self.httpClient
+                .put('/user/signup', user)
+                .then(response => fulfill(response.data))
+                .catch(error => reject(error));
+        });
     }
 }
