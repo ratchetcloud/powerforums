@@ -298,12 +298,12 @@ export default class client {
      * @param md5password
      * @returns Promise
      */
-    login(username, password) {
+    login(email, password) {
         var self = this
         return new Promise((fulfill, reject) => {
             return self.httpClient
                 .post('/user/login', {
-                    username: username,
+                    email: email,
                     password: password
                 })
                 .then(response => fulfill(response.data))

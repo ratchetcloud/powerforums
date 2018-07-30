@@ -11,7 +11,7 @@ class LoginForm extends React.Component {
     }
 
     handleFormSubmit(formValues) {
-        this.props.login(formValues.username, formValues.password);
+        this.props.login(formValues.email, formValues.password);
     }
 
     render() {
@@ -21,7 +21,7 @@ class LoginForm extends React.Component {
                 <h2>Login</h2>
                 <div style={{'color': 'red'}}>{errMessage}</div>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <Field name="username" component="input" type="text" /><br />
+                    <Field name="email" component="input" type="text" /><br />
                     <Field name="password" component="input" type="password" /><br />
                     <button type="submit">Submit</button>
                 </form>

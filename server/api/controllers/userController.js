@@ -132,7 +132,7 @@ exports.user_delete = (req, res, next) => {
 }
 
 exports.user_login = (req, res, next) => {
-    User.findOne({ name: req.body.username })
+    User.findOne({ email: req.body.email })
         .exec()
         .then(user => {
             if (user.length < 1)
@@ -149,7 +149,6 @@ exports.user_login = (req, res, next) => {
         .then(user => {
             const data = {
                 _id: user._id,
-                accountId: user.accountId,
                 name: user.name,
                 permissions: user.permissions
             };
