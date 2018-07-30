@@ -6,6 +6,9 @@ const jwt = require("jsonwebtoken");
 // Import Models.
 const User = require("../models/userModel");
 
+// generate password hash
+const SALT_ROUNDS = 3;
+
 exports.user_create = (req, res, next) => {
     // Declare error objects for the endpoint.
     const errorMissingParameter = { message: "Can't create user, a parameter is missing." };
@@ -129,7 +132,7 @@ exports.user_delete = (req, res, next) => {
 }
 
 exports.user_login = (req, res, next) => {
-    User.findOne({ name: req.body.username })
+    User.findOne({ email: req.body.email })
         .exec()
         .then(user => {
             if (user.length < 1)
@@ -146,8 +149,8 @@ exports.user_login = (req, res, next) => {
         .then(user => {
             const data = {
                 _id: user._id,
-                accountId: user.accountId,
                 name: user.name,
+                email: user.email,
                 permissions: user.permissions
             };
             const token = jwt.sign(data, global.JWT_KEY, { expiresIn: "1h" });
@@ -160,4 +163,40 @@ exports.user_login = (req, res, next) => {
         .catch(err => {
             res.status(401).json({ message: "Authentication failed." });
         });
+}
+
+exports.user_signup = (req, res, next) => {
+    // Declare error objects for the endpoint.
+    const errorMissingParameter = { message: "Can't signup, a parameter is missing." };
+    const errorDuplicateParameter = { message: "Can't signup, duplicated user already exist."};
+    const errorInvalidParameter = { message: "Can't signup, email value is invalid."};
+    const errorUnexpected = { message: "Can't signup, unexpected error." };
+
+    // Filter user parameters.
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password')) {
+        // If a parameter is missing, return an 404 with message.
+        res.status(400).json(errorMissingParameter);
+    } else {
+        bcrypt.hash(req.body.password, SALT_ROUNDS, function(err, hash){
+            // Create user.
+            var user = new User({
+                _id: new ObjectId(),
+                name: req.body.name,
+                email: req.body.email,
+                password: hash
+            });
+            // Save the new user in database.
+            user.save()
+                .then(document => res.status(201).json(document))
+                .catch(error => {
+                    if(error.name === 'MongoError' && error.code === 11000) {
+                        return res.status(400).json(errorDuplicateParameter);
+                    } else if (error.name === 'ValidationError') {
+                        return res.status(400).json(errorInvalidParameter);
+                    } else {
+                        return res.status(500).json(errorUnexpected);
+                    }  
+                });
+        });
+    }
 }
