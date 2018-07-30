@@ -45,9 +45,9 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
+        chunkFilename: 'js/[chunkhash].js',
         publicPath: '/',
-        //  sourceMapFilename: '[name].map'
     },
     plugins: [
         new webpack.DefinePlugin({

@@ -10,7 +10,7 @@ import client from '../client';
 export const history = createHistory();
 
 // Create a logger middleware.
-const loggerMiddleware = createLogger();
+//const loggerMiddleware = createLogger();
 
 // Build the middleware for intercepting and dispatching navigation actions.
 const routeMiddleware = routerMiddleware(history);
@@ -22,7 +22,7 @@ export const store = createStore(
     combineReducers({...allReducers, ...{router: routerReducer}}),
     applyMiddleware(
         reduxThunkMiddleware.withExtraArgument(new client(API_URL)),
-        loggerMiddleware,
+        //loggerMiddleware,
         routeMiddleware
     )
 );
