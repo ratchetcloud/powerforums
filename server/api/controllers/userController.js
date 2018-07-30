@@ -168,14 +168,15 @@ exports.user_login = (req, res, next) => {
 exports.user_signup = (req, res, next) => {
     // Declare error objects for the endpoint.
     const errorMissingParameter = { message: "Can't signup, a parameter is missing." };
-    const errorDuplicateParameter = { message: "Can't signup, duplicated user already exist."}
+    const errorDuplicateParameter = { message: "Can't signup, duplicated user already exist."};
+    const errorInvalidParameter = { message: "Can't signup, email value is invalid."};
+    const errorUndefined = { message: "Can't signup, error is not defined." };
 
     // Filter user parameters.
     if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') 
-        || !req.body.hasOwnProperty('accountId') || !req.body.hasOwnProperty('password') 
-        || !req.body.hasOwnProperty('passwordValidation')) {
+        || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('passwordValidation')) {
         // If a parameter is missing, return an 404 with message.
-        res.status(404).json(errorMissingParameter)
+        res.status(400).json(errorMissingParameter);
     } else {
         bcrypt.hash(req.body.password, SALT_ROUNDS, function(err, hash){
             // Create user.
@@ -183,13 +184,22 @@ exports.user_signup = (req, res, next) => {
                 _id: new ObjectId(),
                 name: req.body.name,
                 email: req.body.email,
-                accountId: req.body.accountId,
                 password: hash
-            })
+            });
             // Save the new user in database.
             user.save()
                 .then(document => res.status(201).json(document))
-                .catch(error => res.status(500).json(errorDuplicateParameter))
+                .catch(error => {
+                    console.log(error.code)
+                    if(error.name === 'MongoError' && error.code === 11000) {
+                        return res.status(500).json(errorDuplicateParameter);
+                    } else if (error.name === 'ValidationError') {
+                        return res.status(500).json(errorInvalidParameter);
+                    } else {
+                        return res.status(500).json(errorUndefined);
+                    }
+                    
+                });
         });
     }
 }

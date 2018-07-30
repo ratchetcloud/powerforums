@@ -68,13 +68,6 @@ class SignupUserForm extends Component {
                                type="text" />
                     </div>
                     <div>
-                        <Field name="accountId"
-                               label="Account Id"
-                               placeholder="Please enter the user account Id"
-                               component={renderField}
-                               type="text" />
-                    </div>
-                    <div>
                         <Field name="password"
                                label="Password"
                                placeholder="Please enter the password"
