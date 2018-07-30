@@ -8,7 +8,8 @@
     "start": "node server.js",
     "test": "env MODE=test env DB_NAME=powerforums_test mocha",
     "test-coverage": "nyc npm test",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "MIT",

@@ -27,8 +27,8 @@ const UserLogin = Loadable({
     loader: () => import(/* webpackChunkName: "user_login" */ './UserLogin'),
     loading: Loading,
 });
-const UserRegister = Loadable({
-    loader: () => import(/* webpackChunkName: "user_register" */ './UserRegister'),
+const UserSignup = Loadable({
+    loader: () => import(/* webpackChunkName: "user_signup" */ './UserSignup'),
     loading: Loading,
 });
 
@@ -55,7 +55,7 @@ class App extends Component {
                     <Route path="/role" component={RoleList} />
                     <Route path="/user" component={UserList} />
                     <Route path="/login" component={UserLogin} />
-                    <Route path="/register" component={UserRegister} />
+                    <Route path="/signup" component={UserSignup} />
                 </Switch>
             </div>
         )
