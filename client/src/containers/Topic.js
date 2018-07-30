@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import ReactTooltip from 'react-tooltip';
-import img_conversation from '../public/images/conversation-128.png';
-import img_trash from '../public/images/trash-128.png';
-import img_sticky from '../public/images/sticky-128.png';
-import img_flag from '../public/images/flag-128.png';
 import { connect } from "react-redux";
 import { NavLink } from 'react-router-dom'
 
+const img_conversation = '/assets/images/conversation-128.png';
+const img_trash = '/assets/images/trash-128.png';
+const img_sticky ='/assets/images/sticky-128.png';
+const img_flag = '/assets/images/flag-128.png';
 
 /**
  * Component for Topic rendering.

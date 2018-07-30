@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { roleDelete } from "../actions/roleActions";
-import img_trash from '../public/images/trash-128.png';
+
+const img_trash = '/assets/images/trash-128.png';
 
 class Role extends Component {
     constructor(props) {

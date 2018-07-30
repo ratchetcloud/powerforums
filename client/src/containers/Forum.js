@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import img_forum from '../public/images/forum-128.png';
-import img_trash from '../public/images/trash-128.png';
 import { connect } from "react-redux";
 import { NavLink } from 'react-router-dom'
+
+const img_forum = '/assets/images/forum-128.png';
+const img_trash = '/assets/images/trash-128.png';
 
 /**
  * Component for Forum rendering.

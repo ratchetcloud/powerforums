@@ -1,7 +1,4 @@
 import React, { Component } from 'react'
-import img_flag from '../public/images/flag-128.png'
-import img_trash from '../public/images/trash-128.png'
-import img_edit from '../public/images/edit-128.png'
 import { connect } from "react-redux"
 import { submit } from 'redux-form'
 import DynamicModal from './DynamicModal'
@@ -11,6 +8,10 @@ import CreateReportForm from '../forms/createReportForm'
 import UpdateReplyForm from '../forms/updateReplyForm'
 import { nodeFetchAuthorDetails } from "../actions/nodeActions"
 import ToolTip from "react-portal-tooltip"
+
+const img_flag = '/assets/images/flag-128.png';
+const img_trash = '/assets/images/trash-128.png';
+const img_edit = '/assets/images/edit-128.png';
 
 /**
  * Component for Reply rendering.
