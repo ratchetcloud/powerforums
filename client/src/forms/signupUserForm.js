@@ -11,7 +11,6 @@ export const signupUserFormSubmit = formValues => (dispatch, getState, client) =
     if(formValues.password !== formValues.passwordValidation){
         throw new SubmissionError({_error: "Check Password and Password Validation field"})
     }
-
     dispatch(userSignupPending())
 
     return client.signupUser(formValues)
@@ -20,7 +19,6 @@ export const signupUserFormSubmit = formValues => (dispatch, getState, client) =
         })
         .catch(error => {
             dispatch(userSignupRejected(error))
-
             throw new SubmissionError({_error: error.response.data.message})
         });
 }

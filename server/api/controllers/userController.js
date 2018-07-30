@@ -150,6 +150,7 @@ exports.user_login = (req, res, next) => {
             const data = {
                 _id: user._id,
                 name: user.name,
+                email: user.email,
                 permissions: user.permissions
             };
             const token = jwt.sign(data, global.JWT_KEY, { expiresIn: "1h" });
@@ -172,8 +173,7 @@ exports.user_signup = (req, res, next) => {
     const errorUndefined = { message: "Can't signup, error is not defined." };
 
     // Filter user parameters.
-    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') 
-        || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('passwordValidation')) {
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password')) {
         // If a parameter is missing, return an 404 with message.
         res.status(400).json(errorMissingParameter);
     } else {
@@ -189,15 +189,13 @@ exports.user_signup = (req, res, next) => {
             user.save()
                 .then(document => res.status(201).json(document))
                 .catch(error => {
-                    console.log(error.code)
                     if(error.name === 'MongoError' && error.code === 11000) {
                         return res.status(500).json(errorDuplicateParameter);
                     } else if (error.name === 'ValidationError') {
                         return res.status(500).json(errorInvalidParameter);
                     } else {
                         return res.status(500).json(errorUndefined);
-                    }
-                    
+                    }  
                 });
         });
     }
