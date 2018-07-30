@@ -34,14 +34,14 @@ describe('Test userController', function() {
             .expect(401);
     });
 
-    it('Signup with all filled data', function() {
+    it('Signup with all filled data', function(done) {
         const payload = {
             name: 'testname',
             email: 'test@test.com',
             password: 'password'
         };
 
-        return supertest(app)
+        supertest(app)
             .put('/user/signup')
             .send(payload)
             .expect(201)
@@ -49,9 +49,9 @@ describe('Test userController', function() {
                 assert(response.body.name === payload.name);
                 assert(response.body.email === payload.email);
                 bcrypt.compare(response.body.password, payload.password, (err, result) => {
-                    if (err || !result)
-                        return false;
-                    return true;
+                    if (err)
+                        return done(err);
+                    done();
                 });
             });
 
@@ -68,14 +68,14 @@ describe('Test userController', function() {
         return supertest(app)
             .put('/user/signup')
             .send({name: 'testname', email: 'invalidformat', password: 'password'})
-            .expect(500);
+            .expect(400);
     });
 
     it('Signup with duplicate email', function () {
         return supertest(app)
             .put('/user/signup')
             .send({name: 'duplicateuser', email: 'user1@openforum.org', password: 'password'})
-            .expect(500);
+            .expect(400);
     });
 
 

@@ -170,7 +170,7 @@ exports.user_signup = (req, res, next) => {
     const errorMissingParameter = { message: "Can't signup, a parameter is missing." };
     const errorDuplicateParameter = { message: "Can't signup, duplicated user already exist."};
     const errorInvalidParameter = { message: "Can't signup, email value is invalid."};
-    const errorUndefined = { message: "Can't signup, error is not defined." };
+    const errorUnexpected = { message: "Can't signup, unexpected error." };
 
     // Filter user parameters.
     if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password')) {
@@ -190,11 +190,11 @@ exports.user_signup = (req, res, next) => {
                 .then(document => res.status(201).json(document))
                 .catch(error => {
                     if(error.name === 'MongoError' && error.code === 11000) {
-                        return res.status(500).json(errorDuplicateParameter);
+                        return res.status(400).json(errorDuplicateParameter);
                     } else if (error.name === 'ValidationError') {
-                        return res.status(500).json(errorInvalidParameter);
+                        return res.status(400).json(errorInvalidParameter);
                     } else {
-                        return res.status(500).json(errorUndefined);
+                        return res.status(500).json(errorUnexpected);
                     }  
                 });
         });
