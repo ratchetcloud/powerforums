@@ -16,7 +16,7 @@ class Forum extends Component {
 
     render() {
         // Turn dates to objects.
-        var lastupdateDate = new Date(this.props.content.lastupdateDate);
+        var lastUpdatedDate = new Date(this.props.content.lastUpdatedDate);
 
         if (0) {
             // If user doesn't have delete permissions.
@@ -40,7 +40,7 @@ class Forum extends Component {
                     <p>{this.props.content.description}</p>
                 </div>
                 <div className="right">
-                    <p>Last reply the {lastupdateDate.toLocaleString()}</p>
+                    <p>Last reply the {lastUpdatedDate.toLocaleString()}</p>
                     <p>{(this.props.content.hasOwnProperty('replycount')) ? this.props.content.replycount + ' replies' : null}</p>
                     <div>
                         <span>{deleteHTML}</span>
