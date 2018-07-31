@@ -1,5 +1,1 @@
-{"_id":{"$oid":"5adfc71143e7654720578f8b"},"name":"Remi","email":"a@mailinator.com","accountId":"c2e81f8cf8064876903c3b8b852218d8","password":"$2a$04$rpyFFlFjT6WwfnPFR.ljwec5rof5o5VMs7U4acyM5iJUvqDvqVVN2","permissions":[{"_roleId":{"$oid":"5ae7a12b766736066fede097"},"_nodeId":{"$oid":"5adfc25343e7654720578f67"}}]}
-{"_id":{"$oid":"5ae7856b766736066feddfbd"},"name":"Yi","email":"b@mailinator.com","accountID":"fakeaccountid","password":"$2a$04$rpyFFlFjT6WwfnPFR.ljwec5rof5o5VMs7U4acyM5iJUvqDvqVVN2"}
-{"_id":{"$oid":"5ae78592766736066feddfbe"},"name":"Bo","email":"c@mailinator.com","accountID":"fakeaccountid","password":"$2a$04$rpyFFlFjT6WwfnPFR.ljwec5rof5o5VMs7U4acyM5iJUvqDvqVVN2"}
-{"_id":{"$oid":"5ae785b3766736066feddfbf"},"name":"Olena","email":"d@mailinator.com","accountID":"fakeaccountid","password":"$2a$04$rpyFFlFjT6WwfnPFR.ljwec5rof5o5VMs7U4acyM5iJUvqDvqVVN2"}
-{"_id":{"$oid":"5ae785d7766736066feddfc0"},"name":"Jerry","email":"e@mailinator.com","accountID":"fakeaccountid","password":"$2a$04$rpyFFlFjT6WwfnPFR.ljwec5rof5o5VMs7U4acyM5iJUvqDvqVVN2"}
+{"name":"Admin","email":"admin@powerforums.io","password":"$2a$04$rpyFFlFjT6WwfnPFR.ljwec5rof5o5VMs7U4acyM5iJUvqDvqVVN2"}
