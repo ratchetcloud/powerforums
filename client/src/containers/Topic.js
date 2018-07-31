@@ -19,7 +19,7 @@ class Topic extends Component {
 
     render() {
         // Turn timestamps to Date objects.
-        const lastupdateDate = new Date(this.props.content.lastupdateDate);
+        const lastUpdatedDate = new Date(this.props.content.lastUpdatedDate);
         const creationDate = new Date(this.props.content.creationDate);
 
         if (0) {
@@ -89,7 +89,7 @@ class Topic extends Component {
                         <p>Created by <a href={this.props.content.authorInformation._id}>{this.props.content.authorInformation.name}</a>, the {creationDate.toLocaleString()}</p>
                     </div>
                     <div className="right">
-                        <p>Last reply the {lastupdateDate.toLocaleString()}</p>
+                        <p>Last reply the {lastUpdatedDate.toLocaleString()}</p>
                         <p>{this.props.content.replycount} replies</p>
                         <div>
                             <span>
