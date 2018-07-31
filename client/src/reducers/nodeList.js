@@ -4,8 +4,9 @@ import {
     PARENTNODE_CHANGE, PARENTNODE_FETCH_PENDING, PARENTNODE_FETCH_FULFILLED, PARENTNODE_FETCH_REJECTED
 } from '../constants/nodeListActionTypes';
 
+const rootNodeId = '000000000000000000000000';
 const initialState = {
-    parentNodeId: '5ade661da8744f2fccacabe2',
+    parentNodeId: rootNodeId,
     parentNode: {},
     parentNodeLoading: false,
     parentNodeLoaded: false,
@@ -38,7 +39,8 @@ export const nodeListReducer = (state = initialState, action) => {
             return {...state, ...{pagination: { ...state.pagination, ...{ perPage: action.payload }}}};
             break;
         case PARENTNODE_CHANGE:
-            return {...state, ...{parentNodeId: action.payload}};
+            // TODO: better approach?
+            return {...state, ...{parentNodeId: action.payload ? action.payload : rootNodeId}};
             break;
         case PARENTNODE_FETCH_PENDING:
             return {...state, ...{parentNodeLoading: true, parentNodeLoaded: false, parentNode: {}}};

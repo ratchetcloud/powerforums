@@ -4,7 +4,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { nodeListFetch } from '../actions/nodeListActions'
 import { nodeEditDisable } from '../actions/nodeActions'
 
-import './UpdateReplyForm.css'
+import './updateReplyForm.css'
 import '../client'
 
 export const updateReplyFormSubmit = formValues => (dispatch, getState, client) => {

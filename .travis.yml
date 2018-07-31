@@ -3,12 +3,11 @@ node_js:
   - "8"
 services:
   - mongodb
-before_install:
-  - cd server
 install:
-  - npm install
+  - npm install --prefix server
+  - npm install --prefix client
 script:
-  - npm run test
+  - npm run test-coverage --prefix server
+  - npm run build --prefix client
 after_success:
-  - npm run test-coverage
-  - npm run coveralls
+  - npm run coveralls --prefix server

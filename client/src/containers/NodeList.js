@@ -5,9 +5,9 @@ import ReactPaginate from 'react-paginate'
 import { nodeListFetch, parentNodeFetch, paginationChangePage, paginationChangeResultPerPage, parentNodeChange } from '../actions/nodeListActions'
 import Node from "./Node"
 import Navigation from "./Navigation"
-import CreateReplyForm from '../forms/CreateReplyForm'
-import CreateTopicForm from '../forms/CreateTopicForm'
-import CreateForumForm from '../forms/CreateForumForm'
+import CreateReplyForm from '../forms/createReplyForm'
+import CreateTopicForm from '../forms/createTopicForm'
+import CreateForumForm from '../forms/createForumForm'
 
 class NodeList extends Component {
     constructor(props) {
@@ -35,8 +35,8 @@ class NodeList extends Component {
             if(this.props.match.params.hasOwnProperty('nodeId')) {
                 this.props.parentNodeChange(this.props.match.params.nodeId)
             } else {
-                //TODO: change this code to dynamic fetch, or something better
-                this.props.parentNodeChange("5ade661da8744f2fccacabe2")
+                // TODO: better approach?
+                this.props.parentNodeChange(null)
 
             }
         }

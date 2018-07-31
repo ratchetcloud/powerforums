@@ -5,7 +5,6 @@ import {connect} from "react-redux";
 class UserLogin extends Component {
     render(){
         const { currentUser, loading } = this.props;
-
         if (currentUser === false && loading === false) {
             // If there user is not authenticated, show LoginForm
             return <LoginForm />

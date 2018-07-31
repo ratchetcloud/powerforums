@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import ReactTooltip from 'react-tooltip';
-import img_conversation from '../public/images/conversation-128.png';
-import img_trash from '../public/images/trash-128.png';
-import img_sticky from '../public/images/sticky-128.png';
-import img_flag from '../public/images/flag-128.png';
 import { connect } from "react-redux";
 import { NavLink } from 'react-router-dom'
 
+const img_conversation = '/assets/images/conversation-128.png';
+const img_trash = '/assets/images/trash-128.png';
+const img_sticky ='/assets/images/sticky-128.png';
+const img_flag = '/assets/images/flag-128.png';
 
 /**
  * Component for Topic rendering.
@@ -19,7 +19,7 @@ class Topic extends Component {
 
     render() {
         // Turn timestamps to Date objects.
-        const lastupdateDate = new Date(this.props.content.lastupdateDate);
+        const lastUpdatedDate = new Date(this.props.content.lastUpdatedDate);
         const creationDate = new Date(this.props.content.creationDate);
 
         if (0) {
@@ -89,7 +89,7 @@ class Topic extends Component {
                         <p>Created by <a href={this.props.content.authorInformation._id}>{this.props.content.authorInformation.name}</a>, the {creationDate.toLocaleString()}</p>
                     </div>
                     <div className="right">
-                        <p>Last reply the {lastupdateDate.toLocaleString()}</p>
+                        <p>Last reply the {lastUpdatedDate.toLocaleString()}</p>
                         <p>{this.props.content.replycount} replies</p>
                         <div>
                             <span>

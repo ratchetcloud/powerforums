@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate'
 import { userListFetch, paginationChangeResultPerPage, paginationChangePage } from '../actions/userListActions'
 import User from "./User"
 import CreateUserForm from '../forms/createUserForm'
+import {blurIfNoPermission} from "../utils/permissionChecker";
 
 class UserList extends Component {
     constructor(props) {
@@ -118,4 +119,5 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserList)
+
+export default blurIfNoPermission(connect(mapStateToProps, mapDispatchToProps)(UserList))

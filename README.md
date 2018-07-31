@@ -15,33 +15,38 @@ using [`webpack`](https://webpack.js.org/) and [`babel`](https://babeljs.io/) to
 and can be deployed to static servers easily.
 
 
-## How to install
+## How to install & run
+Our services are packed with `Docker`, proudly, so you can easily start service with below script.
+
+(Notice that you have to install Docker first before starting service)
 
 ```bash
-# Server Part
-$ cd server
-$ npm install 
-$ mongoimport --db forums --collection nodes < databaseExport/1.1/nodes.json
-$ mongoimport --db forums --collection roles < databaseExport/1.1/roles.json
-$ mongoimport --db forums --collection users < databaseExport/1.1/users.json
-
-# Client Part
-$ cd ../client
-$ npm install 
+$ docker-compose up 
 ```
 
-## How to run
-Firstly, start API server.  
-(MongoDB should be in running before starting this service.)
+Then open [http://localhost:4000](http://localhost:4000).
 
+
+## Run without Docker
+
+#### MongoDB import
+```bash
+$ cd mongo_data
+$ mongoimport --db powerforums --collection nodes < databaseExport/1.1/nodes.json
+$ mongoimport --db powerforums --collection roles < databaseExport/1.1/roles.json
+$ mongoimport --db powerforums --collection users < databaseExport/1.1/users.json
+```
+
+#### Server
 ```bash
 $ cd server
+$ npm install 
 $ npm run start
 ```
 
-Then open another terminal and start client with develop-mode
-
+#### Client
 ```bash
 $ cd client
+$ npm install
 $ npm run start
 ```

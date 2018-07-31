@@ -8,7 +8,7 @@ var NodeSchema = new mongoose.Schema({
     _parentId: ObjectId,
     type: String,
     creationDate: Date,
-    lastupdateDate: Date,
+    lastUpdatedDate: Date,
     authorInformation: Object,
     ancestorList: Array
 }, options)

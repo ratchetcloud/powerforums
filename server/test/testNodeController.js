@@ -9,7 +9,7 @@ const ObjectId = mongoose.Types.ObjectId;
 describe('Test nodeController', function() {
     var authHeader;
     before(function () {
-        authHeader = 'Bearer ' + jwt.sign(global.adminUser, process.env.JWT_KEY);
+        authHeader = 'Bearer ' + jwt.sign(global.adminUser, global.JWT_KEY);
     });
 
     describe("Forums", function () {
