@@ -5,7 +5,7 @@ describe('Test userController', function() {
 
     it('Login with correct data', function () {
         const payload = {
-            email: 'user1@openforum.org',
+            email: 'user1@powerforums.io',
             password: 'password'
         };
 
@@ -23,21 +23,21 @@ describe('Test userController', function() {
     it('Login with non-existing username', function () {
         return supertest(app)
             .post('/user/login')
-            .send({email: 'non-existing@openforum.org', password: 'password'})
+            .send({email: 'non-existing@powerforums.io', password: 'password'})
             .expect(401);
     });
 
     it('Login with wrong password', function () {
         return supertest(app)
             .post('/user/login')
-            .send({email: 'user1@openforum.org', password: 'wrong-password'})
+            .send({email: global.normalUser.email, password: 'wrong-password'})
             .expect(401);
     });
 
     it('Signup with all filled data', function(done) {
         const payload = {
-            name: 'testname',
-            email: 'test@test.com',
+            name: 'Jasper',
+            email: 'jasper.kim@powerforums.io',
             password: 'password'
         };
 
@@ -67,14 +67,14 @@ describe('Test userController', function() {
     it('Signup with invalid email format', function() {
         return supertest(app)
             .put('/user/signup')
-            .send({name: 'testname', email: 'invalidformat', password: 'password'})
+            .send({name: 'testname', email: 'invalid_format', password: 'password'})
             .expect(400);
     });
 
     it('Signup with duplicate email', function () {
         return supertest(app)
             .put('/user/signup')
-            .send({name: 'duplicateuser', email: 'user1@openforum.org', password: 'password'})
+            .send({name: 'duplicate_user', email: global.normalUser.email, password: 'password31331'})
             .expect(400);
     });
 

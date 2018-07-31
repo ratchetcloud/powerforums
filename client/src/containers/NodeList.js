@@ -35,8 +35,8 @@ class NodeList extends Component {
             if(this.props.match.params.hasOwnProperty('nodeId')) {
                 this.props.parentNodeChange(this.props.match.params.nodeId)
             } else {
-                //TODO: change this code to dynamic fetch, or something better
-                this.props.parentNodeChange("5ade661da8744f2fccacabe2")
+                // TODO: better approach?
+                this.props.parentNodeChange(null)
 
             }
         }

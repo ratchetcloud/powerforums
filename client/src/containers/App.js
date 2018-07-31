@@ -1,19 +1,37 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux"
-import { Route, Switch, Link } from 'react-router-dom'
-import { ConnectedRouter } from 'react-router-redux'
-
-import NodeList from './NodeList'
-import RoleList from './RoleList'
-import UserList from './UserList'
-import UserLogin from './UserLogin'
-import UserSignup from './UserSignup'
+import { Route, Switch, NavLink } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import Loadable from 'react-loadable';
 import CurrentUserInfo from './CurrentUserInfo'
-import * as userActions from "../actions/userActions";
+import * as userActions from '../actions/userActions';
 import { history } from '../stores/store'
 import './App.css'
-import { withRouter } from 'react-router'
-import { NavLink } from 'react-router-dom'
+
+const Loading = () => <div>Loading...</div>;
+
+// Each routes are loaded lazy
+const NodeList = Loadable({
+   loader: () => import(/* webpackChunkName: "node_list" */ './NodeList'),
+   loading: Loading,
+});
+const RoleList = Loadable({
+    loader: () => import(/* webpackChunkName: "role_list" */ './RoleList'),
+    loading: Loading,
+});
+const UserList = Loadable({
+    loader: () => import(/* webpackChunkName: "user_list" */ './UserList'),
+    loading: Loading,
+});
+const UserLogin = Loadable({
+    loader: () => import(/* webpackChunkName: "user_login" */ './UserLogin'),
+    loading: Loading,
+});
+const UserSignup = Loadable({
+    loader: () => import(/* webpackChunkName: "user_signup" */ './UserSignup'),
+    loading: Loading,
+});
+
 
 class App extends Component {
     constructor(props) {
@@ -28,7 +46,7 @@ class App extends Component {
         return (
             <div>
                 <h1>
-                    <NavLink to="/">OpenForum</NavLink>
+                    <NavLink to="/">PowerForums</NavLink>
                 </h1>
                 <CurrentUserInfo history={history} />
                 <Switch>

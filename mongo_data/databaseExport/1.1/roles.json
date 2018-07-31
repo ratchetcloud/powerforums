@@ -1,6 +1,0 @@
-{"_id":{"$oid":"5ae7a12b766736066fede097"},"name":"Game Owner","permissions":["CanGrantPermissions","CanCreateForum","CanCreateTopic","CanCreateReply","CanDeleteForum","CanDeleteTopic","CanDeleteReply","CanSetSticky","CanFlag","CanVote"]}
-{"_id":{"$oid":"5ae7a1ce766736066fede098"},"name":"Game Moderator","permissions":["CanCreateForum","CanCreateTopic","CanCreateReply","CanDeleteForum","CanDeleteTopic","CanDeleteReply","CanSetSticky","CanFlag","CanVote"]}
-{"_id":{"$oid":"5b07096847443a97d268842f"},"permissions":["TopicCanCreate","ForumCanDelete","ReplyCanDelete"],"name":"testRole","__v":0}
-{"_id":{"$oid":"5b07097e47443a97d2688432"},"permissions":["ForumCanCreate","ForumCanDelete","ReplyCanDelete"],"name":"testRole3","__v":0}
-{"_id":{"$oid":"5b07098547443a97d2688433"},"permissions":["TopicCanCreate","ForumCanDelete","ReplyCanDelete"],"name":"testRole4","__v":0}
-{"_id":{"$oid":"5b2d69ce6a0a33af97d1549a"},"permissions":["TopicCanCreate","ReplyCanCreate","ReplyCanFlag","TopicCanDelete"],"name":"helloworld","__v":0}

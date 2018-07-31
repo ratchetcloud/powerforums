@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const ASSET_PATH = process.env.ASSET_PATH || '/';
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
@@ -45,9 +45,9 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.js',
-        publicPath: ASSET_PATH,
-        //  sourceMapFilename: '[name].map'
+        filename: '[name].bundle.js',
+        chunkFilename: 'js/[chunkhash].js',
+        publicPath: '/',
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -58,22 +58,19 @@ module.exports = {
             template: "./src/index.html",
             filename: "./index.html"
         }),
+        new CopyWebpackPlugin([
+            { from: path.join(__dirname, '/assets'), to: 'assets' }
+        ]),
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         host: 'localhost',
         port: 4000,
         historyApiFallback: true,
-        /*{
-            rewrites: [
-                { from: /^\/$/, to: '/views/landing.html' }
-            ]
-        },*/
         noInfo: false,
         stats: 'minimal',
-        publicPath: ASSET_PATH,
-        // contentBase: path.join(__dirname, "dist"),
+        publicPath: '/',
         hot: true,
-        compress: true
+        // compress: true
     }
 };
