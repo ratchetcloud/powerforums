@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form';
 import TextField from '@material-ui/core/TextField';
-import './SignupUserForm.css';
+import './signupUserForm.css';
 import IntegrationReactSelect from './IntegrationReactSelect';
 import { userSignupPending, userSignupFulfilled, userSignupRejected } from '../actions/userActions';
 

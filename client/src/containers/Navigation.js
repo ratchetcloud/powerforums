@@ -17,14 +17,15 @@ export default class Navigation extends Component {
     }
 
     render() {
-        var self = this;
-
+        const self = this;
         return (
             <ul className="navigationBar">
                 {this.props.parentNodeAncestorList.map((content, index) => {
-                    return  <NavLink to={"/nodelist/"+content._id}>
-                                <li key={content._id} onClick={() => self.onItemClickHandler(content._id, index)}>{content.title}</li>
-                            </NavLink>
+                    return (
+                        <li key={content._id} onClick={() => self.onItemClickHandler(content._id, index)}>
+                            <NavLink to={"/nodelist/"+content._id}>{content.title}</NavLink>
+                        </li>
+                    )
                 })}
             </ul>
         );
