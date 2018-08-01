@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const fs = require('fs');
+const UserGroup = require("./api/models/userGroupModel");
 
 // MongoDB connection.
 const mongoEnv = {
@@ -29,6 +30,11 @@ try {
 }
 global.JWT_KEY = jwtKey;
 
+// Load userGroup
+UserGroup.find({})
+         .then(function (userGroups){
+            global.USER_GROUPS = userGroups;
+         })
 
 // Include routes files.
 const nodeRoutes = require('./api/routes/nodeRoutes');

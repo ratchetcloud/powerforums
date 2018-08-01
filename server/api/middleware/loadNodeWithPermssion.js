@@ -5,16 +5,17 @@
  * So the nodeController can assume that user has permission to "act" with that node,
  * with using this middleware.
  */
-
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const Node = require("../models/nodeModel");
 const User = require("../models/userModel");
 
+const checkPermission = require("./checkPermission")
+
 const errorNotFound = { message: "No valid node found for provided ID" }
 const errorObjectId = { message: "Provided ObjectId is not valid." };
 const errorInvalidType = { message: "Provided action type is not valid" };
-
+const errorParentNodeNotFound = { message: "Parent node not found." };
 
 /**
  * Load node data from `req`
@@ -25,8 +26,22 @@ function load(req) {
     return new Promise(function (resolve, reject) {
         switch (req.method) {
             case 'POST':
-                // There is no instance in db, so use data in req.body
-                resolve(req.body, false);
+                 if (!req.body.parentId) {
+                    // If parent node were not found, return a 404 error.
+                    reject(errorParentNodeNotFound, 404);
+                }
+
+                /**
+                 *  There is no instance in db, so use data in req.body
+                 *  add ancestorList to req.body
+                 */ 
+                Node.findById(req.body.parentId)
+                .exec()
+                .then(parentNode => {
+                    req.body.ancestorList = parentNode.ancestorList
+                    req.body.ancestorList.push({_id: parentNode._id, title: 'title' in parentNode ? parentNode.title : ''});
+                    resolve(req.body);
+                });
                 break;
 
             case 'GET':
@@ -69,49 +84,6 @@ function isAdmin(user, node) {
     return false;
 }
 
-/**
- * Check permission for CRUD Node
- * @param method: GET, POST, PUT, PATCH or DELETE
- * @param node: models.nodeModel
- * @param user: Current logged-in user's ID (mongoose.Types.ObjectId)
- * @returns {boolean} True if allowed, false otherwise
- */
-const checkPermission = (method, node, user) => {
-    switch (method) {
-        case 'GET':
-            // Everyone can read all nodes
-            return true;
-
-        case 'POST':
-            if (node.type === 'Forum') {
-                // Only Admin can create Forum
-                if (isAdmin(user, node))
-                    return true;
-
-            }else if (node.type === 'Topic' || node.type === 'Reply') {
-                // Everyone can create Topic or Reply
-                return true;
-            }
-            break;
-
-        case 'PUT':
-        case 'PATCH':
-            // Only owner of node can update.
-            if (user && user._id.equals(node.authorInformation._id)) // cause mongoose.ObjectId
-                return true;
-            break;
-
-        case 'DELETE':
-            // Owner or admin can delete
-            if (user && (user._id.equals(node.authorInformation._id) || isAdmin(user, node)))
-                return true;
-            break;
-    }
-
-    // Otherwise, no permission
-    return false;
-};
-
 module.exports = (req, res, next) => {
     let user = null;
     if (res.locals.userData)
@@ -122,7 +94,7 @@ module.exports = (req, res, next) => {
             if (checkPermission(req.method, node, user)) {
                 req.node = node;
                 next();
-            }else
+            } else
                 res.status(403).json({ message: 'Forbidden' });
         })
         .catch((err, code=500) => {
