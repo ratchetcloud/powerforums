@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
 import { NavLink } from 'react-router-dom'
 
 const img_forum = '/assets/images/forum-128.png';
@@ -9,7 +8,7 @@ const img_trash = '/assets/images/trash-128.png';
  * Component for Forum rendering.
  * Should always be invoked as a "child" of a "Node" component.
  */
-class Forum extends Component {
+export default class Forum extends Component {
     constructor(props) {
         super(props);
     }
@@ -50,13 +49,3 @@ class Forum extends Component {
         )
     }
 }
-
-const mapStateToProps = state => ({
-
-})
-
-const mapDispatchToProps = dispatch => ({
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Forum)

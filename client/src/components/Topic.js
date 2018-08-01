@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactTooltip from 'react-tooltip';
-import { connect } from "react-redux";
 import { NavLink } from 'react-router-dom'
 
 const img_conversation = '/assets/images/conversation-128.png';
@@ -12,7 +11,7 @@ const img_flag = '/assets/images/flag-128.png';
  * Component for Topic rendering.
  * Should always be invoked as a "child" of a "Node" component.
  */
-class Topic extends Component {
+export default class Topic extends Component {
     constructor(props) {
         super(props);
     }
@@ -107,13 +106,3 @@ class Topic extends Component {
         }
     }
 }
-
-const mapStateToProps = state => ({
-
-})
-
-const mapDispatchToProps = dispatch => ({
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Topic)

@@ -3,12 +3,11 @@ import { connect } from "react-redux"
 import { Route, Switch, NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import Loadable from 'react-loadable';
+import Loading from '../components/Loading';
 import CurrentUserInfo from '../components/CurrentUserInfo'
 import * as userActions from '../actions/userActions';
 import { history } from '../store'
 import './App.css'
-
-const Loading = () => <div>Loading...</div>;
 
 // Each routes are loaded lazy
 const NodeList = Loadable({
@@ -35,12 +34,14 @@ class App extends Component {
     }
 
     render() {
+        const { currentUser } = this.props;
+
         return (
             <div>
                 <h1>
                     <NavLink to="/">PowerForums</NavLink>
                 </h1>
-                <CurrentUserInfo history={history} />
+                <CurrentUserInfo currentUser={currentUser} onLogout={this.props.logout} />
                 <Switch>
                     <Route exact path="/" component={NodeList} />
                     <Route path="/nodelist/:nodeId" component={NodeList} />
@@ -53,7 +54,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-})
+    currentUser: state.user.authentication.currentUser,
+});
 
 const mapDispatchToProps = dispatch => ({
     loadUserFromLocal: () => {
@@ -63,6 +65,9 @@ const mapDispatchToProps = dispatch => ({
 
         dispatch(userActions.meFromToken(token));
     },
-})
+    logout: () => {
+        dispatch(userActions.userLogout());
+    },
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps) (App))

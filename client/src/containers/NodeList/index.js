@@ -79,19 +79,6 @@ class NodeList extends Component {
                 </div>
             )
         } else if (this.props.nodesLoaded === true && this.props.parentNodeLoaded === true) {
-            // Get a proper ancestor list for the navigation component.
-            if (this.props.parentNode.hasOwnProperty('ancestorList')) {
-                // If parent node does have an ancestor list.
-                // Add itself to the ancestor list.
-                // var parentNodeAncestorList = this.props.parentNode.ancestorList does copy by REFERENCE (original object updated after push).
-                var parentNodeAncestorList = JSON.parse(JSON.stringify(this.props.parentNode.ancestorList))
-                parentNodeAncestorList.push({_id: this.props.parentNode._id, title: this.props.parentNode.title})
-            } else {
-                // If parent node does not have an ancestor list.
-                // Parent node must be the root node. Add itself to the ancestor list.
-                var parentNodeAncestorList = [{_id: this.props.parentNode._id, title: this.props.parentNode.title}]
-            }
-
             // Conversation : when parent node is a topic, we want to display it.
             // Should be displayed above classical nodelist displaying and pagination stuff.
             if (this.props.parentNode.type == "Topic") {
@@ -111,9 +98,7 @@ class NodeList extends Component {
             }
             return (
                 <div className="container">
-                    <Navigation nodeListParentNodeChange={this.props.parentNodeChange}
-                                parentNodeAncestorList={parentNodeAncestorList} 
-                                history={this.props.history}/>
+                    <Navigation node={this.props.parentNode} />
                     {parentNodeDisplay}
                     <div>
                         <select id="paginaion-select"
