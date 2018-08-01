@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux"
 import { submit } from 'redux-form'
-import DynamicModal from './DynamicModal'
+import DynamicModal from '../DynamicModal'
 import { show } from 'redux-modal'
 import { bindActionCreators } from 'redux'
-import CreateReportForm from '../forms/createReportForm'
-import UpdateReplyForm from '../forms/updateReplyForm'
-import { nodeFetchAuthorDetails } from "../actions/nodeActions"
-import ToolTip from "react-portal-tooltip"
+import CreateReportForm from './createReportForm'
+import UpdateReplyForm from './updateReplyForm'
+import { nodeFetchAuthorDetails } from "../../actions/nodeActions"
 
 const img_flag = '/assets/images/flag-128.png';
 const img_trash = '/assets/images/trash-128.png';

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import LoginForm from '../forms/loginForm'
+import LoginForm from './loginForm'
 import {connect} from "react-redux";
 
-class UserLogin extends Component {
+class Login extends Component {
     render(){
         const { currentUser, loading } = this.props;
         if (currentUser === false && loading === false) {
@@ -29,4 +29,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 });
 
-export default connect(mapStateToProps, mapDispatchToProps) (UserLogin)
+export default connect(mapStateToProps, mapDispatchToProps) (Login)

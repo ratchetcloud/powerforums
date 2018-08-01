@@ -1,10 +1,10 @@
 import { applyMiddleware, createStore, combineReducers } from "redux";
 import { createLogger } from "redux-logger";
 import reduxThunkMiddleware from "redux-thunk";
-import { allReducers } from "../reducers";
+import { allReducers } from "./reducers/index";
 import createHistory from 'history/createBrowserHistory';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
-import client from '../client';
+import APIClient from './utils/APIClient';
 
 // Create a history of your choosing (we're using a browser history in this case).
 export const history = createHistory();
@@ -21,7 +21,7 @@ console.log('API_URL:', API_URL);
 export const store = createStore(
     combineReducers({...allReducers, ...{router: routerReducer}}),
     applyMiddleware(
-        reduxThunkMiddleware.withExtraArgument(new client(API_URL)),
+        reduxThunkMiddleware.withExtraArgument(new APIClient(API_URL)),
         //loggerMiddleware,
         routeMiddleware
     )

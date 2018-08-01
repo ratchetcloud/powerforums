@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import RFReactSelect from './RFReactSelect';
-import { roleListFetch } from '../actions/roleListActions';
+import RFReactSelect from '../../components/RFReactSelect';
+import { roleListFetch } from '../../actions/roleListActions';
+import { PERMISSION_LIST } from '../../constants/permissions';
+import {blurIfNoPermission} from "../../utils/permissionChecker";
 import './createRoleForm.css';
-import '../client';
-import {
-    PERMISSION_LIST
-} from '../constants/permissions';
-import {blurIfNoPermission} from "../utils/permissionChecker";
 
 const permissionSelect = PERMISSION_LIST.map(value => {
     return {value: value, label: value};
 });
 
-export const createRoleFormSubmit = formValues => (dispatch, getState, client) => {
+export const createRoleFormSubmit = formValues => (dispatch, getState, APIClient) => {
     // Make an API call (createRole) using form values.
-    return client.createRole( formValues )
+    return APIClient.createRole( formValues )
         .then(response => {
             // Role creation was successful, we want to refresh role list.
             dispatch(roleListFetch());

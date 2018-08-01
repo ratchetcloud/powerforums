@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import SignupUserForm from '../forms/signupUserForm'
+import SignupUserForm from './signupUserForm'
 import { NavLink } from 'react-router-dom'
 import {connect} from "react-redux";
-import { userSignupEnded } from '../actions/userActions';
+import { userSignupEnded } from '../../actions/userActions';
 
 
-class UserSignup extends Component {
+class SignUp extends Component {
     constructor(props) {
         super(props);
     }
@@ -52,4 +52,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps) (UserSignup)
+export default connect(mapStateToProps, mapDispatchToProps) (SignUp)

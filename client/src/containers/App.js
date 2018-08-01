@@ -3,9 +3,9 @@ import { connect } from "react-redux"
 import { Route, Switch, NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import Loadable from 'react-loadable';
-import CurrentUserInfo from './CurrentUserInfo'
+import CurrentUserInfo from '../components/CurrentUserInfo'
 import * as userActions from '../actions/userActions';
-import { history } from '../stores/store'
+import { history } from '../store'
 import './App.css'
 
 const Loading = () => <div>Loading...</div>;
@@ -23,12 +23,12 @@ const UserList = Loadable({
     loader: () => import(/* webpackChunkName: "user_list" */ './UserList'),
     loading: Loading,
 });
-const UserLogin = Loadable({
-    loader: () => import(/* webpackChunkName: "user_login" */ './UserLogin'),
+const Login = Loadable({
+    loader: () => import(/* webpackChunkName: "user_login" */ './Login'),
     loading: Loading,
 });
 const UserSignup = Loadable({
-    loader: () => import(/* webpackChunkName: "user_signup" */ './UserSignup'),
+    loader: () => import(/* webpackChunkName: "user_signup" */ './SignUp'),
     loading: Loading,
 });
 
@@ -54,7 +54,7 @@ class App extends Component {
                     <Route path="/nodelist/:nodeId" component={NodeList} />
                     <Route path="/role" component={RoleList} />
                     <Route path="/user" component={UserList} />
-                    <Route path="/login" component={UserLogin} />
+                    <Route path="/login" component={Login} />
                     <Route path="/signup" component={UserSignup} />
                 </Switch>
             </div>

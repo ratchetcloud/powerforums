@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactPaginate from 'react-paginate'
-import { userListFetch, paginationChangeResultPerPage, paginationChangePage } from '../actions/userListActions'
-import User from "./User"
-import CreateUserForm from '../forms/createUserForm'
-import {blurIfNoPermission} from "../utils/permissionChecker";
+import { userListFetch, paginationChangeResultPerPage, paginationChangePage } from '../../actions/userListActions'
+import User from "../../components/User"
+import {blurIfNoPermission} from "../../utils/permissionChecker";
 
 class UserList extends Component {
     constructor(props) {

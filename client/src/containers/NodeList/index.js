@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import ReactPaginate from 'react-paginate'
-import { nodeListFetch, parentNodeFetch, paginationChangePage, paginationChangeResultPerPage, parentNodeChange } from '../actions/nodeListActions'
-import Node from "./Node"
-import Navigation from "./Navigation"
-import CreateReplyForm from '../forms/createReplyForm'
-import CreateTopicForm from '../forms/createTopicForm'
-import CreateForumForm from '../forms/createForumForm'
+import { nodeListFetch, parentNodeFetch, paginationChangePage, paginationChangeResultPerPage, parentNodeChange } from '../../actions/nodeListActions'
+import Node from "../../components/Node"
+import Navigation from "../../components/Navigation"
+import CreateReplyForm from './createReplyForm'
+import CreateTopicForm from './createTopicForm'
+import CreateForumForm from './createForumForm'
 
 class NodeList extends Component {
     constructor(props) {

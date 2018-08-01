@@ -1,5 +1,5 @@
 import React from 'react'
-import * as userActions from "../actions/userActions";
+import * as userActions from "../../actions/userActions";
 import { Field, reduxForm } from 'redux-form'
 import { connect } from "react-redux";
 import './loginForm.css'

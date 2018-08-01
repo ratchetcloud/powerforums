@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import { blurIfNoPermission } from "../utils/permissionChecker";
-import { nodeListFetch } from '../actions/nodeListActions';
+import { blurIfNoPermission } from "../../utils/permissionChecker";
+import { nodeListFetch } from '../../actions/nodeListActions';
 import './createForumForm.css';
-import '../client';
 
-export const createForumFormSubmit = formValues => (dispatch, getState, client) => {
+export const createForumFormSubmit = formValues => (dispatch, getState, APIClient) => {
     // Make an API call (createNode) using form values.
-     return client.createNode( formValues )
+     return APIClient.createNode( formValues )
         .then(response => {
             // Node creation was successful, we want to refresh node list.
             dispatch(nodeListFetch())

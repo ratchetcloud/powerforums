@@ -4,7 +4,7 @@ import qs from 'qs'
 /**
  *
  */
-export default class client {
+export default class APIClient {
     constructor(apiUrl) {
         this.url = apiUrl
 

@@ -27,12 +27,13 @@ class CurrentUserInfo extends Component {
         }else{
             return (
                 <div>
-                    <button>
-                        <NavLink to="/login">Login</NavLink>
-                    </button>
-                    <button>
-                        <NavLink to="/signup">Register</NavLink>
-                    </button>
+                    <NavLink to="/login">
+                        <button>Login</button>
+                    </NavLink>
+
+                    <NavLink to="/signup">
+                        <button>SignUp</button>
+                    </NavLink>
                 </div>
             )
         }

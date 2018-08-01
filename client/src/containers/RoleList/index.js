@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactPaginate from 'react-paginate'
-import { roleListFetch } from '../actions/roleListActions'
-import Role from "./Role"
-import CreateRoleForm from '../forms/createRoleForm'
-import { paginationChangePage, paginationChangeResultPerPage, userListFetch } from "../actions/userListActions";
+import { roleListFetch } from '../../actions/roleListActions'
+import Role from "../../components/Role"
+import CreateRoleForm from './createRoleForm'
+import { paginationChangePage, paginationChangeResultPerPage, userListFetch } from "../../actions/userListActions";
 
 class RoleList extends Component {
     constructor(props) {

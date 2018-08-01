@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form';
-import TextField from '@material-ui/core/TextField';
 import './signupUserForm.css';
-import IntegrationReactSelect from './IntegrationReactSelect';
-import { userSignupPending, userSignupFulfilled, userSignupRejected } from '../actions/userActions';
+import { userSignupPending, userSignupFulfilled, userSignupRejected } from '../../actions/userActions';
 
 
-export const signupUserFormSubmit = formValues => (dispatch, getState, client) => {
+export const signupUserFormSubmit = formValues => (dispatch, getState, APIClient) => {
     if(formValues.password !== formValues.passwordValidation){
         throw new SubmissionError({_error: "Check Password and Password Validation field"})
     }
     dispatch(userSignupPending())
 
-    return client.signupUser(formValues)
+    return APIClient.signupUser(formValues)
         .then(response => {
             dispatch(userSignupFulfilled())
         })

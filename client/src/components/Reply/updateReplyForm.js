@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
-import { nodeListFetch } from '../actions/nodeListActions'
-import { nodeEditDisable } from '../actions/nodeActions'
-
+import { nodeListFetch } from '../../actions/nodeListActions'
+import { nodeEditDisable } from '../../actions/nodeActions'
 import './updateReplyForm.css'
-import '../client'
 
-export const updateReplyFormSubmit = formValues => (dispatch, getState, client) => {
+export const updateReplyFormSubmit = formValues => (dispatch, getState, APIClient) => {
     // Make an API call (updateNode) using form values.
-    return client.updateNode( formValues )
+    return APIClient.updateNode( formValues )
         .then(response => {
             // Node creation was successful, we want to refresh node list.
             dispatch(nodeEditDisable())

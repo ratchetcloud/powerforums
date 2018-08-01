@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
-import { nodeListFetch } from '../actions/nodeListActions'
+import { nodeListFetch } from '../../actions/nodeListActions'
+import {blurIfNoPermission} from "../../utils/permissionChecker";
 import './createReportForm.css'
-import '../client'
-import {blurIfNoPermission} from "../utils/permissionChecker";
 
-const CreateReportFormSubmit = formValues => (dispatch, getState, client) => {
+const CreateReportFormSubmit = formValues => (dispatch, getState, APIClient) => {
 console.log('CreateReportFormSubmit', formValues)
     // Make an API call (createNode) using form values.
-    return client.createReport( formValues )
+    return APIClient.createReport( formValues )
         .then(response => {
             // Node creation was successful, we want to refresh node list.
             dispatch(nodeListFetch())
@@ -27,7 +26,7 @@ class CreateReportForm extends Component {
     }
 
     customFormSubmit(formValues) {
-console.log('CreateReportForm, customFormSubmit', formValues)
+        console.log('CreateReportForm, customFormSubmit', formValues)
         // Add "not user related" values to form, and trigger the submission with merged value set.
         return this.props.handleFormSubmit(Object.assign({ test: "testtesttest" }, formValues))
     }
