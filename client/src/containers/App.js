@@ -12,15 +12,7 @@ const Loading = () => <div>Loading...</div>;
 
 // Each routes are loaded lazy
 const NodeList = Loadable({
-   loader: () => import(/* webpackChunkName: "node_list" */ './NodeList'),
-   loading: Loading,
-});
-const RoleList = Loadable({
-    loader: () => import(/* webpackChunkName: "role_list" */ './RoleList'),
-    loading: Loading,
-});
-const UserList = Loadable({
-    loader: () => import(/* webpackChunkName: "user_list" */ './UserList'),
+    loader: () => import(/* webpackChunkName: "node_list" */ './NodeList'),
     loading: Loading,
 });
 const Login = Loadable({
@@ -52,8 +44,6 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/" component={NodeList} />
                     <Route path="/nodelist/:nodeId" component={NodeList} />
-                    <Route path="/role" component={RoleList} />
-                    <Route path="/user" component={UserList} />
                     <Route path="/login" component={Login} />
                     <Route path="/signup" component={UserSignup} />
                 </Switch>

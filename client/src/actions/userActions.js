@@ -4,7 +4,6 @@ import {
     USER_LOGOUT_PENDING, USER_LOGOUT_FULFILLED, USER_LOGOUT_REJECTED,
     USER_SIGNUP_PENDING, USER_SIGNUP_FULFILLED, USER_SIGNUP_REJECTED, USER_SIGNUP_ENDED
 } from "../constants/userActionTypes"
-import { userListFetch } from "../actions/userListActions"
 import jwt from "jsonwebtoken";
 
 export const meFromToken = (token) => (dispatch, getState, client) => {
@@ -91,6 +90,7 @@ export const userSignupRejected = data => ({
 export const userSignupEnded = () => ({
     type: USER_SIGNUP_ENDED
 })
+/*
 
 export const userDelete = userId => (dispatch, getState, client) => {
     // We want to handle an Async action, dispatch a "Loading" action.
@@ -119,4 +119,4 @@ const userDeleteFulfilled = data => ({
 const userDeleteRejected = data => ({
     type: USER_DELETE_REJECTED,
     payload: data
-})
+})*/
