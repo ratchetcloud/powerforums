@@ -85,8 +85,8 @@ module.exports = (req, res, next) => {
 
     load(req)
         .then((node) => {
-            if (checkPermission(req.method, node, user)) {
-                req.node = node;
+            req.node = node;
+            if (checkPermission(req, user)) {
                 next();
             } else
                 res.status(403).json({ message: 'Forbidden' });
