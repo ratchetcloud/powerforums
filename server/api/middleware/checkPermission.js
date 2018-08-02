@@ -20,39 +20,39 @@ module.exports = (method, node, user) => {
         }
     }
 
-// Signuped user who has special permissions
+    // Signuped user who has special permissions
     if (user.permissions.length > 0) {
         let ancestorIds = node.ancestorList.map(ancestor => ancestor._id)
         for (let permission of user.permissions) {
+            
             // First, check user has permission about the nodes
-            if(Object.values(ancestorIds)
-                     .some(ancestorId => String(ancestorId) === permission._nodeId)){
+            if (Object.values(ancestorIds)
+                     .some(ancestorId => ancestorId.equals(permission._nodeId))) {
                 // Second, check user group and has permission about method
-
                 switch(method) {
-                    case 'POST' : 
-                        if (node.type === "Forum") {
-                            return USER_GROUPS.find(userGroup => String(userGroup._id) === permission._roleId)
-                                       .permissions.includes("CanCreateForum") ? true : false;
-                        } else if (node.type === "Topic") {
-                            return USER_GROUPS.find(userGroup => String(userGroup._id) === permission._roleId)
-                                       .permissions.includes("CanCreateTopic") ? true : false;
+                    case 'POST' :
+                        if (node.type === 'Forum') {
+                            return USER_GROUPS.find(userGroup => userGroup._id.equals(permission._userGroupId))
+                                       .permissions.includes('CanCreateForum') ? true : false;
+                        } else if (node.type === 'Topic') {
+                            return USER_GROUPS.find(userGroup => userGroup._id.equals(permission._userGroupId))
+                                       .permissions.includes('CanCreateTopic') ? true : false;
                         } else {
-                            return USER_GROUPS.find(userGroup => String(userGroup._id) === permission._roleId)
-                                       .permissions.includes("CanCreateReply") ? true : false;
+                            return USER_GROUPS.find(userGroup => userGroup._id.equals(permission._userGroupId))
+                                       .permissions.includes('CanCreateReply') ? true : false;
                         }
                         break;
 
                     case 'DELETE' :
-                        if (node.type === "Forum") {
-                            return USER_GROUPS.find(userGroup => String(userGroup._id) === permission._roleId)
-                                       .permissions.includes("CanDeleteForum") ? true : false;
-                        } else if (node.type === "Topic") {
-                            return USER_GROUPS.find(userGroup => String(userGroup._id) === permission._roleId)
-                                       .permissions.includes("CanDeleteTopic") ? true : false;
+                        if (node.type === 'Forum') {
+                            return USER_GROUPS.find(userGroup => userGroup._id.equals(permission._userGroupId))
+                                       .permissions.includes('CanDeleteForum') ? true : false;
+                        } else if (node.type === 'Topic') {
+                            return USER_GROUPS.find(userGroup => userGroup._id.equals(permission._userGroupId))
+                                       .permissions.includes('CanDeleteTopic') ? true : false;
                         } else {
-                            return USER_GROUPS.find(userGroup => String(userGroup._id) === permission._roleId)
-                                       .permissions.includes("CanDeleteReply") ? true : false;
+                            return USER_GROUPS.find(userGroup => userGroup._id.equals(permission._userGroupId))
+                                       .permissions.includes('CanDeleteReply') ? true : false;
                         }
                         break;
 

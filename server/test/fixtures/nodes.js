@@ -7,6 +7,7 @@ module.exports = [
         "type": "Forum",
         "description": "Root forum for community.",
         "_parentId": null,
+        "ancestorList": [],
         "authorInformation": {
             "_id": null,
             "name": null

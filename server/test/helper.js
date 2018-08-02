@@ -1,5 +1,6 @@
 const User = require("../api/models/userModel");
 const Node = require("../api/models/nodeModel");
+const UserGroup = require("../api/models/userGroupModel");
 global.mongoose = require("mongoose");
 global.assert = require('assert');
 
@@ -34,6 +35,17 @@ before(function (done) {
             return new Promise(function (resolve, reject) {
                 Node.collection.insertMany(require('./fixtures/nodes'), function (err, r) {
                     if (err) reject(err);
+                    resolve();
+                });
+            });
+        })
+        .then(() => {
+            // Load userGroup fixtures
+            return new Promise(function (resolve, reject) {
+                let userGroups = require('./fixtures/userGroups');
+                UserGroup.collection.insertMany(require('./fixtures/userGroups'), function (err, r) {
+                    if (err) reject(err);
+                    global.USER_GROUPS = userGroups;
                     resolve();
                 });
             });

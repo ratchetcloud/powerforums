@@ -110,7 +110,7 @@ describe('Test middlewares', function() {
             it('Create Forum', function () {
                 return supertest(app)
                     .post('/node')
-                    .send({type: 'Forum'})
+                    .send({type: 'Forum', parentId: '200000000000000000000000'})
                     .expect(403);
             });
             it('Read Forum', function () {
@@ -136,7 +136,7 @@ describe('Test middlewares', function() {
             it('Create Topic', function () {
                 return supertest(app)
                     .post('/node')
-                    .send({type: 'Topic', title: 'MyTopic'})
+                    .send({type: 'Topic', title: 'MyTopic', parentId: '200000000000000000000001'})
                     .expect(200)
                     .then(response => {
                         assert(response.body.node != null);
@@ -184,7 +184,7 @@ describe('Test middlewares', function() {
             it('Create Forum', function () {
                 return supertest(app)
                     .post('/node')
-                    .send({type: 'Forum'})
+                    .send({type: 'Forum', parentId: '200000000000000000000000'})
                     .expect(200);
             });
             it('Update Forum', function () {

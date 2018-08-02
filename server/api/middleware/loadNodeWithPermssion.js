@@ -12,10 +12,10 @@ const User = require("../models/userModel");
 
 const checkPermission = require("./checkPermission")
 
-const errorNotFound = { message: "No valid node found for provided ID" }
-const errorObjectId = { message: "Provided ObjectId is not valid." };
-const errorInvalidType = { message: "Provided action type is not valid" };
-const errorParentNodeNotFound = { message: "Parent node not found." };
+const errorNotFound = { message: "No valid node found for provided ID", code: 404 }
+const errorObjectId = { message: "Provided ObjectId is not valid.", code : 400 };
+const errorInvalidType = { message: "Provided action type is not valid", code: 500 };
+const errorParentNodeNotFound = { message: "Parent node not found.", code: 404 };
 
 /**
  * Load node data from `req`
@@ -26,22 +26,24 @@ function load(req) {
     return new Promise(function (resolve, reject) {
         switch (req.method) {
             case 'POST':
-                 if (!req.body.parentId) {
+                if (!req.body.parentId) {
                     // If parent node were not found, return a 404 error.
-                    reject(errorParentNodeNotFound, 404);
+                    reject(errorParentNodeNotFound);
                 }
-
                 /**
                  *  There is no instance in db, so use data in req.body
                  *  add ancestorList to req.body
                  */ 
                 Node.findById(req.body.parentId)
-                .exec()
-                .then(parentNode => {
-                    req.body.ancestorList = parentNode.ancestorList
-                    req.body.ancestorList.push({_id: parentNode._id, title: 'title' in parentNode ? parentNode.title : ''});
-                    resolve(req.body);
-                });
+                    .exec()
+                    .then(parentNode => {
+                        req.body.ancestorList = parentNode.ancestorList.concat({_id: parentNode._id, title: 'title' in parentNode ? parentNode.title : ''});
+                        resolve(req.body);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+
                 break;
 
             case 'GET':
@@ -52,7 +54,7 @@ function load(req) {
                 let nodeId = req.params.nodeId;
                 if (!ObjectId.isValid(nodeId)) {
                     // If nodeId is not valid, return a 400 error.
-                    reject(errorObjectId, 400);
+                    reject(errorObjectId);
                     return;
                 }
 
@@ -60,34 +62,26 @@ function load(req) {
                     .exec()
                     .then(document => {
                         if (!document) {
-                            reject(errorNotFound, 404);
+                            reject(errorNotFound);
                             return;
                         }
                         resolve(document);
                     })
                     .catch(error => {
-                        reject(error, 404);
+                        reject(error);
                     });
                 break;
 
             default:
-                reject(errorInvalidType, 500);
+                reject(errorInvalidType);
         }
     });
-}
-
-function isAdmin(user, node) {
-    // TODO: check current user is admin for this scope
-    // Temporally put `isAdmin` property to distinguish admin
-    if (user.isAdmin)
-        return true;
-    return false;
 }
 
 module.exports = (req, res, next) => {
     let user = null;
     if (res.locals.userData)
-        user = new User(res.locals.userData);
+        user = res.locals.userData;
 
     load(req)
         .then((node) => {
@@ -97,8 +91,12 @@ module.exports = (req, res, next) => {
             } else
                 res.status(403).json({ message: 'Forbidden' });
         })
-        .catch((err, code=500) => {
-            console.log(err);
-            res.status(code).json(err);
+        .catch((err) => {
+            console.log(err)
+            if (err.code) {
+                res.status(err.code).json(err);
+            } else {
+                res.status(500).json(err);
+            }  
         })
 };
