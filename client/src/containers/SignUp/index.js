@@ -1,32 +1,33 @@
 import React, { Component } from 'react';
-import SignupUserForm from './signupUserForm'
 import { NavLink } from 'react-router-dom'
 import {connect} from "react-redux";
-import { userSignupEnded } from '../../actions/userActions';
-
+import { signUpEnded } from './actions';
+import SignUpForm from './form'
 
 class SignUp extends Component {
     constructor(props) {
         super(props);
     }
 
-    componentWillUnmount(){
-        this.props.signupEnd() 
+    componentWillUnmount() {
+        this.props.signUpEnd();
     }
 
-    render(){
-        const { loading, success } = this.props;
+    render() {
+        const { loading, success, error } = this.props;
+
         if (loading === false && success === false) {
             // If there user is not authenticated, show LoginForm
             return (
                 <div>
-                    <SignupUserForm />
+                    <SignUpForm error={error} />
                 </div>
             )
 
         } else if (loading === true && success === false) {
             // If authentication request is pending, return nothing.
             return <div>Loading..</div>
+
         } else {
             // signup success
             return (
@@ -41,13 +42,14 @@ class SignUp extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.user.signup.loading,
-    success: state.user.signup.success,
+    loading: state.signUp.loading,
+    success: state.signUp.success,
+    error: state.signUp.error,
 });
 
 const mapDispatchToProps = dispatch => ({
-    signupEnd: () => {
-       return dispatch(userSignupEnded())
+    signUpEnd: () => {
+       return dispatch(signUpEnded());
     }
 });
 

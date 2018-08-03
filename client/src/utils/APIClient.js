@@ -317,7 +317,7 @@ export default class APIClient {
      * @param user
      * @returns Promise
      */
-    signupUser(user) {
+    signUpUser(user) {
         var self = this;
         return new Promise((fulfill, reject) => {
             return self.httpClient

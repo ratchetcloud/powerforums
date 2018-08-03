@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form';
-import './signupUserForm.css';
-import { userSignupPending, userSignupFulfilled, userSignupRejected } from '../../actions/userActions';
-
+import { signUpPending, signUpFulfilled, signUpRejected } from './actions';
+import './form.css';
 
 export const signupUserFormSubmit = formValues => (dispatch, getState, APIClient) => {
-    if(formValues.password !== formValues.passwordValidation){
+    if (formValues.password !== formValues.passwordValidation){
         throw new SubmissionError({_error: "Check Password and Password Validation field"})
     }
-    dispatch(userSignupPending())
+    dispatch(signUpPending());
 
-    return APIClient.signupUser(formValues)
+    return APIClient.signUpUser(formValues)
         .then(response => {
-            dispatch(userSignupFulfilled())
+            dispatch(signUpFulfilled())
         })
         .catch(error => {
-            dispatch(userSignupRejected(error))
-            throw new SubmissionError({_error: error.response.data.message})
+            dispatch(signUpRejected(error));
+            throw new SubmissionError({_error: error.response.data.message});
         });
-}
+};
 
 const renderField = ({ input, label, type, placeholder, meta: { touched, error } }) => (
     <div>
@@ -29,9 +28,9 @@ const renderField = ({ input, label, type, placeholder, meta: { touched, error }
             {touched && error && <span>{error}</span>}
         </div>
     </div>
-)
+);
 
-class SignupUserForm extends Component {
+class SignUpForm extends Component {
     constructor(props) {
         super(props);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -39,7 +38,7 @@ class SignupUserForm extends Component {
 
     handleFormSubmit(formValues) {
         // Add "not user related" values to form, and trigger the submission with merged value set.
-        return this.props.signup(formValues);
+        return this.props.signUp(formValues);
     }
 
     render() {
@@ -92,13 +91,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    signup: formValues => {
+    signUp: formValues => {
         return dispatch(signupUserFormSubmit(formValues));
     }
 });
 
-SignupUserForm = reduxForm({form: 'signupUserForm'})(SignupUserForm);
-
-SignupUserForm = connect(mapStateToProps, mapDispatchToProps)(SignupUserForm);
-
-export default SignupUserForm;
+export default connect(mapStateToProps, mapDispatchToProps)
+    (reduxForm({form: 'signupUserForm'})
+        (SignUpForm));

@@ -1,9 +1,9 @@
 import { applyMiddleware, createStore, combineReducers } from "redux";
 import { createLogger } from "redux-logger";
 import reduxThunkMiddleware from "redux-thunk";
-import { allReducers } from "./reducers/index";
-import createHistory from 'history/createBrowserHistory';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
+import allReducers from './reducers';
 import APIClient from './utils/APIClient';
 
 // Create a history of your choosing (we're using a browser history in this case).

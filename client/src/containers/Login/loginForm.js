@@ -1,7 +1,7 @@
 import React from 'react'
-import * as userActions from "../../actions/userActions";
 import { Field, reduxForm } from 'redux-form'
 import { connect } from "react-redux";
+import * as userActions from './actions';
 import './loginForm.css'
 
 class LoginForm extends React.Component {
@@ -31,12 +31,11 @@ class LoginForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    errMessage: state.user.authentication.error
 });
 
 const mapDispatchToProps = (dispatch) => ({
     login: (username, password) => {
-        dispatch(userActions.userLogin(username, password))
+        dispatch(userActions.login(username, password))
     }
 });
 

@@ -17,9 +17,9 @@ const TopicComponent = (props) => {
     return (
         <div className="container">
             <Navigation node={node} />
-            <h2>Topic - "{node.title}"</h2>
 
             {/* Current Topic's Content */}
+            <h2>Topic - "{node.title}"</h2>
             <Well>
                 <div className="topicBox">
                     <div>

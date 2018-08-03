@@ -3,10 +3,10 @@ import { connect } from "react-redux"
 import { Route, Switch, NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import Loadable from 'react-loadable';
+
 import Loading from '../components/Loading';
 import CurrentUserInfo from '../components/CurrentUserInfo'
-import * as userActions from '../actions/userActions';
-import { history } from '../store'
+import * as loginActions from './Login/actions';
 import './App.css'
 
 // Each routes are loaded lazy
@@ -54,7 +54,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-    currentUser: state.user.authentication.currentUser,
+    currentUser: state.login.currentUser,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -63,10 +63,10 @@ const mapDispatchToProps = dispatch => ({
         if (!token || token === '')
             return;
 
-        dispatch(userActions.meFromToken(token));
+        dispatch(loginActions.meFromToken(token));
     },
     logout: () => {
-        dispatch(userActions.userLogout());
+        dispatch(loginActions.logout());
     },
 });
 

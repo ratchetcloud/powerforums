@@ -4,10 +4,11 @@ import {connect} from "react-redux";
 
 class Login extends Component {
     render(){
-        const { currentUser, loading } = this.props;
+        const { currentUser, loading, error } = this.props;
+
         if (currentUser === false && loading === false) {
             // If there user is not authenticated, show LoginForm
-            return <LoginForm />
+            return <LoginForm error={error} />
 
         } else if (currentUser === false && loading === true) {
             // If authentication request is pending, return nothing.
@@ -22,8 +23,9 @@ class Login extends Component {
 
 
 const mapStateToProps = state => ({
-    loading: state.user.authentication.loading,
-    currentUser: state.user.authentication.currentUser,
+    loading: state.login.loading,
+    currentUser: state.login.currentUser,
+    error: state.login.error,
 });
 
 const mapDispatchToProps = dispatch => ({

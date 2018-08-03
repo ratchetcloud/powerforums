@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
  */
 export function blurIfNoPermission(WrappedComponent) {
     const mapStateToProps = state => ({
-        user: state.user.authentication.currentUser
+        user: state.login.currentUser
     });
 
     return connect(mapStateToProps)(
