@@ -1,10 +1,10 @@
 /**
  * Check permission for canFlag
- * @param method: GET, POST, PUT, PATCH or DELETE
- * @param node: models.nodeModel
+ * @param req: include method(GET, POST, PUT, PATCH or DELETE) and node
  * @returns {boolean} True if allowed, false otherwise
  */
 
-module.exports = (method, node) => {
+// To do: implement after implement Flag function
+module.exports = (req) => {
 	return false;
 }

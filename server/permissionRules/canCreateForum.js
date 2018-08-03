@@ -4,6 +4,12 @@
  * @returns {boolean} True if allowed, false otherwise
  */
 
-module.exports = (method, node) => {
+module.exports = (req) => {
+	switch(req.method) {
+		case 'POST':
+			if (req.node.type === 'Forum')
+				return true;
+			break;
+	}
 	return false;
 }

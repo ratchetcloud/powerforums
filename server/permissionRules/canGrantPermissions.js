@@ -1,10 +1,10 @@
 /**
  * Check permission for canGrantPermissions
- * @param method: GET, POST, PUT, PATCH or DELETE
- * @param node: models.nodeModel
+ * @param req: include method(GET, POST, PUT, PATCH or DELETE) and user
  * @returns {boolean} True if allowed, false otherwise
  */
 
-module.exports = (method, node) => {
+// To do: implement after implement to give permission to user function
+module.exports = (req) => {
 	return false;
 }

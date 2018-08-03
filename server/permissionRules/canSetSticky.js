@@ -1,10 +1,10 @@
 /**
  * Check permission for canSetSticky
- * @param method: GET, POST, PUT, PATCH or DELETE
- * @param node: models.nodeModel
+ * @param req: include method(GET, POST, PUT, PATCH or DELETE) and node
  * @returns {boolean} True if allowed, false otherwise
  */
 
-module.exports = (method, node) => {
+// To do: implement after implement to set sticky function
+module.exports = (req) => {
 	return false;
 }
