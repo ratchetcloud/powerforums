@@ -5,30 +5,30 @@ module.exports = [
         "_id": ObjectId("000000000000000000000000"),
         "name": "Administrator",
         "permissions":[
-            "CanGrantPermissions",
-            "CanCreateForum",
-            "CanCreateTopic",
-            "CanCreateReply",
-            "CanDeleteForum",
-            "CanDeleteTopic",
-            "CanDeleteReply",
-            "CanSetSticky",
-            "CanFlag"
+            "canGrantPermissions",
+            "canCreateForum",
+            "canCreateTopic",
+            "canCreateReply",
+            "canDeleteForum",
+            "canDeleteTopic",
+            "canDeleteReply",
+            "canSetSticky",
+            "canFlag"
         ]
     },
     {
         "_id": ObjectId("000000000000000000000001"),
         "name": "GameModerator",
         "permissions":[
-            "CanGrantPermissions",
-            "CanCreateForum",
-            "CanCreateTopic",
-            "CanCreateReply",
-            "CanDeleteForum",
-            "CanDeleteTopic",
-            "CanDeleteReply",
-            "CanSetSticky",
-            "CanFlag"
+            "canGrantPermissions",
+            "canCreateForum",
+            "canCreateTopic",
+            "canCreateReply",
+            "canDeleteForum",
+            "canDeleteTopic",
+            "canDeleteReply",
+            "canSetSticky",
+            "canFlag"
         ]
     },
     {
