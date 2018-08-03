@@ -1,10 +1,10 @@
 import React from 'react';
-import Navigation from "../../components/Navigation";
-import Pagination from "../../components/Pagination";
-import CreateTopicForm from "./forms/createTopicForm";
-import CreateForumForm from "./forms/createForumForm";
-import ForumItem from "./list-items/ForumItem";
-import TopicItem from "./list-items/TopicItem";
+import Navigation from "../../../components/Navigation";
+import Pagination from "../../../components/Pagination";
+import CreateTopicForm from "./createTopicForm";
+import CreateForumForm from "./createForumForm";
+import ForumItem from "../items/ForumItem";
+import TopicItem from "../items/TopicItem";
 
 const ForumComponent = (props) => {
     const {node, children, pagination, onPaginationChange, onChildEvent} = props;

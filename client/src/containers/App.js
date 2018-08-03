@@ -10,10 +10,6 @@ import { history } from '../store'
 import './App.css'
 
 // Each routes are loaded lazy
-const NodeList = Loadable({
-    loader: () => import(/* webpackChunkName: "node_list" */ './NodeList'),
-    loading: Loading,
-});
 const NodeView = Loadable({
     loader: () => import(/* webpackChunkName: "node_list" */ './NodeView'),
     loading: Loading,
@@ -48,7 +44,6 @@ class App extends Component {
                 <CurrentUserInfo currentUser={currentUser} onLogout={this.props.logout} />
                 <Switch>
                     <Route exact path="/" component={NodeView} />
-                    <Route path="/nodelist/:nodeId" component={NodeList} />
                     <Route path="/n/:nodeId" component={NodeView} />
                     <Route path="/login" component={Login} />
                     <Route path="/signup" component={UserSignup} />

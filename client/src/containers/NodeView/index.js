@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import ErrorMessage from '../../components/ErrorMessage';
-import ForumComponent from './forumComponent';
-import TopicComponent from './topicComponent';
+import ForumComponent from './ForumComponent';
+import TopicComponent from './TopicComponent';
 import * as actions from './actions';
 
 const ROOT_FORUM_ID = '000000000000000000000000';
@@ -21,8 +21,6 @@ class NodeView extends Component {
         let nodeId = this.props.match.params.hasOwnProperty('nodeId') ?
             this.props.match.params.nodeId :
             ROOT_FORUM_ID;
-
-        console.log(nodeId);
 
         this.props.setNodeId(nodeId);
         this.props.load();
@@ -83,10 +81,10 @@ class NodeView extends Component {
             case 'Forum':
                 return (
                     <ForumComponent node={node}
-                                    children={children}
-                                    pagination={pagination}
-                                    onPaginationChange={this.handlePaginationChange}
-                                    onChildEvent={this.handleChildEvent} />
+                           children={children}
+                           pagination={pagination}
+                           onPaginationChange={this.handlePaginationChange}
+                           onChildEvent={this.handleChildEvent} />
                 );
 
             case 'Topic':

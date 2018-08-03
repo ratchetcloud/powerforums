@@ -1,10 +1,9 @@
 import React from 'react';
-import Navigation from "../../components/Navigation";
-import Pagination from "../../components/Pagination";
-import CreateReplyForm from './forms/createReplyForm';
+import Navigation from "../../../components/Navigation";
+import Pagination from "../../../components/Pagination";
+import CreateReplyForm from './createReplyForm';
+import ReplyItem from "../items/ReplyItem";
 import {Well} from "react-bootstrap";
-import ReplyItem from "./list-items/ReplyItem";
-
 
 const img_flag = '/assets/images/flag-128.png';
 
