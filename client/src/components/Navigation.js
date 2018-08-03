@@ -23,7 +23,7 @@ const Navigation = (props) => {
             {ancestorList.map((node) => {
                 return (
                     <li key={node._id}>
-                        <NavLink to={"/nodelist/"+node._id}>{node.title}</NavLink>
+                        <NavLink to={"/n/"+node._id}>{node.title}</NavLink>
                     </li>
                 )
             })}

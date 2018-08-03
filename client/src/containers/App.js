@@ -14,6 +14,10 @@ const NodeList = Loadable({
     loader: () => import(/* webpackChunkName: "node_list" */ './NodeList'),
     loading: Loading,
 });
+const NodeView = Loadable({
+    loader: () => import(/* webpackChunkName: "node_list" */ './NodeView'),
+    loading: Loading,
+});
 const Login = Loadable({
     loader: () => import(/* webpackChunkName: "user_login" */ './Login'),
     loading: Loading,
@@ -43,8 +47,9 @@ class App extends Component {
                 </h1>
                 <CurrentUserInfo currentUser={currentUser} onLogout={this.props.logout} />
                 <Switch>
-                    <Route exact path="/" component={NodeList} />
+                    <Route exact path="/" component={NodeView} />
                     <Route path="/nodelist/:nodeId" component={NodeList} />
+                    <Route path="/n/:nodeId" component={NodeView} />
                     <Route path="/login" component={Login} />
                     <Route path="/signup" component={UserSignup} />
                 </Switch>
