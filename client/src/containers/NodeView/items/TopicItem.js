@@ -7,7 +7,7 @@ import ToggleStickyButton from "../../../components/interactive-btns/ToggleStick
 const img_conversation = '/assets/images/conversation-128.png';
 const img_sticky ='/assets/images/sticky-128.png';
 
-const ForumItem = (props) => {
+const TopicItem = (props) => {
     const {node, onEvent} = props;
     const creationDate = new Date(node.creationDate);
     const lastUpdatedDate = new Date(node.lastUpdatedDate);
@@ -47,4 +47,4 @@ const ForumItem = (props) => {
     )
 };
 
-export default ForumItem;
+export default TopicItem;
