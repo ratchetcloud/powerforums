@@ -26,6 +26,7 @@ before(function (done) {
                     if (err) reject(err);
                     global.adminUser = users[0];
                     global.normalUser = users[1];
+                    global.bannedUser = users[2];
                     resolve();
                 });
             });
