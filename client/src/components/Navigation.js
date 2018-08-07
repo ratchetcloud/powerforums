@@ -1,6 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom'
-import './Navigation.css';
+import { NavLink } from 'react-router-dom';
 
 const Navigation = (props) => {
     const {node} = props;
@@ -12,6 +11,7 @@ const Navigation = (props) => {
         // var parentNodeAncestorList = this.props.parentNode.ancestorList does copy by REFERENCE (original object updated after push).
         ancestorList = JSON.parse(JSON.stringify(node.ancestorList));
         ancestorList.push({_id: node._id, title: node.title});
+
     }else {
         // If parent node does not have an ancestor list.
         // Parent node must be the root node. Add itself to the ancestor list.
@@ -19,10 +19,10 @@ const Navigation = (props) => {
     }
 
     return (
-        <ul className="navigationBar">
+        <ul className="nav">
             {ancestorList.map((node) => {
                 return (
-                    <li key={node._id}>
+                    <li key={node._id} className="nav-item">
                         <NavLink to={"/n/"+node._id}>{node.title}</NavLink>
                     </li>
                 )

@@ -4,19 +4,20 @@ import { NavLink } from 'react-router-dom'
 const CurrentUserInfo = (props) => {
     if (props.currentUser) {
         return (
-            <div>
-                <span>Hi {props.currentUser.name}</span><br/>
-                <button onClick={props.onLogout}>Logout</button>
+            <div className="current-user-info">
+                <span className="pr-3">Hi {props.currentUser.name}</span>
+                <button className="btn btn-outline-primary btn-sm" onClick={props.onLogout}>Logout</button>
             </div>
         );
+
     }else{
         return (
-            <div>
-                <NavLink to="/login">
-                    <button>Login</button>
+            <div className="current-user-info">
+                <NavLink to="/login" className="btn btn-outline-primary btn-sm">
+                    LOGIN
                 </NavLink>
-                <NavLink to="/signup">
-                    <button>SignUp</button>
+                <NavLink to="/signup" className="btn btn-primary btn-sm">
+                    SIGN UP
                 </NavLink>
             </div>
         );

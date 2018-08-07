@@ -15,7 +15,7 @@ const Pagination = (props) => {
 
     return (
         <div>
-            <div>
+            {/*<div>
                 <select id="pagination-select"
                         value={pagination.perPage}
                         onChange={perPageChangeHandler}>
@@ -25,20 +25,26 @@ const Pagination = (props) => {
                     <option value="20">20</option>
                     <option value="50">50</option>
                 </select>
-            </div>
+            </div>*/}
             <div>
-                <ReactPaginate previousLabel={"<"}
-                               nextLabel={">"}
-                               breakLabel={<a href="">...</a>}
-                               breakClassName={"break-me"}
-                               pageCount={pagination.totalPage}
-                               forcePage={pagination.currentPage}
-                               marginPagesDisplayed={2}
-                               pageRangeDisplayed={5}
-                               onPageChange={currentPageChangeHandler}
-                               containerClassName={"pagination"}
-                               subContainerClassName={"pages pagination"}
-                               activeClassName={"active"} />
+                <nav aria-label="Page navigation">
+                    <ReactPaginate previousLabel={"<"}
+                                   nextLabel={">"}
+                                   breakLabel={<a href="">...</a>}
+                                   breakClassName={"break-me"}
+                                   pageCount={pagination.totalPage}
+                                   forcePage={pagination.currentPage}
+                                   marginPagesDisplayed={2}
+                                   pageRangeDisplayed={5}
+                                   onPageChange={currentPageChangeHandler}
+                                   containerClassName={"pagination"}
+                                   subContainerClassName={"pages pagination"}
+                                   pageClassName={"page-item"}
+                                   previousLinkClassName={"page-link"}
+                                   nextLinkClassName={"page-link"}
+                                   pageLinkClassName={"page-link"}
+                                   activeClassName={"active"} />
+                </nav>
             </div>
         </div>
     )

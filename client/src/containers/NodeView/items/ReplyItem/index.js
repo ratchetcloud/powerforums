@@ -3,6 +3,8 @@ import UpdateReplyForm from './updateReplyForm';
 import DeleteButton from "../../../../components/interactive-btns/DeleteButton";
 import EditButton from "../../../../components/interactive-btns/EditButton";
 import {Well} from "react-bootstrap";
+import TimeAgo from "react-timeago";
+import ToggleStickyButton from "../../../../components/interactive-btns/ToggleStickyButton";
 
 const img_flag = '/assets/images/flag-128.png';
 const img_trash = '/assets/images/trash-128.png';
@@ -37,7 +39,7 @@ export default class ReplyItem extends Component {
 
         if (this.state.editing) {
             return (
-                <Well>
+                <li className="card reply-card">
                     <div className="replyBox">
                         <div>
                             <p>
@@ -53,28 +55,23 @@ export default class ReplyItem extends Component {
                             </div>
                         </div>
                     </div>
-                </Well>
+                </li>
             )
         } else {
             return (
-                <Well>
-                    <div className="replyBox">
-                        <div>
-                            <p>
-                                <span>{avatarImage}</span>
-                                <span><strong>{node.authorInformation.name}</strong></span>
-                                <span>{creationDate.toLocaleString()}</span>
-                            </p>
-                            <p>{node.content}</p>
-                        </div>
-                        <div className="right">
-                            <div>
-                                <EditButton onClick={this.startEditingHandler} />
-                                <DeleteButton onClick={onDeleteHandler}/>
-                            </div>
-                        </div>
+                <li className="card reply-card">
+                    <div className="card-header">
+                        <span>Posted by {node.authorInformation.name}</span>
+                        <TimeAgo date={node.creationDate} />
                     </div>
-                </Well>
+                    <div className="card-body">
+                        <p className="card-text">{node.content}</p>
+                    </div>
+                    <div className="card-footer bg-transparent">
+                        <EditButton onClick={this.startEditingHandler} />
+                        <DeleteButton onClick={onDeleteHandler}/>
+                    </div>
+                </li>
             )
         }
     }

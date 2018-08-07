@@ -3,9 +3,11 @@ import Navigation from "../../../components/Navigation";
 import Pagination from "../../../components/Pagination";
 import CreateReplyForm from './createReplyForm';
 import ReplyItem from "../items/ReplyItem";
-import {Well} from "react-bootstrap";
+import TimeAgo from "react-timeago";
+import {NavLink} from "react-router-dom";
+import ToggleStickyButton from "../../../components/interactive-btns/ToggleStickyButton";
+import DeleteButton from "../../../components/interactive-btns/DeleteButton";
 
-const img_flag = '/assets/images/flag-128.png';
 
 const TopicComponent = (props) => {
     const {node, children, pagination, onPaginationChange, onChildEvent} = props;
@@ -15,41 +17,41 @@ const TopicComponent = (props) => {
     const onReportHandler = () => onChildEvent('REPORT', node._id);
 
     return (
-        <div className="container">
-            <Navigation node={node} />
-
-            {/* Current Topic's Content */}
-            <h2>Topic - "{node.title}"</h2>
-            <Well>
-                <div className="topicBox">
-                    <div>
-                        <p>
-                            <span>{avatarImage}</span>
-                            <span><strong>{node.authorInformation.name}</strong></span>
-                            <span>{creationDate.toLocaleString()}</span>
-                        </p>
-                        <p>{node.content}</p>
-                    </div>
-                    <div className="right">
-                        <div>
-                            <img src={img_flag}
-                                 style={{width: 16}} alt="Report topic"
-                                 onClick={onReportHandler} />
-                        </div>
-                    </div>
+        <div className="topic-view node-view">
+            <div className="header container-fluid">
+                <div className="container p-0">
+                    <Navigation node={node} />
                 </div>
-            </Well>
+            </div>
+            <div className="topic-body container">
+                <article>
+                    <div className="header">
+                        <span>Posted by {node.authorInformation.name}</span>
+                        <TimeAgo date={node.creationDate} />
+                    </div>
+                    <h2>{node.title}</h2>
+                    <p>
+                        {node.content}
+                    </p>
+                    <div className="footer">
+                        <span className="comment">
+                            <i className="fas fa-comments" />&nbsp;
+                            <span>{node.replyCount} Replies</span>
+                        </span>
+                    </div>
+                </article>
 
-            {/* Show children (Replies of this Topic) */}
-            <Pagination pagination={pagination} onChange={onPaginationChange} />
-            <ul className="list-group">
-                {children.map(child => {
-                    if (child.type === 'Reply')
-                        return <ReplyItem key={child._id} node={child} onEvent={onChildEvent} />;
-                })}
-            </ul>
-            <div>
-                <CreateReplyForm parentId={node._id} />
+                <ul className="replies list-unstyled">
+                    {children.map(child => {
+                        if (child.type === 'Reply')
+                            return <ReplyItem key={child._id} node={child} onEvent={onChildEvent} />;
+                    })}
+                </ul>
+                { children.length > 0 && <Pagination pagination={pagination} onChange={onPaginationChange}/> }
+
+                <div>
+                    <CreateReplyForm parentId={node._id} />
+                </div>
             </div>
         </div>
     )

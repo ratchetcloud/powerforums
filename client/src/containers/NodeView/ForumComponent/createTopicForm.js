@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Field, reduxForm, SubmissionError } from 'redux-form'
-import { blurIfNoPermission } from '../../../utils/permissionChecker'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { blurIfNoPermission } from '../../../utils/permissionChecker';
 import * as actions from '../actions';
-import './createTopicForm.css'
+import './createTopicForm.css';
 
 export const createTopicFormSubmit = formValues => (dispatch, getState, APIClient) => {
     // Make an API call (createNode) using form values.

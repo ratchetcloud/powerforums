@@ -37,11 +37,15 @@ class App extends Component {
         const { currentUser } = this.props;
 
         return (
-            <div>
-                <h1>
-                    <NavLink to="/">PowerForums</NavLink>
-                </h1>
-                <CurrentUserInfo currentUser={currentUser} onLogout={this.props.logout} />
+            <div className="app">
+                <header className="container-fluid">
+                    <CurrentUserInfo currentUser={currentUser} onLogout={this.props.logout} />
+                    <div className="logo-wrap">
+                        <NavLink to="/">
+                            <h1 className="logo"><span>PowerForums</span></h1>
+                        </NavLink>
+                    </div>
+                </header>
                 <Switch>
                     <Route exact path="/" component={NodeView} />
                     <Route path="/n/:nodeId" component={NodeView} />

@@ -1,49 +1,44 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-import {Well} from "react-bootstrap";
-import DeleteButton from "../../../components/interactive-btns/DeleteButton";
-import ToggleStickyButton from "../../../components/interactive-btns/ToggleStickyButton";
+import TimeAgo from 'react-timeago'
+import DeleteButton from '../../../components/interactive-btns/DeleteButton';
+import ToggleStickyButton from '../../../components/interactive-btns/ToggleStickyButton';
 
 const img_conversation = '/assets/images/conversation-128.png';
 const img_sticky ='/assets/images/sticky-128.png';
 
 const TopicItem = (props) => {
     const {node, onEvent} = props;
-    const creationDate = new Date(node.creationDate);
-    const lastUpdatedDate = new Date(node.lastUpdatedDate);
 
     const onDeleteHandler = () => onEvent('DELETE', node._id);
     const onToggleStickyHandler = () => onEvent('TOGGLE_STICKY', node._id);
 
-    const stickyHTML = node.sticky ?
-        <img src={img_sticky} style={{width: 24}} alt="Topic is sticky" /> : '';
-
     return (
-        <Well>
-            <div className="topicBox">
-                <div className="topicImage">
-                    <img src={img_conversation} style={{width: 32}} alt="Topic" /><br />
-                    {stickyHTML}
+        <li className="topic-card card">
+            <div className="card-header">
+                <span>Posted by {node.authorInformation.name}</span>
+                <TimeAgo date={node.creationDate} />
+            </div>
+            <NavLink to={"/n/" + node._id}>
+                <div className="card-body">
+                    <h5 className="card-title">{node.title}</h5>
+                    {/*<h6 className="card-subtitle mb-2 text-muted">{node.description}</h6>*/}
+                    <p className="card-text">{node.content}</p>
                 </div>
-                <div>
-                    <p>
-                        <NavLink to={"/n/" + node._id}>
-                            <strong>{node.title}</strong>
-                        </NavLink>
-                    </p>
-                    <p>{node.description}</p>
-                    <p>Created by {node.authorInformation.name}, the {creationDate.toLocaleString()}</p>
+            </NavLink>
+            <div className="card-footer bg-transparent clearfix">
+                <div className="float-left">
+                    <span className="comment">
+                        <i className="fas fa-comments" />
+                        <span>{node.replyCount} Replies</span>
+                    </span>
                 </div>
-                <div className="right">
-                    <p>Last reply the {lastUpdatedDate.toLocaleString()}</p>
-                    <p>{node.replycount} replies</p>
-                    <div>
-                        <ToggleStickyButton onClick={onToggleStickyHandler} />
-                        <DeleteButton onClick={onDeleteHandler}/>
-                    </div>
+                <div className="float-right">
+                    <ToggleStickyButton onClick={onToggleStickyHandler} />
+                    <DeleteButton onClick={onDeleteHandler}/>
                 </div>
             </div>
-        </Well>
+        </li>
     )
 };
 

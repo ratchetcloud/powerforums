@@ -1,12 +1,13 @@
 import React from "react";
 
-const img_trash = '/assets/images/trash-128.png';
-
 const DeleteButton = (props) => {
     // TODO: Permission Control
     const {onClick} = props;
     return (
-        <img src={img_trash} style={{width: 16}} alt="Delete" onClick={onClick} />
+        <button type="button" className="btn btn-light btn-sm" onClick={onClick}>
+            <i className="fas fa-trash-alt"></i>
+            <span>Delete</span>
+        </button>
     )
 };
 

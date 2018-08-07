@@ -5,6 +5,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import ForumComponent from './ForumComponent';
 import TopicComponent from './TopicComponent';
 import * as actions from './actions';
+import './nodeview.css';
 
 const ROOT_FORUM_ID = '000000000000000000000000';
 

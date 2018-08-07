@@ -9,22 +9,36 @@ import TopicItem from "../items/TopicItem";
 const ForumComponent = (props) => {
     const {node, children, pagination, onPaginationChange, onChildEvent} = props;
     return (
-        <div className="container">
-            <Navigation node={node} />
-            <Pagination pagination={pagination} onChange={onPaginationChange} />
+        <div className="forum-view node-view">
+            <div className="header container-fluid">
+                <div className="container p-0">
+                    <Navigation node={node} />
+                    <div>{node.description}</div>
+                </div>
+            </div>
+            <div className="forum-body container">
+                <h3>Forums</h3>
+                <ul className="row forums list-unstyled">
+                    {children.map(child => {
+                        if (child.type === 'Forum')
+                            return <ForumItem key={child._id} node={child} onEvent={onChildEvent} />;
+                    })}
+                </ul>
 
-            {/* Show children (Sub-forums or Topics of this Forum) */}
-            <ul className="list-group">
-                {children.map(child => {
-                    if (child.type === 'Forum')
-                        return <ForumItem key={child._id} node={child} onEvent={onChildEvent} />;
-                    else if (child.type === 'Topic')
-                        return <TopicItem key={child._id} node={child} onEvent={onChildEvent} />;
-                })}
-            </ul>
-            <div>
-                <CreateTopicForm parentId={node._id} />
-                <CreateForumForm parentId={node._id} />
+                <h3>Topics</h3>
+                <ul className="topics list-unstyled">
+                    {children.map(child => {
+                        if (child.type === 'Topic')
+                            return <TopicItem key={child._id} node={child} onEvent={onChildEvent} />;
+                    })}
+                </ul>
+
+                <Pagination pagination={pagination} onChange={onPaginationChange} />
+
+                <div>
+                    <CreateTopicForm parentId={node._id} />
+                    <CreateForumForm parentId={node._id} />
+                </div>
             </div>
         </div>
     )
