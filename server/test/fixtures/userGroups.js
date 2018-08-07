@@ -13,7 +13,6 @@ module.exports = [
             "canDeleteTopic",
             "canDeleteReply",
             "canSetSticky",
-            "canFlag"
         ]
     },
     {
@@ -28,7 +27,6 @@ module.exports = [
             "canDeleteTopic",
             "canDeleteReply",
             "canSetSticky",
-            "canFlag"
         ]
     },
     {

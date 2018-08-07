@@ -5,7 +5,6 @@ const canCreateReply = require('../permissionRules/canCreateReply');
 const canDeleteForum = require('../permissionRules/canDeleteForum');
 const canDeleteTopic = require('../permissionRules/canDeleteTopic');
 const canDeleteReply = require('../permissionRules/canDeleteReply');
-const canFlag        = require('../permissionRules/canFlag');
 const canSetSticky   = require('../permissionRules/canSetSticky');
 const defaultGuest   = require('../permissionRules/defaultGuest');
 const defaultSignupedUser = require('../permissionRules/defaultSignupedUser');
@@ -73,4 +72,5 @@ describe('Test permissionRules', function () {
 
         assert(canDeleteReply(canDeleteReplyReq));
     });
+
 });

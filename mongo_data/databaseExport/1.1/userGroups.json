@@ -1,5 +1,3 @@
-{"_id":{"$oid":"000000000000000000000000"},"name":"Administrator","permissions":["canGrantPermissions","canCreateForum","canCreateTopic","canCreateReply","canDeleteForum","canDeleteTopic","canDeleteReply","canSetSticky","canFlag"]}
-{"_id":{"$oid":"000000000000000000000001"},"name":"GameModerator","permissions":["canGrantPermissions","canCreateForum","canCreateTopic","canCreateReply","canDeleteForum","canDeleteTopic","canDeleteReply","canSetSticky","canFlag"]}
+{"_id":{"$oid":"000000000000000000000000"},"name":"Administrator","permissions":["canGrantPermissions","canCreateForum","canCreateTopic","canCreateReply","canDeleteForum","canDeleteTopic","canDeleteReply","canSetSticky"]}
+{"_id":{"$oid":"000000000000000000000001"},"name":"GameModerator","permissions":["canGrantPermissions","canCreateForum","canCreateTopic","canCreateReply","canDeleteForum","canDeleteTopic","canDeleteReply","canSetSticky"]}
 {"_id":{"$oid":"000000000000000000000002"},"name":"BannedUser","permissions":[]}
-{"_id":{"$oid":"000000000000000000000003"},"name":"test1","permissions":["canGrantPermissions","canCreateForum"]}
-{"_id":{"$oid":"000000000000000000000004"},"name":"test2","permissions":["canCreateForum","canCreateTopic"]}
