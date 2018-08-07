@@ -4,7 +4,7 @@
  * @returns {boolean} True if allowed, false otherwise
  */
 
-// To do: implement after implement Flag function
+// TODO: implement after implement Flag function
 module.exports = (req) => {
 	return false;
 }

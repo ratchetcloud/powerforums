@@ -32,6 +32,27 @@ module.exports = [
     },
     {
         "_id": ObjectId("200000000000000000000002"),
+        "title": "Announcements",
+        "type": "Forum",
+        "_parentId": ObjectId("200000000000000000000001"),
+        "ancestorList": [
+            {
+                "_id": ObjectId("200000000000000000000000"),
+                "title": "Forums"
+            },
+            {
+                "_id": ObjectId("200000000000000000000001"),
+                "title": "Overwatch"
+            }
+        ],
+        "authorInformation": {
+            "_id": ObjectId("100000000000000000000000"),
+            "name": "Admin"
+        },
+        "description": "Announcements"
+    },
+    {
+        "_id": ObjectId("200000000000000000000003"),
         "title": "Nerf this!",
         "type": "Topic",
         "_parentId": ObjectId("200000000000000000000001"),
@@ -50,5 +71,43 @@ module.exports = [
             "name": "User"
         },
         "description": "haha"
-    }
+    },
+    {
+        "_id": ObjectId("200000000000000000000004"),
+        "title": "Epic Games",
+        "type": "Forum",
+        "_parentId": ObjectId("200000000000000000000000"),
+        "ancestorList": [
+            {
+                "_id": ObjectId("200000000000000000000000"),
+                "title": "Forums"
+            }
+        ],
+        "authorInformation": {
+            "_id": ObjectId("100000000000000000000000"),
+            "name": "Admin"
+        },
+        "description": "Epic Games"
+    },
+    {
+        "_id": ObjectId("200000000000000000000005"),
+        "title": "Nerf that!",
+        "type": "Topic",
+        "_parentId": ObjectId("200000000000000000000001"),
+        "ancestorList": [
+            {
+                "_id": ObjectId("200000000000000000000000"),
+                "title": "Forums"
+            },
+            {
+                "_id": ObjectId("200000000000000000000001"),
+                "title": "Overwatch"
+            }
+        ],
+        "authorInformation": {
+            "_id": ObjectId("100000000000000000000002"),
+            "name": "BannedUser"
+        },
+        "description": "haha"
+    },
 ]

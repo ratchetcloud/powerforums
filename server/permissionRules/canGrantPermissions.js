@@ -4,7 +4,7 @@
  * @returns {boolean} True if allowed, false otherwise
  */
 
-// To do: implement after implement to give permission to user function
+// TODO: implement after implement to give permission to user function
 module.exports = (req) => {
 	return false;
 }

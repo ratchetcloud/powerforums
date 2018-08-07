@@ -4,7 +4,7 @@
  * @returns {boolean} True if allowed, false otherwise
  */
 
-// To do: implement after implement to set sticky function
+// TODO: implement after implement to set sticky function
 module.exports = (req) => {
 	return false;
 }

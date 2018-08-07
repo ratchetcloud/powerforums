@@ -31,6 +31,17 @@ module.exports = [
                 "_nodeId": ObjectId("200000000000000000000002")
             }
         ]
+    },
+    {
+        "_id": ObjectId("100000000000000000000003"),
+        "name": "OverwatchGM",
+        "email": "user3@powerforums.io",
+        "password": "$2a$04$rpyFFlFjT6WwfnPFR.ljwec5rof5o5VMs7U4acyM5iJUvqDvqVVN2",
+        "permissions": [
+            {
+                "_userGroupId": ObjectId("000000000000000000000001"), 
+                "_nodeId": ObjectId("200000000000000000000001")
+            }
+        ]
     }
-
 ]

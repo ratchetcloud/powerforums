@@ -152,7 +152,7 @@ describe('Test middlewares', function() {
             });
             it('Update Topic', function () {
                 return supertest(app)
-                    .patch('/node/200000000000000000000002')
+                    .patch('/node/200000000000000000000003')
                     .send({title: 'NewTitle'})
                     .expect(200)
                     .then(response => {
@@ -161,14 +161,13 @@ describe('Test middlewares', function() {
             });
             it('Delete Topic', function () {
                 return supertest(app)
-                    .delete('/node/200000000000000000000002')
+                    .delete('/node/200000000000000000000003')
                     .expect(200);
             });
         });
 
 
         // Admin has powerful permission.
-        // TODO: Scoped-admin (like game owner, game moderator...)
         describe('By admin user', function () {
             before(function () {
                 const setAuthAsAdminUser = (req, res, next) => {
@@ -199,6 +198,102 @@ describe('Test middlewares', function() {
                     .delete('/node/200000000000000000000001')
                     .expect(200);
             });
+
+        });
+
+        // Subadmin has partial permission.
+        describe('By Scoped-admin user', function () {
+            before(function () {
+                const setAuthAsSubAdminUser = (req, res, next) => {
+                    res.locals.userData = global.subadminUser;
+                    next();
+                };
+                router = express.Router();
+                router.route('/node').post(setAuthAsSubAdminUser, loadNodeWithPermssion, responseNode);
+                router.route('/node/:nodeId').get(setAuthAsSubAdminUser, loadNodeWithPermssion, responseNode);
+                router.route('/node/:nodeId').patch(setAuthAsSubAdminUser, loadNodeWithPermssion, responseNode);
+                router.route('/node/:nodeId').delete(setAuthAsSubAdminUser, loadNodeWithPermssion, responseNode);
+            });
+            it('Create Forum under permitted node', function () {
+                return supertest(app)
+                    .post('/node')
+                    .send({type: 'Forum', parentId: '200000000000000000000001'})
+                    .expect(200);
+            });
+            it('Create Forum under not permitted node', function () {
+                // Subadmin can't create Forum under not permitted node
+                return supertest(app)
+                    .post('/node')
+                    .send({type: 'Forum', parentId: '200000000000000000000004'})
+                    .expect(403);
+            });
+            it('Update Forum', function () {
+                // Subadmin can't also. Only owner can update forum.
+                return supertest(app)
+                    .patch('/node/200000000000000000000001')
+                    .send({title: 'Some Title'})
+                    .expect(403);
+            });
+            it('Delete Forum under permitted node', function () {
+                // Subadmin can delete under permitted node.
+                return supertest(app)
+                    .delete('/node/200000000000000000000002')
+                    .expect(200);
+            });
+            it('Delete permitted root node', function () {
+                // Subadmin can't delete permitted root node.
+                return supertest(app)
+                    .delete('/node/200000000000000000000001')
+                    .expect(403);
+            });
+            it('Delete not permitted node', function () {
+                // Subadmin can't delete not permitted node.
+                return supertest(app)
+                    .delete('/node/200000000000000000000004')
+                    .expect(403);
+            });
+        });
+
+        // Banned user can read only.
+        // TODO: fix checkPermission for banned user
+        describe('By banned user', function () {
+            before(function () {
+                const setAuthAsBannedUser = (req, res, next) => {
+                    res.locals.userData = global.bannedUser;
+                    next();
+                };
+                router = express.Router();
+                router.route('/node').post(setAuthAsBannedUser, loadNodeWithPermssion, responseNode);
+                router.route('/node/:nodeId').get(setAuthAsBannedUser, loadNodeWithPermssion, responseNode);
+                router.route('/node/:nodeId').patch(setAuthAsBannedUser, loadNodeWithPermssion, responseNode);
+                router.route('/node/:nodeId').delete(setAuthAsBannedUser, loadNodeWithPermssion, responseNode);
+            });
+            it('Create Topic', function () {
+                return supertest(app)
+                    .post('/node')
+                    .send({type: 'Topic', title: 'MyTopic', parentId: '200000000000000000000001'})
+                    .expect(403)
+            });
+            it('Read Topic', function () {
+                return supertest(app)
+                    .get('/node/200000000000000000000002')
+                    .expect(200)
+                    .then(response => {
+                        assert(response.body.node != null)
+                    });
+            });
+            it('Update Topic', function () {
+                return supertest(app)
+                    .patch('/node/200000000000000000000005')
+                    .send({title: 'NewTitle'})
+                    .expect(403)
+            });
+            it('Delete Topic', function () {
+                return supertest(app)
+                    .delete('/node/200000000000000000000005')
+                    .expect(403);
+            });
+            
 
         });
     });
