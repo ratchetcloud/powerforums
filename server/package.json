@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "env MODE=test env DB_NAME=powerforums_test mocha",
+    "test": "env MODE=test env DB_NAME=powerforums_test mocha --timeout 10000",
     "test-coverage": "nyc npm test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "dev": "nodemon server.js"
