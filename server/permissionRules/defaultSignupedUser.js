@@ -20,7 +20,10 @@ module.exports = (req, user) => {
 
         case 'PUT':
         case 'PATCH':
-            // Owner of node can update.
+            // Signuped user can't stick node.
+            if (req.body.sticky !== undefined)
+                return false;
+            // Owner of node can update content. 
             if (user._id.equals(req.node.authorInformation._id))
                 return true;
             break;

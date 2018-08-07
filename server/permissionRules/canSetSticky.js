@@ -4,7 +4,12 @@
  * @returns {boolean} True if allowed, false otherwise
  */
 
-// TODO: implement after implement to set sticky function
 module.exports = (req) => {
+	switch(req.method) {
+		case 'PATCH':
+			if (req.body.sticky !== undefined)
+				return true;
+			break;
+	}
 	return false;
 }

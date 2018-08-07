@@ -72,5 +72,14 @@ describe('Test permissionRules', function () {
 
         assert(canDeleteReply(canDeleteReplyReq));
     });
+    it('canSetSticky', function () {
+        const canSetStickyReq = {
+            method: 'PATCH',
+            body: {
+                sticky: true  
+            }
+        }
 
+        assert(canSetSticky(canSetStickyReq));
+    });
 });

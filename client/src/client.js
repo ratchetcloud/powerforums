@@ -98,7 +98,7 @@ export default class client {
         var self = this
         return new Promise((fulfill, reject) => {
             return self.httpClient
-                .patch('/node/' + node._id, { sticky: sticky }, { headers: { 'Authorization': this.authorizationHeader } })
+                .patch('/node/' + nodeId, { sticky: sticky }, { headers: { 'Authorization': this.authorizationHeader } })
                 .then(response => fulfill(response.data))
                 .catch(error => this.handleSpecificError(error, reject))
         })
