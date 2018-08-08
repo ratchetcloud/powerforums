@@ -23,10 +23,18 @@ class LoginForm extends React.Component {
                     <div style={{'color': 'red'}}>{errMessage}</div>
                     <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                         <div className="form-group mb-1">
-                            <Field name="email" component="input" type="text" className="form-control" />
+                            <Field name="email"
+                                   component="input"
+                                   type="text"
+                                   required="required"
+                                   className="form-control" />
                         </div>
                         <div>
-                            <Field name="password" component="input" type="password" className="form-control" />
+                            <Field name="password"
+                                   component="input"
+                                   type="password"
+                                   required="required"
+                                   className="form-control" />
                         </div>
                         <div className="mt-2">
                             <button type="submit" className="btn btn-primary">Login</button>

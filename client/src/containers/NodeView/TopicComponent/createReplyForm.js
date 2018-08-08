@@ -50,6 +50,7 @@ class CreateReplyForm extends Component {
                                component="textarea"
                                className="form-control"
                                rows="3"
+                               required="required"
                                placeholder="Enter your reply" />
                     </div>
                     <div>

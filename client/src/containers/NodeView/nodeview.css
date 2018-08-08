@@ -58,6 +58,11 @@
   margin-right: 5px;
 }
 
+.node-view .card .card-header span.sticky{
+  color: #ff6e00;
+  font-size: 12px;
+}
+
 .node-view .card .card-footer span,
 .node-view .card .card-footer button{
   color: #666;
