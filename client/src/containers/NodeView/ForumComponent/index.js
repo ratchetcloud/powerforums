@@ -26,7 +26,9 @@ const ForumComponent = (props) => {
                 </ul>
 
                 <h3>Topics</h3>
-                <ul className="topics list-unstyled">
+                <CreateTopicForm parentId={node._id} />
+
+                <ul className="topics list-unstyled mt-3">
                     {children.map(child => {
                         if (child.type === 'Topic')
                             return <TopicItem key={child._id} node={child} onEvent={onChildEvent} />;
@@ -35,10 +37,9 @@ const ForumComponent = (props) => {
 
                 <Pagination pagination={pagination} onChange={onPaginationChange} />
 
-                <div>
-                    <CreateTopicForm parentId={node._id} />
-                    <CreateForumForm parentId={node._id} />
-                </div>
+                {/*<div>*/}
+                    {/*<CreateForumForm parentId={node._id} />*/}
+                {/*</div>*/}
             </div>
         </div>
     )

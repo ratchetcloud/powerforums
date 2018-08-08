@@ -10,38 +10,39 @@ export const createTopicFormSubmit = formValues => (dispatch, getState, APIClien
     return APIClient.createNode( formValues )
         .then(response => {
             // Node creation was successful, we want to refresh node list.
-            dispatch(actions.fetch())
+            dispatch(actions.fetch());
         })
         .catch(error => {
             // Node creation failed, we want to display the error (redux-forms managing).
-            throw new SubmissionError({_error: error.response.data.message})
+            throw new SubmissionError({_error: error.response.data.message});
         })
-}
+};
 
 const renderField = ({ input, label, type, placeholder, meta: { touched, error } }) => (
-    <div>
-        <label>{label}</label>
+    <div className="form-group">
+        <label className="mb-0">{label}</label>
         <div>
-            <input {...input} placeholder={placeholder} type={type} />
+            <input {...input} placeholder={placeholder} type={type} className="form-control form-control-sm" />
             {touched && error && <span>{error}</span>}
         </div>
     </div>
-)
+);
 
 const renderTextareaField = ({ input, label, placeholder, meta: { touched, error } }) => (
     <div>
-        <label>{label}</label>
+        <label className="mb-0">{label}</label>
         <div>
-            <textarea {...input} placeholder={placeholder} />
+            <textarea {...input} placeholder={placeholder} className="form-control form-control-sm" />
             {touched && error && <span>{error}</span>}
         </div>
     </div>
-)
+);
 
 class CreateTopicForm extends Component {
     constructor(props) {
-        super(props)
-        this.handleFormSubmit = this.handleFormSubmit.bind(this)
+        super(props);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.state = {opened: false};
     }
 
     handleFormSubmit(formValues) {
@@ -50,56 +51,67 @@ class CreateTopicForm extends Component {
             type: "Topic",
             sticky: false,
             parentId: this.props.parentId
-        }, ...formValues })
+        }, ...formValues });
     }
 
     render() {
-        const {error, handleSubmit, pristine, reset, submitting} = this.props
+        const {error, handleSubmit, pristine, reset, submitting, currentUser} = this.props;
 
-        return (
-            <div className="create-topic-form">
-                {error && <strong>{error}</strong>}
-                <form onSubmit={handleSubmit(formValues => this.handleFormSubmit(formValues))}>
-                    <div>New Topic</div>
-                    <div>
+        if (!this.state.opened) {
+            return (
+                <div className="create-topic-form">
+                    <button className="open-btn" onClick={() => this.setState({opened: true})}>
+                        Post new topic as {currentUser.name}
+                    </button>
+                </div>
+            )
+
+        }else {
+            return (
+                <div className="create-topic-form">
+                    <div className="meta">Post new topic as {currentUser.name}</div>
+
+                    {error && <strong>{error}</strong>}
+                    <form onSubmit={handleSubmit(formValues => this.handleFormSubmit(formValues))}>
                         <Field name="title"
                                label="Title"
                                placeholder="Please enter topic title"
                                component={renderField}
-                               type="text" />
-                    </div>
-                    <div>
-                        <Field name="description"
-                               label="Description"
-                               placeholder="Please enter topic description"
-                               component={renderField}
-                               type="text" />
-                    </div>
-                    <div>
+                               type="text"/>
+
                         <Field name="content"
                                component={renderTextareaField}
                                label="Message"
-                               placeholder="Please enter your message" />
-                    </div>
-                    <div>
-                        <button type="submit" disabled={submitting}>Create topic</button>
-                        <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
-                    </div>
-                </form>
-            </div>
-        )
+                               placeholder="Please enter your message"/>
+
+                        <div className="mt-3">
+                            <button type="submit" disabled={submitting} className="btn btn-primary btn-sm">
+                                Post
+                            </button>
+                            &nbsp;
+                            <button type="button" disabled={submitting}
+                                    onClick={() => this.setState({opened: false})}
+                                    className="btn btn-secondary btn-sm">
+                                Close
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            )
+        }
     }
 }
 
 const mapStateToProps = state => ({
-    //parentId: state.nodeList.parentNodeId
-})
+    currentUser: state.login.currentUser,
+});
 
 const mapDispatchToProps = dispatch => ({
     handleFormSubmit: formValues => {
         return dispatch(createTopicFormSubmit(formValues))
     }
-})
+});
 
 export default blurIfNoPermission(
     connect(mapStateToProps, mapDispatchToProps)

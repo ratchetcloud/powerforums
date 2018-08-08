@@ -21,12 +21,10 @@ export const signupUserFormSubmit = formValues => (dispatch, getState, APIClient
 };
 
 const renderField = ({ input, label, type, placeholder, meta: { touched, error } }) => (
-    <div>
-        <label>{label}</label>
-        <div>
-            <input {...input} placeholder={placeholder} type={type} />
-            {touched && error && <span>{error}</span>}
-        </div>
+    <div className="form-group">
+        <label htmlFor={input.name} className="mb-0">{label}</label>
+        <input {...input} id={input.name} placeholder={placeholder} type={type} className="form-control" />
+        {touched && error && <span>{error}</span>}
     </div>
 );
 
@@ -44,10 +42,10 @@ class SignUpForm extends Component {
     render() {
         const {error, handleSubmit, pristine, reset, submitting} = this.props;
         return (
-            <div className="signup-user-form">
+            <div className="signup-user-form container mt-3">
                 {error && <strong>{error}</strong>}
                 <form onSubmit={handleSubmit(formValues => this.handleFormSubmit(formValues))}>
-                    <div>Create a new user</div>
+                    <h2>Sign Up</h2>
                     <div>
                         <Field name="name"
                                label="Name"
@@ -77,8 +75,13 @@ class SignUpForm extends Component {
                                type="password" />
                     </div>
                     <div>
-                        <button type="submit" disabled={submitting}>Create User</button>
-                        <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+                        <button type="submit" disabled={submitting} className="btn btn-primary">
+                            Submit
+                        </button>
+                        &nbsp;
+                        <button type="button" disabled={pristine || submitting} onClick={reset} className="btn btn-secondary">
+                            Clear Values
+                        </button>
                     </div>
                 </form>
             </div>

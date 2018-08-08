@@ -41,6 +41,12 @@ header .current-user-info a{
   margin-left: 5px;
 }
 
+span.meta,
+div.meta{
+  font-size: 14px;
+  color: #666;
+}
+
 
 @media (min-width: 1200px) {
   .container{

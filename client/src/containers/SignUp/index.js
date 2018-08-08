@@ -18,11 +18,7 @@ class SignUp extends Component {
 
         if (loading === false && success === false) {
             // If there user is not authenticated, show LoginForm
-            return (
-                <div>
-                    <SignUpForm error={error} />
-                </div>
-            )
+            return <SignUpForm error={error} />
 
         } else if (loading === true && success === false) {
             // If authentication request is pending, return nothing.

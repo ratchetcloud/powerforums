@@ -12,8 +12,6 @@ import DeleteButton from "../../../components/interactive-btns/DeleteButton";
 const TopicComponent = (props) => {
     const {node, children, pagination, onPaginationChange, onChildEvent} = props;
 
-    const avatarImage = <img className="avatar" src="/assets/images/default/default_avatar_thumb.png" />;
-    const creationDate = new Date(node.creationDate);
     const onReportHandler = () => onChildEvent('REPORT', node._id);
 
     return (

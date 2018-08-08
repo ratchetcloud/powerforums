@@ -1,30 +1,5 @@
 .login-box{
-    font: 14px AppleGothic, sans-serif;
-    width: 400px;
-    margin: 50px auto;
-}
-
-.login-box h2{
-    font-size: 40px;
-    margin: 10px 0 10px;
-}
-
-.login-box input{
-    width: 200px;
-    margin: 3px 0;
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    outline: none;
-    font-size: 14px;
-}
-
-.login-box button{
-    margin: 10px 0;
-    padding: 6px 10px;
-    background-color: black;
-    border-radius: 0;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    color: white;
+  width: 350px;
+  margin: 0 auto;
+  padding: 50px;
 }

@@ -17,14 +17,22 @@ class LoginForm extends React.Component {
     render() {
         const { errMessage, handleSubmit } = this.props;
         return (
-            <div className="login-box">
-                <h2>Login</h2>
-                <div style={{'color': 'red'}}>{errMessage}</div>
-                <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <Field name="email" component="input" type="text" /><br />
-                    <Field name="password" component="input" type="password" /><br />
-                    <button type="submit">Submit</button>
-                </form>
+            <div className="login container">
+                <div className="login-box">
+                    <h2>Login</h2>
+                    <div style={{'color': 'red'}}>{errMessage}</div>
+                    <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+                        <div className="form-group mb-1">
+                            <Field name="email" component="input" type="text" className="form-control" />
+                        </div>
+                        <div>
+                            <Field name="password" component="input" type="password" className="form-control" />
+                        </div>
+                        <div className="mt-2">
+                            <button type="submit" className="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         )
     }

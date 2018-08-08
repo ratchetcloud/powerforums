@@ -3,20 +3,21 @@ import LoginForm from './loginForm'
 import {connect} from "react-redux";
 
 class Login extends Component {
-    render(){
+    render() {
         const { currentUser, loading, error } = this.props;
 
         if (currentUser === false && loading === false) {
             // If there user is not authenticated, show LoginForm
-            return <LoginForm error={error} />
+            return <LoginForm error={error} />;
 
-        } else if (currentUser === false && loading === true) {
+        }else if (currentUser === false && loading === true) {
             // If authentication request is pending, return nothing.
-            return <div>Loading..</div>
-        } else{
-            // Already logined.
-            this.props.history.push("/", null);
-            return <div></div>
+            return <div>Loading..</div>;
+
+        }else {
+            // Already logged-in.
+            location.replace('/');
+            return <div />;
         }
     }
 }

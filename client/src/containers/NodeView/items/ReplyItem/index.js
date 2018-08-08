@@ -34,26 +34,18 @@ export default class ReplyItem extends Component {
         const onDeleteHandler = () => onEvent('DELETE', node._id);
         const onEditHandler = (values) => onEvent('UPDATE', node._id, values);
 
-        const creationDate = new Date(node.creationDate);
-        const avatarImage = <img className="avatar" src="/assets/images/default/default_avatar_thumb.png" />;
-
         if (this.state.editing) {
             return (
                 <li className="card reply-card">
-                    <div className="replyBox">
-                        <div>
-                            <p>
-                                <span>{avatarImage}</span>
-                                <span><strong>{node.authorInformation.name}</strong></span>
-                                <span>{creationDate.toLocaleString()}</span>
-                            </p>
-                            <div>
-                                <UpdateReplyForm form={`UpdateReplyForm_${node._id}`}
-                                                 initialValues={{ _id: node._id, content: node.content }}
-                                                 onSubmit={onEditHandler}
-                                                 onCancel={this.finishEditingHandler}/>
-                            </div>
-                        </div>
+                    <div className="card-header">
+                        <span>Posted by {node.authorInformation.name}</span>
+                        <TimeAgo date={node.creationDate} />
+                    </div>
+                    <div className="card-body">
+                        <UpdateReplyForm form={`UpdateReplyForm_${node._id}`}
+                                         initialValues={{ _id: node._id, content: node.content }}
+                                         onSubmit={onEditHandler}
+                                         onCancel={this.finishEditingHandler}/>
                     </div>
                 </li>
             )
