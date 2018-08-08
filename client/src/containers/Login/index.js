@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import LoginForm from './loginForm'
-import {connect} from "react-redux";
+import { Redirect } from 'react-router-dom';
+import LoginForm from './loginForm';
+import {connect} from 'react-redux';
+import * as userActions from './actions';
 
 class Login extends Component {
     render() {
-        const { currentUser, loading, error } = this.props;
+        const { currentUser, loading, error, login } = this.props;
 
         if (currentUser === false && loading === false) {
             // If there user is not authenticated, show LoginForm
-            return <LoginForm error={error} />;
+            return <LoginForm loginError={error} login={login} />;
 
         }else if (currentUser === false && loading === true) {
             // If authentication request is pending, return nothing.
@@ -16,8 +18,7 @@ class Login extends Component {
 
         }else {
             // Already logged-in.
-            location.replace('/');
-            return <div />;
+            return <Redirect to='/' />;
         }
     }
 }
@@ -30,6 +31,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+    login: (username, password) => {
+        dispatch(userActions.login(username, password));
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps) (Login)

@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import {hideIfNoPermission} from '../../utils/permissionChecker';
 
 const EditButton = (props) => {
     // TODO: Permission Control
@@ -11,4 +12,4 @@ const EditButton = (props) => {
     )
 };
 
-export default EditButton;
+export default hideIfNoPermission(EditButton);

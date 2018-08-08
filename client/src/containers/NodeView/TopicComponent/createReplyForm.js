@@ -28,7 +28,6 @@ class CreateReplyForm extends Component {
         // Add "not user related" values to form, and trigger the submission with merged value set.
         return this.props.handleFormSubmit(Object.assign({
                 type: "Reply",
-                sticky: false,
                 parentId: this.props.parentId
         }, formValues));
     }
@@ -50,6 +49,7 @@ class CreateReplyForm extends Component {
                                component="textarea"
                                className="form-control"
                                rows="3"
+                               required="required"
                                placeholder="Enter your reply" />
                     </div>
                     <div>

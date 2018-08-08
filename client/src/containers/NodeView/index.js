@@ -56,6 +56,10 @@ class NodeView extends Component {
                 this.props.deleteNode(nodeId);
                 break;
 
+            case 'TOGGLE_STICKY':
+                this.props.stickNode(nodeId, values);
+                break;
+
             default:
                 alert('Unhandled event:\n' + eventType + ':' + nodeId);
         }
@@ -127,6 +131,9 @@ const mapDispatchToProps = dispatch => ({
     },
     deleteNode: (node) => {
         dispatch(actions.deleteNode(node));
+    },
+    stickNode: (node, sticky) => {
+        dispatch(actions.stickNode(node, sticky));
     }
 });
 

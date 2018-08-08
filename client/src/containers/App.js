@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from "react-redux"
-import { Route, Switch, NavLink } from 'react-router-dom'
-import { withRouter } from 'react-router'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Route, Switch, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import Loadable from 'react-loadable';
 
 import Loading from '../components/Loading';

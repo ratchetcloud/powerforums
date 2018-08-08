@@ -33,14 +33,20 @@ export default class ReplyItem extends Component {
 
         const onDeleteHandler = () => onEvent('DELETE', node._id);
         const onEditHandler = (values) => onEvent('UPDATE', node._id, values);
+        const onToggleStickyHandler = () => onEvent('TOGGLE_STICKY', node._id, !node.sticky);
+
+        const header = (
+            <div className="card-header">
+                {node.sticky === true && <span className="sticky"><i className="fas fa-thumbtack" /></span>}
+                <span>By {node.authorInformation.name}</span>
+                <TimeAgo date={node.creationDate} />
+            </div>
+        );
 
         if (this.state.editing) {
             return (
                 <li className="card reply-card">
-                    <div className="card-header">
-                        <span>Posted by {node.authorInformation.name}</span>
-                        <TimeAgo date={node.creationDate} />
-                    </div>
+                    {header}
                     <div className="card-body">
                         <UpdateReplyForm form={`UpdateReplyForm_${node._id}`}
                                          initialValues={{ _id: node._id, content: node.content }}
@@ -52,16 +58,14 @@ export default class ReplyItem extends Component {
         } else {
             return (
                 <li className="card reply-card">
-                    <div className="card-header">
-                        <span>Posted by {node.authorInformation.name}</span>
-                        <TimeAgo date={node.creationDate} />
-                    </div>
+                    {header}
                     <div className="card-body">
                         <p className="card-text">{node.content}</p>
                     </div>
                     <div className="card-footer bg-transparent">
                         <EditButton onClick={this.startEditingHandler} />
                         <DeleteButton onClick={onDeleteHandler}/>
+                        <ToggleStickyButton sticky={node.sticky} onClick={onToggleStickyHandler} />
                     </div>
                 </li>
             )

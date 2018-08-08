@@ -23,7 +23,12 @@ export const signupUserFormSubmit = formValues => (dispatch, getState, APIClient
 const renderField = ({ input, label, type, placeholder, meta: { touched, error } }) => (
     <div className="form-group">
         <label htmlFor={input.name} className="mb-0">{label}</label>
-        <input {...input} id={input.name} placeholder={placeholder} type={type} className="form-control" />
+        <input {...input}
+               id={input.name}
+               placeholder={placeholder}
+               type={type}
+               required="required"
+               className="form-control" />
         {touched && error && <span>{error}</span>}
     </div>
 );
@@ -46,34 +51,27 @@ class SignUpForm extends Component {
                 {error && <strong>{error}</strong>}
                 <form onSubmit={handleSubmit(formValues => this.handleFormSubmit(formValues))}>
                     <h2>Sign Up</h2>
-                    <div>
-                        <Field name="name"
-                               label="Name"
-                               placeholder="Please enter the user name"
-                               component={renderField}
-                               type="text" />
-                    </div>
-                    <div>
-                        <Field name="email"
-                               label="Email"
-                               placeholder="Please enter the user email"
-                               component={renderField}
-                               type="text" />
-                    </div>
-                    <div>
-                        <Field name="password"
-                               label="Password"
-                               placeholder="Please enter the password"
-                               component={renderField}
-                               type="password" />
-                    </div>
-                    <div>
-                        <Field name="passwordValidation"
-                               label="Password validation"
-                               placeholder="Please reenter the password"
-                               component={renderField}
-                               type="password" />
-                    </div>
+
+                    <Field name="name"
+                           label="Name"
+                           component={renderField}
+                           type="text" />
+
+                    <Field name="email"
+                           label="Email"
+                           component={renderField}
+                           type="text" />
+
+                    <Field name="password"
+                           label="Password"
+                           component={renderField}
+                           type="password" />
+
+                    <Field name="passwordValidation"
+                           label="Password validation"
+                           component={renderField}
+                           type="password" />
+
                     <div>
                         <button type="submit" disabled={submitting} className="btn btn-primary">
                             Submit

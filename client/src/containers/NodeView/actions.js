@@ -49,7 +49,9 @@ const fetchRejected = error => ({
     payload: error
 });
 
-///
+
+
+// Submission (Update/Delete/...) actions
 
 const nodeSubmissionError = error => ({
     type: 'NODE_SUBMISSION_ERROR',
@@ -66,9 +68,18 @@ export const updateNode = (node) => (dispatch, getState, APIClient) => {
         })
 };
 
-
 export const deleteNode = (nodeId) => (dispatch, getState, APIClient) => {
     APIClient.deleteNode(nodeId)
+        .then(response => {
+            dispatch(fetch());
+        })
+        .catch(error => {
+            dispatch(nodeSubmissionError(error));
+        })
+};
+
+export const stickNode = (nodeId, sticky) => (dispatch, getState, APIClient) => {
+    APIClient.stickNode(nodeId, sticky)
         .then(response => {
             dispatch(fetch());
         })

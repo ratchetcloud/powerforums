@@ -20,21 +20,26 @@ export const createTopicFormSubmit = formValues => (dispatch, getState, APIClien
 
 const renderField = ({ input, label, type, placeholder, meta: { touched, error } }) => (
     <div className="form-group">
-        <label className="mb-0">{label}</label>
-        <div>
-            <input {...input} placeholder={placeholder} type={type} className="form-control form-control-sm" />
-            {touched && error && <span>{error}</span>}
-        </div>
+        <label className="mb-0" htmlFor={input.name}>{label}</label>
+        <input {...input}
+               placeholder={placeholder}
+               id={input.name}
+               type={type}
+               required="required"
+               className="form-control form-control-sm" />
+        {touched && error && <span>{error}</span>}
     </div>
 );
 
 const renderTextareaField = ({ input, label, placeholder, meta: { touched, error } }) => (
-    <div>
-        <label className="mb-0">{label}</label>
-        <div>
-            <textarea {...input} placeholder={placeholder} className="form-control form-control-sm" />
-            {touched && error && <span>{error}</span>}
-        </div>
+    <div className="form-group">
+        <label className="mb-0" htmlFor={input.name}>{label}</label>
+        <textarea {...input}
+                  id={input.name}
+                  placeholder={placeholder}
+                  required="required"
+                  className="form-control form-control-sm" />
+        {touched && error && <span>{error}</span>}
     </div>
 );
 
@@ -49,7 +54,6 @@ class CreateTopicForm extends Component {
         // Add "not user related" values to form, and trigger the submission with merged value set.
         return this.props.handleFormSubmit({ ...{
             type: "Topic",
-            sticky: false,
             parentId: this.props.parentId
         }, ...formValues });
     }
@@ -81,8 +85,8 @@ class CreateTopicForm extends Component {
 
                         <Field name="content"
                                component={renderTextareaField}
-                               label="Message"
-                               placeholder="Please enter your message"/>
+                               label="Content"
+                               placeholder="Please enter your content"/>
 
                         <div className="mt-3">
                             <button type="submit" disabled={submitting} className="btn btn-primary btn-sm">

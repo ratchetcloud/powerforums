@@ -35,3 +35,30 @@ export function blurIfNoPermission(WrappedComponent) {
         }
     );
 }
+
+/**
+ * If there is no correct permission, show blurred component with requiring-login message
+ * @param WrappedComponent
+ */
+export function hideIfNoPermission(WrappedComponent) {
+    const mapStateToProps = state => ({
+        user: state.login.currentUser
+    });
+
+    return connect(mapStateToProps)(
+        class extends React.Component {
+            constructor(props) {
+                super(props);
+            }
+
+            render() {
+                if (this.props.user) {
+                    // TODO: check for permission for each node
+                    return <WrappedComponent {...this.props} />;
+                } else {
+                    return '';
+                }
+            }
+        }
+    );
+}
