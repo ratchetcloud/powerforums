@@ -3,32 +3,23 @@ import { connect } from "react-redux"
 import { Route, Switch, NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import Loadable from 'react-loadable';
-import CurrentUserInfo from './CurrentUserInfo'
-import * as userActions from '../actions/userActions';
-import { history } from '../stores/store'
+
+import Loading from '../components/Loading';
+import CurrentUserInfo from '../components/CurrentUserInfo'
+import * as loginActions from './Login/actions';
 import './App.css'
 
-const Loading = () => <div>Loading...</div>;
-
 // Each routes are loaded lazy
-const NodeList = Loadable({
-   loader: () => import(/* webpackChunkName: "node_list" */ './NodeList'),
-   loading: Loading,
-});
-const RoleList = Loadable({
-    loader: () => import(/* webpackChunkName: "role_list" */ './RoleList'),
+const NodeView = Loadable({
+    loader: () => import(/* webpackChunkName: "node_list" */ './NodeView'),
     loading: Loading,
 });
-const UserList = Loadable({
-    loader: () => import(/* webpackChunkName: "user_list" */ './UserList'),
-    loading: Loading,
-});
-const UserLogin = Loadable({
-    loader: () => import(/* webpackChunkName: "user_login" */ './UserLogin'),
+const Login = Loadable({
+    loader: () => import(/* webpackChunkName: "user_login" */ './Login'),
     loading: Loading,
 });
 const UserSignup = Loadable({
-    loader: () => import(/* webpackChunkName: "user_signup" */ './UserSignup'),
+    loader: () => import(/* webpackChunkName: "user_signup" */ './SignUp'),
     loading: Loading,
 });
 
@@ -43,18 +34,22 @@ class App extends Component {
     }
 
     render() {
+        const { currentUser } = this.props;
+
         return (
-            <div>
-                <h1>
-                    <NavLink to="/">PowerForums</NavLink>
-                </h1>
-                <CurrentUserInfo history={history} />
+            <div className="app">
+                <header className="container-fluid">
+                    <CurrentUserInfo currentUser={currentUser} onLogout={this.props.logout} />
+                    <div className="logo-wrap">
+                        <NavLink to="/">
+                            <h1 className="logo"><span>PowerForums</span></h1>
+                        </NavLink>
+                    </div>
+                </header>
                 <Switch>
-                    <Route exact path="/" component={NodeList} />
-                    <Route path="/nodelist/:nodeId" component={NodeList} />
-                    <Route path="/role" component={RoleList} />
-                    <Route path="/user" component={UserList} />
-                    <Route path="/login" component={UserLogin} />
+                    <Route exact path="/" component={NodeView} />
+                    <Route path="/n/:nodeId" component={NodeView} />
+                    <Route path="/login" component={Login} />
                     <Route path="/signup" component={UserSignup} />
                 </Switch>
             </div>
@@ -63,7 +58,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-})
+    currentUser: state.login.currentUser,
+});
 
 const mapDispatchToProps = dispatch => ({
     loadUserFromLocal: () => {
@@ -71,8 +67,11 @@ const mapDispatchToProps = dispatch => ({
         if (!token || token === '')
             return;
 
-        dispatch(userActions.meFromToken(token));
+        dispatch(loginActions.meFromToken(token));
     },
-})
+    logout: () => {
+        dispatch(loginActions.logout());
+    },
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps) (App))

@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
  */
 export function blurIfNoPermission(WrappedComponent) {
     const mapStateToProps = state => ({
-        user: state.user.authentication.currentUser
+        user: state.login.currentUser
     });
 
     return connect(mapStateToProps)(
@@ -23,8 +23,8 @@ export function blurIfNoPermission(WrappedComponent) {
                 }else {
                     return (
                         <div style={{position: "relative"}}>
-                            <span style={{position:"absolute", zIndex:2, top: "40%", left: "200px"}}>Login is required</span>
-                            <div style={{position: "absolute", backgroundColor: "rgba(255,255,255,0.7)", width: "100%", height: "100%", zIndex:1}}></div>
+                            <span style={{position:"absolute", zIndex:2, top: "40%", width: "100%", textAlign: "center"}}>Login is required</span>
+                            <div style={{position: "absolute", backgroundColor: "rgba(255,255,255,0.1)", width: "100%", height: "100%", zIndex:1}}></div>
                             <div style={{filter: "blur(3px)"}}>
                                 <WrappedComponent {...this.props} />;
                             </div>
