@@ -100,10 +100,10 @@ function checkPermission (req, user) {
                 }
             }
         }
-    }
 
-    // Add default signupedUser rule
-    permissionList.add('defaultSignupedUser')
+        // Add default signupedUser rule
+        permissionList.add('defaultSignupedUser')
+    }
 
     // Check permission rules
     for (permission of permissionList) {
