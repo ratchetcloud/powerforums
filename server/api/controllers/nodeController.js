@@ -34,7 +34,6 @@ exports.node_create = (req, res) => {
 
     // If a parent node was found.
     // Set node related attributes (ancestor list proceeded outside object).
-
     const nodeAttributes = {
         _id: new ObjectId(),
         _parentId: ObjectId(req.body.parentId),

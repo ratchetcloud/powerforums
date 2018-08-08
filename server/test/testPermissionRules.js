@@ -1,132 +1,132 @@
 const canCreateForum = require('../permissionRules/canCreateForum');
-const canCreateTopic = require('../permissionRules/canCreateTopic');
-const canCreateReply = require('../permissionRules/canCreateReply');
 const canDeleteForum = require('../permissionRules/canDeleteForum');
 const canDeleteTopic = require('../permissionRules/canDeleteTopic');
 const canDeleteReply = require('../permissionRules/canDeleteReply');
-const canSetSticky   = require('../permissionRules/canSetSticky');
+const canSetSticky = require('../permissionRules/canSetSticky');
 const defaultGuest   = require('../permissionRules/defaultGuest');
 const defaultSignupedUser = require('../permissionRules/defaultSignupedUser');
-const canGrantPermissions = require('../permissionRules/canGrantPermissions');
+
+const request = require('./fixtures/requests');
 
 // Test permissionRules
 describe('Test permissionRules', function () {
-    const canCreateForumReq = { method: 'POST', node: { type: 'Forum' } };
-    const canCreateTopicReq = { method: 'POST', node: { type: 'Topic' } };
-    const canCreateReplyReq = { method: 'POST', node: { type: 'Reply' } };
-    const canDeleteForumReq = { method: 'DELETE', 
-                                node: { type: 'Forum',
-                                        authorInformation: { _id: '100000000000000000000001' } } };
-    const canDeleteTopicReq = { method: 'DELETE', 
-                                node: { type: 'Topic',
-                                        authorInformation: { _id: '100000000000000000000001' } } };
-    const canDeleteReplyReq = { method: 'DELETE', 
-                                node: { type: 'Reply',
-                                        authorInformation: { _id: '100000000000000000000001' } } };
-    const canSetStickyReq = { method: 'PATCH', body: { sticky: true } };
-    const updateNodeReq = { method: 'PATCH', 
-                            node: { authorInformation: { _id: '100000000000000000000001'}}};
-    const readNodeReq = { method: 'GET' };
 
     describe('Test with proper request', function() {
+        // canCreateForum rule require method is POST and type is forum.
         it('canCreateForum', function () {
-            assert(canCreateForum(canCreateForumReq));
+            assert(canCreateForum(request['createForum']) === true);
         });
-        it('canCreateTopic', function () {
-            assert(canCreateTopic(canCreateTopicReq));
-        });
-        it('canCreateReply', function () { 
-            assert(canCreateReply(canCreateReplyReq));
-        });
+        // canDeleteForum rule require method is DELETE and type is forum.
         it('canDeleteForum', function () { 
-            assert(canDeleteForum(canDeleteForumReq));
+            assert(canDeleteForum(request['deleteForum']) === true);
         });
+        // canDeleteForum rule require method is DELETE and type is topic.
         it('canDeleteTopic', function () {
-            assert(canDeleteTopic(canDeleteTopicReq));
+            assert(canDeleteTopic(request['deleteTopic']) === true);
         });
+        // canDeleteForum rule require method is DELETE and type is reply.
         it('canDeleteReply', function () {
-            assert(canDeleteReply(canDeleteReplyReq));
+            assert(canDeleteReply(request['deleteReply']) === true);
         });
+        // canSetSticky rule require request body has only sticky element.
         it('canSetSticky', function () {
-            assert(canSetSticky(canSetStickyReq));
+            assert(canSetSticky(request['setSticky']) === true);
         });
     });
 
     describe('Test with improper request', function() {
-        it('canCreateForum', function () {
-            assert(!canCreateForum(canCreateTopicReq));
+        // If request type is not forum, it should return false.
+        it('canCreateForum with invalid type', function () {
+            assert(canCreateForum(request['createTopic']) === false);
         });
-        it('canCreateTopic', function () {
-            assert(!canCreateTopic(canCreateReplyReq));
+        // If request method is not POST, it should return false.
+        it('canCreateForum with invalid method', function () {
+            assert(canCreateForum(request['deleteForum']) === false);
         });
-        it('canCreateReply', function () { 
-            assert(!canCreateReply(canCreateForumReq));
+        // If request type is not forum, it should return false.
+        it('canDeleteForum with invalid type', function () { 
+            assert(canDeleteForum(request['deleteTopic']) === false);
         });
-        it('canDeleteForum', function () { 
-            assert(!canDeleteForum(canDeleteTopicReq));
+        // If request method is not DELETE, it should return false.
+        it('canDeleteForum with invalid method', function () { 
+            assert(canDeleteForum(request['createForum']) === false);
         });
-        it('canDeleteTopic', function () {
-            assert(!canDeleteTopic(canDeleteReplyReq));
+        // If request type is not topic, it should return false.
+        it('canDeleteTopic with invalid type', function () {
+            assert(canDeleteTopic(request['deleteReply']) === false);
         });
-        it('canDeleteReply', function () {
-            assert(!canDeleteReply(canDeleteForumReq));
+        // If request method is not DELETE, it should return false.
+        it('canDeleteTopic with invalid method', function () {
+            assert(canDeleteTopic(request['createTopic']) === false);
         });
+        // If request type is not reply, it should return false.
+        it('canDeleteReply with invalid type', function () {
+            assert(canDeleteReply(request['deleteForum']) === false);
+        });
+        // If request method is not DELETE, it should return false.
+        it('canDeleteReply with invalid method', function () {
+            assert(canDeleteReply(request['createReply']) === false);
+        });
+        // If request body includes other elements except sticky, it should return false.
         it('canSetSticky', function () {
-            assert(!canSetSticky(updateNodeReq));
+            request['setSticky'].body.content = 'improper request';
+            assert(canSetSticky(request['setSticky']) === false);
         });
     });
 
+    // Test about defaultSignupedUser rule
+    // can create topic and reply, not forum
+    // can read all nodes
+    // can update their own node
+    // can delete their own node
+    // can't stick nodes
     describe('Test defaultSignupedUser', function() {
-        const user = global.normalUser;
 
         it('testCreateForum', function () {
-            assert(!defaultSignupedUser(canCreateForumReq, user));
+            assert(defaultSignupedUser(request['createForum'], global.normalUser) === false);
         });
         it('testCreateTopic', function () {
-            assert(defaultSignupedUser(canCreateTopicReq, user));
+            assert(defaultSignupedUser(request['createTopic'], global.normalUser) === true);
         });
-        it('testCreateReply', function () { 
-            assert(defaultSignupedUser(canCreateReplyReq, user));
+        it('testCreateReply', function () {
+            assert(defaultSignupedUser(request['createReply'], global.normalUser) === true);
         });
-
+        it('testReadNode', function () {
+            assert(defaultSignupedUser(request['readNode'], global.normalUser) === true);
+        })
+        it('testUpdateOwn', function () {
+            assert(defaultSignupedUser(request['updateNode'], global.normalUser) === true);
+        });
+        it('testUpdateOthers', function () {
+            request['updateNode'].node.authorInformation._id = '100000000000000000000002'
+            assert(defaultSignupedUser(request['updateNode'], global.normalUser) === false);
+        });
         it('testDeleteOwn', function () {
-            assert(defaultSignupedUser(canDeleteTopicReq, user));
+            assert(defaultSignupedUser(request['deleteTopic'], global.normalUser) === true);
         });
         it('testDeleteOthers', function () {
-            assert(!defaultSignupedUser(canDeleteReplyReq, user));
+            request['deleteTopic'].node.authorInformation._id = '100000000000000000000002'
+            assert(defaultSignupedUser(request['deleteTopic'], global.normalUser) === false);
         });
         it('testSetSticky', function () {
-            assert(!defaultSignupedUser(canSetStickyReq, user));
+            assert(defaultSignupedUser(request['setSticky'], global.normalUser) === false);
         });
-        it('testReadNode', function () {
-            assert(defaultSignupedUser(readNodeReq, user));
-        })
     });
 
+    // Test about defaultGuest rule
+    // defaultGuest rule permits only read(method: GET). 
     describe('Test defaultGuest', function() {
-        it('canCreateForum', function () {
-            assert(!defaultGuest(canCreateForumReq));
+        it('test method POST', function () {
+            assert(defaultGuest(request['createTopic']) === false);
         });
-        it('canCreateTopic', function () {
-            assert(!defaultGuest(canCreateTopicReq));
-        });
-        it('canCreateReply', function () { 
-            assert(!defaultGuest(canCreateReplyReq));
-        });
-        it('canDeleteForum', function () { 
-            assert(!defaultGuest(canDeleteForumReq));
-        });
-        it('canDeleteTopic', function () {
-            assert(!defaultGuest(canDeleteTopicReq));
-        });
-        it('canDeleteReply', function () {
-            assert(!defaultGuest(canDeleteReplyReq));
-        });
-        it('canSetSticky', function () {
-            assert(!defaultGuest(canSetStickyReq));
-        });
-        it('testReadNode', function () {
-            assert(defaultSignupedUser(readNodeReq));
+        it('test method GET', function () {
+            assert(defaultGuest(request['readNode']) === true);
         })
+        it('test method PUT/PATCH', function () {
+            assert(defaultGuest(request['updateNode']) === false);
+        });
+        it('test method DELETE', function () {
+            assert(defaultGuest(request['deleteTopic']) === false);
+        });
     });
 });

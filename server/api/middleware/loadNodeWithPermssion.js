@@ -24,6 +24,7 @@ function load(req) {
     return new Promise(function (resolve, reject) {
         switch (req.method) {
             case 'POST':
+                // TODO: body element test
                 if (!req.body.parentId) {
                     // If parent node were not found, return a 404 error.
                     reject(errorParentNodeNotFound);
@@ -120,7 +121,6 @@ module.exports = (req, res, next) => {
     let user = null;
     if (res.locals.userData)
         user = res.locals.userData;
-
     load(req)
         .then((node) => {
             req.node = node;

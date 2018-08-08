@@ -5,10 +5,7 @@ module.exports = [
         "_id": ObjectId("000000000000000000000000"),
         "name": "Administrator",
         "permissions":[
-            "canGrantPermissions",
             "canCreateForum",
-            "canCreateTopic",
-            "canCreateReply",
             "canDeleteForum",
             "canDeleteTopic",
             "canDeleteReply",
@@ -19,10 +16,7 @@ module.exports = [
         "_id": ObjectId("000000000000000000000001"),
         "name": "GameModerator",
         "permissions":[
-            "canGrantPermissions",
             "canCreateForum",
-            "canCreateTopic",
-            "canCreateReply",
             "canDeleteForum",
             "canDeleteTopic",
             "canDeleteReply",

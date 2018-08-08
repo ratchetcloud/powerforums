@@ -4,12 +4,12 @@
  * @returns {boolean} True if allowed, false otherwise
  */
 
+const has = require('underscore').has;
+
 module.exports = (req) => {
 	switch(req.method) {
 		case 'POST':
-			if (req.node.type === 'Forum')
-				return true;
-			break;
+			return req.body.type === 'Forum';
 	}
 	return false;
 }

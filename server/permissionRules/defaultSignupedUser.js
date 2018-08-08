@@ -5,6 +5,9 @@
  * @returns {boolean} True if allowed, false otherwise
  */
 
+const omit = require('underscore').omit;
+const isEmpty = require('underscore').isEmpty;
+
 module.exports = (req, user) => {
     switch (req.method) {
         case 'GET':
@@ -13,8 +16,11 @@ module.exports = (req, user) => {
 
         case 'POST':
             // can create topic and reply, not forum
-            if (req.node.type === 'Topic' || req.node.type === 'Reply') {
-                return true;
+            // TODO: apply white list about req.body
+            if (req.body.type === 'Topic') {
+                return isEmpty(omit(req.body, 'type', 'parentId', 'title', 'content', 'ancestorList'));
+            } else if (req.body.type === 'Reply') {
+                return isEmpty(omit(req.body, 'type', 'parentId', 'content', 'ancestorList'));
             }
             break;
 
@@ -29,6 +35,8 @@ module.exports = (req, user) => {
             break;
 
         case 'DELETE':
+        console.log(req.body)
+        console.log(user)
             // Owner of node can delete
             if (user._id.equals(req.node.authorInformation._id))
                 return true;

@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 
 const checkAuth = require('../api/middleware/checkAuth');
 const loadNodeWithPermssion = require('../api/middleware/loadNodeWithPermssion');
+const request = require('./fixtures/requests');
 
 describe('Test middlewares', function() {
     var server;
@@ -110,7 +111,7 @@ describe('Test middlewares', function() {
             it('Create Forum', function () {
                 return supertest(app)
                     .post('/node')
-                    .send({type: 'Forum', parentId: '200000000000000000000000'})
+                    .send(request['createForum'].body)
                     .expect(403);
             });
             it('Read Forum', function () {
@@ -136,7 +137,7 @@ describe('Test middlewares', function() {
             it('Create Topic', function () {
                 return supertest(app)
                     .post('/node')
-                    .send({type: 'Topic', title: 'MyTopic', parentId: '200000000000000000000001'})
+                    .send(request['createTopic'].body)
                     .expect(200)
                     .then(response => {
                         assert(response.body.node != null);
@@ -183,7 +184,7 @@ describe('Test middlewares', function() {
             it('Create Forum', function () {
                 return supertest(app)
                     .post('/node')
-                    .send({type: 'Forum', parentId: '200000000000000000000000'})
+                    .send(request['createForum'].body)
                     .expect(200);
             });
             it('Update Forum', function () {
@@ -215,16 +216,20 @@ describe('Test middlewares', function() {
                 router.route('/node/:nodeId').delete(setAuthAsSubAdminUser, loadNodeWithPermssion, responseNode);
             });
             it('Create Forum under permitted node', function () {
+                request['createForum'].body.parentId = '200000000000000000000001';
+                request['createForum'].body.ancestorList = [ { _id: "200000000000000000000001",
+                                                                  title: "Overwatch"} ];
                 return supertest(app)
                     .post('/node')
-                    .send({type: 'Forum', parentId: '200000000000000000000001'})
+                    .send(request['createForum'].body)
                     .expect(200);
             });
             it('Create Forum under not permitted node', function () {
+                request['createForum'].body.parentId = '200000000000000000000004';
                 // Subadmin can't create Forum under not permitted node
                 return supertest(app)
                     .post('/node')
-                    .send({type: 'Forum', parentId: '200000000000000000000004'})
+                    .send(request['createForum'].body)
                     .expect(403);
             });
             it('Update Forum', function () {
@@ -271,7 +276,7 @@ describe('Test middlewares', function() {
             it('Create Topic', function () {
                 return supertest(app)
                     .post('/node')
-                    .send({type: 'Topic', title: 'MyTopic', parentId: '200000000000000000000001'})
+                    .send(request['createTopic'].body)
                     .expect(403)
             });
             it('Read Topic', function () {
