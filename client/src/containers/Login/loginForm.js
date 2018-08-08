@@ -1,8 +1,6 @@
-import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { connect } from "react-redux";
-import * as userActions from './actions';
-import './loginForm.css'
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
+import './loginForm.css';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -15,12 +13,13 @@ class LoginForm extends React.Component {
     }
 
     render() {
-        const { errMessage, handleSubmit } = this.props;
+        const { loginError, handleSubmit } = this.props;
         return (
             <div className="login container">
                 <div className="login-box">
                     <h2>Login</h2>
-                    <div style={{'color': 'red'}}>{errMessage}</div>
+                    {loginError && <div className="alert alert-danger" role="alert">{loginError}</div>}
+
                     <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                         <div className="form-group mb-1">
                             <Field name="email"
@@ -46,15 +45,4 @@ class LoginForm extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    login: (username, password) => {
-        dispatch(userActions.login(username, password))
-    }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-    reduxForm({form: 'loginForm'})(LoginForm)
-)
+export default reduxForm({form: 'loginForm'})(LoginForm);
