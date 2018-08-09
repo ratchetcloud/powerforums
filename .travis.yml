@@ -5,7 +5,7 @@ services:
   - mongodb
 install:
   - npm install --prefix server
-  - npm install --prefix client
+  - travis_wait 30 npm install --prefix client
 script:
   - npm run test-coverage --prefix server
   - npm run build --prefix client

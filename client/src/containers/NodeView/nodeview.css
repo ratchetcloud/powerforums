@@ -1,0 +1,123 @@
+.node-view{
+
+}
+
+.node-view > .header{
+  background-color: #dfe5f7;
+  padding: 20px 0 17px;
+}
+
+.node-view > .header .nav .nav-item:not(:last-child):after{
+  content: "\f054";
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  color: rgba(0, 123, 255, 0.3);
+  font-size: 16px;
+}
+
+.node-view > .header .nav .nav-item a{
+  display: inline-block;
+  font-size: 18px;
+  padding: 0 5px;
+}
+.node-view > .header .nav .nav-item:first-child a{ padding-left: 0 }
+.node-view > .header .nav .nav-item:last-child a{ font-size: 20px }
+
+.node-view .card{
+  margin-bottom: 10px;
+}
+
+.node-view .card a{
+  text-decoration: none;
+  color: black;
+}
+
+.node-view .card .card-body{
+  padding: 15px 15px 10px;
+}
+
+.node-view .card .card-body h5{
+  font-size: 1.15rem;
+  margin-bottom: 5px;
+}
+
+.node-view .card .card-body .card-text{
+  font-size: 14px;
+  color: #333;
+}
+
+.node-view .card .card-header,
+.node-view .card .card-footer{
+  padding: 5px 15px;
+  font-size: 13px;
+  color: #666;
+}
+
+.node-view .card .card-header span{
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.node-view .card .card-header span.sticky{
+  color: #ff6e00;
+  font-size: 12px;
+}
+
+.node-view .card .card-footer span,
+.node-view .card .card-footer button{
+  color: #666;
+  font-size: 13px;
+  padding: 2px 4px;
+  background: none;
+  border: none;
+  outline: none;
+}
+.node-view .card .card-footer button:hover{ background-color: #eee }
+
+
+
+/* ForumComponent */
+.forum-view .forum-body{
+  padding: 20px 0;
+}
+
+.forum-view .forum-body h3{
+  margin-top: 15px;
+}
+
+.forum-view .forum-body .forums .card{
+  border-left: 4px solid #4863b3;
+}
+
+.forum-view .card:hover{
+  border-color: #aaa;
+}
+
+
+/* TopicComponent */
+.topic-view .topic-body{
+  background-color: white;
+  padding: 15px 20px;
+  margin-top: 20px;
+}
+
+.topic-view .topic-body article .header{
+}
+
+.topic-view .topic-body article .header span,
+.topic-view .topic-body article .header time{
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 14px;
+  color: #444;
+}
+
+
+.topic-view .topic-body article .footer{
+  /*border-top: 1px solid #ccc;*/
+  border-bottom: 1px solid #ddd;
+  margin: 10px 0 20px;
+  padding: 3px 0;
+  font-size: 14px;
+  color: #666;
+}

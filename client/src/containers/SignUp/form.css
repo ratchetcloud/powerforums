@@ -1,0 +1,8 @@
+.signup-user-form{
+    max-width: 400px;
+    padding: 20px 12px 10px 20px;
+}
+
+.signup-user-form span.required{
+    color: red;
+}
