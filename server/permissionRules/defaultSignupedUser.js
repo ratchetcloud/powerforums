@@ -35,8 +35,6 @@ module.exports = (req, user) => {
             break;
 
         case 'DELETE':
-        console.log(req.body)
-        console.log(user)
             // Owner of node can delete
             if (user._id.equals(req.node.authorInformation._id))
                 return true;

@@ -8,26 +8,10 @@ const Topic = require("../models/topicModel");
 const Reply = require("../models/replyModel");
 const User = require("../models/userModel");
 
-// TODO: `sticky` property only can be set by admin
-// TODO: Missing parameter could be abstract, not by hard coded with `hasOwnProperty`
-
 // Create a node. Node can be a Forum, a Topic or a Reply.
 exports.node_create = (req, res) => {
     // Constants.
-    const errorMissingParameter = { message: "Can't create node, a parameter is missing." };
     const errorServerInternal = { error: "Server internal error." };
-    const errorObjectId = { message: "Provided ObjectId is not valid." };
-
-    // Filter node parameters.
-    if (!req.body.hasOwnProperty('type') || !req.body.hasOwnProperty('parentId') || ['Forum', 'Topic', 'Reply'].indexOf(req.body.type) == -1) {
-        // If a parameter is missing, return an 404 with message.
-        return res.status(404).json(errorMissingParameter);
-    }
-
-    if(!ObjectId.isValid(req.body.parentId)) {
-        // If required objectIds are not valid, return a 400 error.
-        return res.status(400).json(errorObjectId);
-    }
 
     const user = new User(res.locals.userData);
     let newNode;
@@ -36,58 +20,38 @@ exports.node_create = (req, res) => {
     // Set node related attributes (ancestor list proceeded outside object).
     const nodeAttributes = {
         _id: new ObjectId(),
-        _parentId: ObjectId(req.body.parentId),
+        _parentId: ObjectId(req.node.parentId),
         creationDate: new Date(),
         lastUpdatedDate: new Date(),
         authorInformation: {
             _id: user._id,
             name: user.name
         },
-        ancestorList: req.body.ancestorList
+        ancestorList: req.node.ancestorList
     };
 
-    switch (req.body.type) {
+    switch (req.node.type) {
         case 'Forum':
-            // When forum creation request.
-            if (!req.body.hasOwnProperty('description') || !req.body.hasOwnProperty('title')) {
-                return res.status(404).json(errorMissingParameter);
-            }
-
             newNode = new Forum(Object.assign(nodeAttributes, {
-                description: req.body.description,
-                title: req.body.title,
+                description: req.node.description,
+                title: req.node.title,
                 replyCount: 0
             }));
             break;
 
         case 'Topic':
-            // When topic creation request.
-            // if (!req.body.hasOwnProperty('content')  || !req.body.hasOwnProperty('description')
-            //     || !req.body.hasOwnProperty('title') || !req.body.hasOwnProperty('sticky')) {
-            //     return res.status(404).json(errorMissingParameter);
-            // }
-            if (!req.body.hasOwnProperty('content') || !req.body.hasOwnProperty('title')) {
-                return res.status(404).json(errorMissingParameter);
-            }
-
             newNode = new Topic(Object.assign(nodeAttributes, {
-                description: req.body.description,
-                title: req.body.title,
-                content: req.body.content,
-                sticky: req.body.sticky,
+                title: req.node.title,
+                content: req.node.content,
+                sticky: false,
                 replyCount: 0
             }));
             break;
 
         case 'Reply':
-            // When reply creation request.
-            //if (!req.body.hasOwnProperty('content') || !req.body.hasOwnProperty('sticky')) {
-            if (!req.body.hasOwnProperty('content')) {
-                return res.status(404).json(errorMissingParameter);
-            }
             newNode = new Reply(Object.assign(nodeAttributes, {
-                content: req.body.content,
-                sticky: req.body.sticky
+                content: req.node.content,
+                sticky: false
             }));
             break;
 

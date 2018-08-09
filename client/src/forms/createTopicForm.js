@@ -49,7 +49,6 @@ class CreateTopicForm extends Component {
         // Add "not user related" values to form, and trigger the submission with merged value set.
         return this.props.handleFormSubmit({ ...{
             type: "Topic",
-            sticky: false,
             parentId: this.props.parentId
         }, ...formValues })
     }
@@ -66,13 +65,6 @@ class CreateTopicForm extends Component {
                         <Field name="title"
                                label="Title"
                                placeholder="Please enter topic title"
-                               component={renderField}
-                               type="text" />
-                    </div>
-                    <div>
-                        <Field name="description"
-                               label="Description"
-                               placeholder="Please enter topic description"
                                component={renderField}
                                type="text" />
                     </div>

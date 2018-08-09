@@ -39,7 +39,6 @@ class CreateForumForm extends Component {
         // Add "not user related" values to form, and trigger the submission with merged value set.
         return this.props.handleFormSubmit(Object.assign({
             type: "Forum",
-            sticky: false,
             parentId: this.props.parentId
         }, formValues));
     }

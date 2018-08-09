@@ -9,11 +9,13 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const Node = require("../models/nodeModel");
 const User = require("../models/userModel");
+const has = require('underscore').has;
 
 const errorNotFound = { message: "No valid node found for provided ID", code: 404 }
 const errorObjectId = { message: "Provided ObjectId is not valid.", code : 400 };
 const errorInvalidType = { message: "Provided action type is not valid", code: 500 };
 const errorParentNodeNotFound = { message: "Parent node not found.", code: 404 };
+const errorMissingParameter = { message: "Parameter is missing.", code: 400 };
 
 /**
  * Load node data from `req`
@@ -24,11 +26,32 @@ function load(req) {
     return new Promise(function (resolve, reject) {
         switch (req.method) {
             case 'POST':
-                // TODO: body element test
                 if (!req.body.parentId) {
                     // If parent node were not found, return a 404 error.
                     reject(errorParentNodeNotFound);
                 }
+
+                if(!ObjectId.isValid(req.body.parentId)) {
+                    // If required objectIds are not valid, return a 400 error.
+                    reject(errorObjectId);
+                }
+
+                if (!has(req.body, 'type') || ['Forum', 'Topic', 'Reply'].indexOf(req.body.type) == -1) {
+                    // If a parameter is missing, return an 404 with message.
+                    reject(errorMissingParameter)
+                }
+
+                if (req.body.type === 'Forum') {
+                    if (!has(req.body, 'description', 'title'))
+                        reject(errorMissingParameter);
+                } else if (req.body.type === 'Topic') {
+                    if (!has(req.body, 'content', 'title'))
+                        reject(errorMissingParameter);
+                } else {
+                    if (!has(req.body, 'content'))
+                        reject(errorMissingParameter);
+                }
+
                 /**
                  *  There is no instance in db, so use data in req.body
                  *  add ancestorList to req.body
