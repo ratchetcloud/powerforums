@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import {connect} from "react-redux";
 import { signUpEnded } from './actions';
 import SignUpForm from './form'
+import Loading from "../../components/Loading";
 
 class SignUp extends Component {
     constructor(props) {
@@ -18,11 +19,11 @@ class SignUp extends Component {
 
         if (loading === false && success === false) {
             // If there user is not authenticated, show LoginForm
-            return <SignUpForm error={error} />
+            return <SignUpForm error={error} />;
 
         } else if (loading === true && success === false) {
             // If authentication request is pending, return nothing.
-            return <div>Loading..</div>
+            return <Loading />;
 
         } else {
             // signup success
@@ -32,7 +33,7 @@ class SignUp extends Component {
                         <NavLink to="/">Go home</NavLink>
                     </button>
                 </div>
-            )
+            );
         }
     }
 }

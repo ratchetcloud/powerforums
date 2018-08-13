@@ -66,10 +66,8 @@ class NodeView extends Component {
     }
 
     render() {
-        const {loading, loaded, node, children, pagination, error} = this.props;
+        const {node, children, pagination, error} = this.props;
 
-        if (loading)
-            return <Loading />;
         if (error)
             return (
                 <div className="container">
@@ -77,10 +75,10 @@ class NodeView extends Component {
                     <button onClick={() => location.reload()}>Reload</button>
                 </div>
             );
-        if (!loaded)
-            // Unknown state
-            return <div />;
 
+        if (!node || !children)
+            // Node or children are not load yet.
+            return <Loading />;
 
         switch (node.type) {
             case 'Forum':
@@ -108,8 +106,6 @@ class NodeView extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.nodeView.loading,
-    loaded: state.nodeView.loaded,
     node: state.nodeView.node,
     children: state.nodeView.children,
     pagination: state.nodeView.pagination,

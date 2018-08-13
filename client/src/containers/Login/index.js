@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import LoginForm from './loginForm';
 import {connect} from 'react-redux';
+import LoginForm from './loginForm';
+import Loading from '../../components/Loading';
 import * as userActions from './actions';
 
 class Login extends Component {
@@ -14,7 +15,7 @@ class Login extends Component {
 
         }else if (currentUser === false && loading === true) {
             // If authentication request is pending, return nothing.
-            return <div>Loading..</div>;
+            return <Loading />;
 
         }else {
             // Already logged-in.

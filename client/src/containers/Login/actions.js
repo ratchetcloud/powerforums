@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import {hideLoading, showLoading} from "react-redux-loading-bar";
 
 export const meFromToken = (token) => (dispatch, getState, client) => {
     // If there is data on client sessionStorage, use that data
@@ -9,6 +10,7 @@ export const meFromToken = (token) => (dispatch, getState, client) => {
 
 export const login = (username, password) => (dispatch, getState, client) => {
     // We want to handle an Async action, dispatch a "Loading" action.
+    dispatch(showLoading());
     dispatch(loginPending());
 
     client.login(username, password)
@@ -18,10 +20,12 @@ export const login = (username, password) => (dispatch, getState, client) => {
 
             // Dispatch a fulfilled action.
             dispatch(userLoginFulfilled(response.token, response.currentUser));
+            dispatch(hideLoading());
 
         })
         .catch(error => {
             dispatch(loginRejected(error.response.data));
+            dispatch(hideLoading());
         })
 };
 

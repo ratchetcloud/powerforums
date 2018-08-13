@@ -1,4 +1,4 @@
-// Actions
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 export const changePagination = (newPagination) => ({
    type: 'NODE_PAGINATION_CHANGED',
@@ -17,6 +17,7 @@ export const fetch = () => (dispatch, getState, APIClient) => {
     const perPage = currentState.nodeView.pagination.perPage;
     let nodeData;
 
+    dispatch(showLoading());
     dispatch(fetchPending());
 
     APIClient.getNodeById(nodeId)
@@ -26,9 +27,11 @@ export const fetch = () => (dispatch, getState, APIClient) => {
         })
         .then(response => {
             dispatch(fetchFulfilled(nodeData, response.results, response.pagination));
+            dispatch(hideLoading());
         })
         .catch(response => {
             dispatch(fetchRejected(response));
+            dispatch(hideLoading());
         });
 };
 
@@ -59,7 +62,7 @@ const nodeSubmissionError = error => ({
 });
 
 export const updateNode = (node) => (dispatch, getState, APIClient) => {
-    APIClient.updateNode(node)
+    return APIClient.updateNode(node)
         .then(response => {
             dispatch(fetch());
         })
@@ -69,7 +72,7 @@ export const updateNode = (node) => (dispatch, getState, APIClient) => {
 };
 
 export const deleteNode = (nodeId) => (dispatch, getState, APIClient) => {
-    APIClient.deleteNode(nodeId)
+    return APIClient.deleteNode(nodeId)
         .then(response => {
             dispatch(fetch());
         })
@@ -79,7 +82,7 @@ export const deleteNode = (nodeId) => (dispatch, getState, APIClient) => {
 };
 
 export const stickNode = (nodeId, sticky) => (dispatch, getState, APIClient) => {
-    APIClient.stickNode(nodeId, sticky)
+    return APIClient.stickNode(nodeId, sticky)
         .then(response => {
             dispatch(fetch());
         })
