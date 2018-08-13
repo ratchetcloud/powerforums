@@ -104,11 +104,11 @@ function checkPermission (req, user) {
     let permissionList = new Set();
 
     if (!user) {
-        // If guest, add guest filter
+        // If user is guest, add defaultGuest rule
         permissionList.add('defaultGuest');
 
     } else {
-        // Signuped user who has special permissions
+        // Signed up user who has special permissions
         if (user.permissions.length > 0) {
             let ancestorIds = req.node.ancestorList.map(ancestor => ancestor._id);
 
@@ -124,7 +124,7 @@ function checkPermission (req, user) {
             }
         }
 
-        // Add default signedup User rule
+        // Add defaultSignedUpUser rule
         permissionList.add('defaultSignedupUser');
     }
 

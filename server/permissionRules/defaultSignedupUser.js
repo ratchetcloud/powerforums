@@ -1,5 +1,5 @@
 /**
- * Check permission for signedupUser
+ * Check permission for signed up user
  * @param req: include method(GET, POST, PUT, PATCH or DELETE) and node
  * @param user: Current logged-in user's ID (mongoose.Types.ObjectId)
  * @returns {boolean} True if allowed, false otherwise
@@ -16,7 +16,6 @@ module.exports = (req, user) => {
 
         case 'POST':
             // can create topic and reply, not forum
-            // TODO: apply white list about req.body
             if (req.body.type === 'Topic') {
                 return isEmpty(omit(req.body, 'type', 'parentId', 'title', 'content', 'ancestorList'));
             } else if (req.body.type === 'Reply') {
@@ -26,7 +25,7 @@ module.exports = (req, user) => {
 
         case 'PUT':
         case 'PATCH':
-            // Signuped user can't stick node.
+            // Signed up user can't stick node.
             if (req.body.sticky !== undefined)
                 return false;
             // Owner of node can update content. 
