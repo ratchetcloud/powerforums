@@ -59,12 +59,21 @@ exports.node_create = (req, res) => {
             // When not Forum/Topic/Reply. Not possible, type filed was previously filtered.
             return res.status(500).json(errorServerInternal);
     }
-
+    
     // Save the new node in database.
     newNode
         .save()
-        .then(document => res.status(201).json(document))
-        .catch(error => res.status(500).json(error));
+        .then(document => {
+            // TODO: add then/cath after update
+            Topic.findByIdAndUpdate(newNode._parentId, {$inc: { replyCount: 1}}, function(err, data) {
+                if(err) console.log(err);
+                console.log("success")
+            });
+            res.status(201).json(document)
+        })
+        .catch(error => {
+            res.status(500).json(error)
+        });
 };
 
 // Get a node by ID.
@@ -111,6 +120,7 @@ exports.node_delete = (req, res) => {
         .remove()
         .exec()
         .then(result => {
+            // TODO: add decrease reply count of parent
             if (result.n > 0) {
                 // If document was deleted.
                 return res.status(200).json(successDeleted);
