@@ -8,117 +8,63 @@ const Topic = require("../models/topicModel");
 const Reply = require("../models/replyModel");
 const User = require("../models/userModel");
 
-// TODO: `sticky` property only can be set by admin
-// TODO: Missing parameter could be abstract, not by hard coded with `hasOwnProperty`
-
 // Create a node. Node can be a Forum, a Topic or a Reply.
 exports.node_create = (req, res) => {
     // Constants.
-    const errorMissingParameter = { message: "Can't create node, a parameter is missing." };
     const errorServerInternal = { error: "Server internal error." };
-    const errorParentNodeNotFound = { message: "Parent node not found." };
-    const errorObjectId = { message: "Provided ObjectId is not valid." };
-
-    // Filter node parameters.
-    if (!req.body.hasOwnProperty('type') || !req.body.hasOwnProperty('parentId') || ['Forum', 'Topic', 'Reply'].indexOf(req.body.type) == -1) {
-        // If a parameter is missing, return an 404 with message.
-        return res.status(404).json(errorMissingParameter);
-    }
-
-    if(!ObjectId.isValid(req.body.parentId)) {
-        // If required objectIds are not valid, return a 400 error.
-        return res.status(400).json(errorObjectId);
-    }
 
     const user = new User(res.locals.userData);
     let newNode;
 
-    // Get parent node.
-    Node.findById(req.body.parentId)
-        .exec()
-        .then(parentNode => {
-            if (!parentNode) {
-                // If parent node were not found, return a 404 error.
-                return res.status(404).json(errorParentNodeNotFound);
-            }
+    // If a parent node was found.
+    // Set node related attributes (ancestor list proceeded outside object).
+    const nodeAttributes = {
+        _id: new ObjectId(),
+        _parentId: ObjectId(req.node.parentId),
+        creationDate: new Date(),
+        lastUpdatedDate: new Date(),
+        authorInformation: {
+            _id: user._id,
+            name: user.name
+        },
+        ancestorList: req.node.ancestorList
+    };
 
-            // If a parent node was found.
-            // Set node related attributes (ancestor list proceeded outside object).
-            let newAncestorList = parentNode.ancestorList;
-            newAncestorList.push({_id: parentNode._id, title: 'title' in parentNode ? parentNode.title : ''});
+    switch (req.node.type) {
+        case 'Forum':
+            newNode = new Forum(Object.assign(nodeAttributes, {
+                description: req.node.description,
+                title: req.node.title,
+                replyCount: 0
+            }));
+            break;
 
-            const nodeAttributes = {
-                _id: new ObjectId(),
-                _parentId: ObjectId(req.body.parentId),
-                creationDate: new Date(),
-                lastUpdatedDate: new Date(),
-                authorInformation: {
-                    _id: user._id,
-                    name: user.name
-                },
-                ancestorList: newAncestorList
-            };
+        case 'Topic':
+            newNode = new Topic(Object.assign(nodeAttributes, {
+                title: req.node.title,
+                content: req.node.content,
+                sticky: false,
+                replyCount: 0
+            }));
+            break;
 
-            switch (req.body.type) {
-                case 'Forum':
-                    // When forum creation request.
-                    if (!req.body.hasOwnProperty('description') || !req.body.hasOwnProperty('title')) {
-                        return res.status(404).json(errorMissingParameter);
-                    }
+        case 'Reply':
+            newNode = new Reply(Object.assign(nodeAttributes, {
+                content: req.node.content,
+                sticky: false
+            }));
+            break;
 
-                    newNode = new Forum(Object.assign(nodeAttributes, {
-                        description: req.body.description,
-                        title: req.body.title,
-                        replyCount: 0
-                    }));
-                    break;
+        default:
+            // When not Forum/Topic/Reply. Not possible, type filed was previously filtered.
+            return res.status(500).json(errorServerInternal);
+    }
 
-                case 'Topic':
-                    // When topic creation request.
-                    // if (!req.body.hasOwnProperty('content')  || !req.body.hasOwnProperty('description')
-                    //     || !req.body.hasOwnProperty('title') || !req.body.hasOwnProperty('sticky')) {
-                    //     return res.status(404).json(errorMissingParameter);
-                    // }
-                    if (!req.body.hasOwnProperty('content') || !req.body.hasOwnProperty('title')) {
-                        return res.status(404).json(errorMissingParameter);
-                    }
-
-                    newNode = new Topic(Object.assign(nodeAttributes, {
-                        description: req.body.description,
-                        title: req.body.title,
-                        content: req.body.content,
-                        sticky: req.body.sticky,
-                        replyCount: 0
-                    }));
-                    break;
-
-                case 'Reply':
-                    // When reply creation request.
-                    //if (!req.body.hasOwnProperty('content') || !req.body.hasOwnProperty('sticky')) {
-                    if (!req.body.hasOwnProperty('content')) {
-                        return res.status(404).json(errorMissingParameter);
-                    }
-                    newNode = new Reply(Object.assign(nodeAttributes, {
-                        content: req.body.content,
-                        sticky: req.body.sticky
-                    }));
-                    break;
-
-                default:
-                    // When not Forum/Topic/Reply. Not possible, type filed was previously filtered.
-                    return res.status(500).json(errorServerInternal);
-            }
-
-            // Save the new node in database.
-            newNode
-                .save()
-                .then(document => res.status(201).json(document))
-                .catch(error => res.status(500).json(error));
-        })
-        .catch(error => {
-            // When an error occurred during parent node selection, Return the error.
-            res.status(500).json(error);
-        });
+    // Save the new node in database.
+    newNode
+        .save()
+        .then(document => res.status(201).json(document))
+        .catch(error => res.status(500).json(error));
 };
 
 // Get a node by ID.

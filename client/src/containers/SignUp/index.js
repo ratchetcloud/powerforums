@@ -26,9 +26,9 @@ class SignUp extends Component {
             return <Loading />;
 
         } else {
-            // signup success
+            // sign up success
             return (
-                <div>signup Success.<br />
+                <div>Sign up Success.<br />
                     <button>
                         <NavLink to="/">Go home</NavLink>
                     </button>

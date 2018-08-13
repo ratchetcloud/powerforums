@@ -4,7 +4,7 @@ import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form';
 import { signUpPending, signUpFulfilled, signUpRejected } from './actions';
 import './form.css';
 
-export const signupUserFormSubmit = formValues => (dispatch, getState, APIClient) => {
+export const signUpUserFormSubmit = formValues => (dispatch, getState, APIClient) => {
     if (formValues.password !== formValues.passwordValidation){
         throw new SubmissionError({_error: "Check Password and Password Validation field"})
     }
@@ -93,10 +93,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     signUp: formValues => {
-        return dispatch(signupUserFormSubmit(formValues));
+        return dispatch(signUpUserFormSubmit(formValues));
     }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)
-    (reduxForm({form: 'signupUserForm'})
+    (reduxForm({form: 'signUpUserForm'})
         (SignUpForm));

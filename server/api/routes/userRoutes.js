@@ -28,8 +28,8 @@ router.delete('/:userId([a-fA-F0-9]{24})?', checkAuth, UserController.user_delet
 router.post('/login', UserController.user_login);
 
 /**
- * Signup User.
+ * Sign up User.
  */
-router.put('/signup', UserController.user_signup)
+router.put('/signup', UserController.user_signUp)
 
 module.exports = router;
