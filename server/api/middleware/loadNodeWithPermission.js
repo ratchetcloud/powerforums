@@ -105,32 +105,31 @@ function checkPermission (req, user) {
 
     if (!user) {
         // If guest, add guest filter
-        permissionList.add('defaultGuest')
+        permissionList.add('defaultGuest');
+
     } else {
         // Signuped user who has special permissions
         if (user.permissions.length > 0) {
             let ancestorIds = req.node.ancestorList.map(ancestor => ancestor._id);
-            
+
             // Concat permission which have permissions about req.node
             for (let permissionObject of user.permissions) {
                 // Check permission of upper node
-                if (Object.values(ancestorIds).some(ancestorId => ancestorId.equals(permissionObject._nodeId))) {
-                    // If have permission, add the permission to permissionList
-                    USER_GROUPS.forEach(userGroup => {
-                        if (userGroup._id.equals(permissionObject._userGroupId)) {
-                            userGroup.permissions.forEach(p => permissionList.add(p));
-                        }
-                    })
-                }
+                if (!ancestorIds.some(ancestorId => ancestorId.equals(permissionObject._nodeId)))
+                    continue;
+
+                // add the permission to permissionList
+                for (let permission of USER_GROUPS[permissionObject._userGroupId].permissions)
+                    permissionList.add(permission);
             }
         }
 
-        // Add default signupedUser rule
-        permissionList.add('defaultSignupedUser')
+        // Add default signedup User rule
+        permissionList.add('defaultSignedupUser');
     }
 
     // Check permission rules
-    for (permission of permissionList) {
+    for (let permission of permissionList) {
         let filter = require('../../permissionRules/' + permission);
         if(filter(req, user)) {
             return true;
@@ -155,9 +154,9 @@ module.exports = (req, res, next) => {
         .catch((err) => {
             console.log(err)
             if (err.code) {
-                res.status(err.code).json(err);
+                res.status(err.code).json({ message: err.message });
             } else {
-                res.status(500).json(err);
+                res.status(500).json({ message: error.response.data.message });
             }  
         })
 };

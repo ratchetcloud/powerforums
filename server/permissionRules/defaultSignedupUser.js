@@ -1,5 +1,5 @@
 /**
- * Check permission for signupedUser
+ * Check permission for signedupUser
  * @param req: include method(GET, POST, PUT, PATCH or DELETE) and node
  * @param user: Current logged-in user's ID (mongoose.Types.ObjectId)
  * @returns {boolean} True if allowed, false otherwise

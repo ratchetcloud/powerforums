@@ -4,7 +4,7 @@ const canDeleteTopic = require('../permissionRules/canDeleteTopic');
 const canDeleteReply = require('../permissionRules/canDeleteReply');
 const canSetSticky = require('../permissionRules/canSetSticky');
 const defaultGuest   = require('../permissionRules/defaultGuest');
-const defaultSignupedUser = require('../permissionRules/defaultSignupedUser');
+const defaultSignedupUser = require('../permissionRules/defaultSignedupUser');
 
 const request = require('./fixtures/requests');
 
@@ -74,42 +74,42 @@ describe('Test permissionRules', function () {
         });
     });
 
-    // Test about defaultSignupedUser rule
+    // Test about defaultSignedupUser rule
     // can create topic and reply, not forum
     // can read all nodes
     // can update their own node
     // can delete their own node
     // can't stick nodes
-    describe('Test defaultSignupedUser', function() {
+    describe('Test defaultSignedupUser', function() {
 
         it('testCreateForum', function () {
-            assert(defaultSignupedUser(request['createForum'], global.normalUser) === false);
+            assert(defaultSignedupUser(request['createForum'], global.normalUser) === false);
         });
         it('testCreateTopic', function () {
-            assert(defaultSignupedUser(request['createTopic'], global.normalUser) === true);
+            assert(defaultSignedupUser(request['createTopic'], global.normalUser) === true);
         });
         it('testCreateReply', function () {
-            assert(defaultSignupedUser(request['createReply'], global.normalUser) === true);
+            assert(defaultSignedupUser(request['createReply'], global.normalUser) === true);
         });
         it('testReadNode', function () {
-            assert(defaultSignupedUser(request['readNode'], global.normalUser) === true);
+            assert(defaultSignedupUser(request['readNode'], global.normalUser) === true);
         })
         it('testUpdateOwn', function () {
-            assert(defaultSignupedUser(request['updateNode'], global.normalUser) === true);
+            assert(defaultSignedupUser(request['updateNode'], global.normalUser) === true);
         });
         it('testUpdateOthers', function () {
             request['updateNode'].node.authorInformation._id = '100000000000000000000002'
-            assert(defaultSignupedUser(request['updateNode'], global.normalUser) === false);
+            assert(defaultSignedupUser(request['updateNode'], global.normalUser) === false);
         });
         it('testDeleteOwn', function () {
-            assert(defaultSignupedUser(request['deleteTopic'], global.normalUser) === true);
+            assert(defaultSignedupUser(request['deleteTopic'], global.normalUser) === true);
         });
         it('testDeleteOthers', function () {
             request['deleteTopic'].node.authorInformation._id = '100000000000000000000002'
-            assert(defaultSignupedUser(request['deleteTopic'], global.normalUser) === false);
+            assert(defaultSignedupUser(request['deleteTopic'], global.normalUser) === false);
         });
         it('testSetSticky', function () {
-            assert(defaultSignupedUser(request['setSticky'], global.normalUser) === false);
+            assert(defaultSignedupUser(request['setSticky'], global.normalUser) === false);
         });
     });
 

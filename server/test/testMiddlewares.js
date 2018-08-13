@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require("body-parser");
 
 const checkAuth = require('../api/middleware/checkAuth');
-const loadNodeWithPermssion = require('../api/middleware/loadNodeWithPermssion');
+const loadNodeWithPermission = require('../api/middleware/loadNodeWithPermission');
 const request = require('./fixtures/requests');
 
 describe('Test middlewares', function() {
@@ -88,10 +88,72 @@ describe('Test middlewares', function() {
 
     // [Notice] This test script only test `middleware`, not controller,
     // so there is no change to database after running tests.
-    describe('Test "loadNodeWithPermssion" middleware', function () {
+    describe('Test "loadNodeWithPermission" middleware', function () {
         const responseNode = (req, res) => {
             return res.json({'node': req.node});
         };
+
+        describe('By guest user', function () {
+            before(function() {
+                router = express.Router();
+                router.route('/node').post(loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').get(loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').patch(loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').delete(loadNodeWithPermission, responseNode);
+            });
+
+            // Guest user can read forum only.
+            it('Create Forum', function () {
+                return supertest(app)
+                    .post('/node')
+                    .send(request['createForum'].body)
+                    .expect(403);
+            });
+            it('Read Forum', function () {
+                return supertest(app)
+                    .get('/node/200000000000000000000000')
+                    .expect(200);
+            });
+            it('Update Forum', function () {
+                return supertest(app)
+                    .patch('/node/200000000000000000000001')
+                    .send({title: 'Some Title'})
+                    .expect(403);
+            });
+            it('Delete Forum', function () {
+                return supertest(app)
+                    .delete('/node/200000000000000000000001')
+                    .expect(403);
+            });
+
+
+            // Guest user can read topic only.
+            it('Create Topic', function () {
+                return supertest(app)
+                    .post('/node')
+                    .send(request['createTopic'].body)
+                    .expect(403)
+            });
+            it('Read Topic', function () {
+                return supertest(app)
+                    .get('/node/200000000000000000000002')
+                    .expect(200)
+                    .then(response => {
+                        assert(response.body.node != null)
+                    });
+            });
+            it('Update Topic', function () {
+                return supertest(app)
+                    .patch('/node/200000000000000000000003')
+                    .send({title: 'NewTitle'})
+                    .expect(403)
+            });
+            it('Delete Topic', function () {
+                return supertest(app)
+                    .delete('/node/200000000000000000000003')
+                    .expect(403);
+            });
+        });
 
         describe('By normal user', function () {
             before(function() {
@@ -100,10 +162,10 @@ describe('Test middlewares', function() {
                     next();
                 };
                 router = express.Router();
-                router.route('/node').post(setAuthAsNormalUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').get(setAuthAsNormalUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').patch(setAuthAsNormalUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').delete(setAuthAsNormalUser, loadNodeWithPermssion, responseNode);
+                router.route('/node').post(setAuthAsNormalUser, loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').get(setAuthAsNormalUser, loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').patch(setAuthAsNormalUser, loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').delete(setAuthAsNormalUser, loadNodeWithPermission, responseNode);
             });
 
             // Normal user can read forum, but cannot create, update or delete,
@@ -176,10 +238,10 @@ describe('Test middlewares', function() {
                     next();
                 };
                 router = express.Router();
-                router.route('/node').post(setAuthAsAdminUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').get(setAuthAsAdminUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').patch(setAuthAsAdminUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').delete(setAuthAsAdminUser, loadNodeWithPermssion, responseNode);
+                router.route('/node').post(setAuthAsAdminUser, loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').get(setAuthAsAdminUser, loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').patch(setAuthAsAdminUser, loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').delete(setAuthAsAdminUser, loadNodeWithPermission, responseNode);
             });
             it('Create Forum', function () {
                 return supertest(app)
@@ -210,10 +272,10 @@ describe('Test middlewares', function() {
                     next();
                 };
                 router = express.Router();
-                router.route('/node').post(setAuthAsSubAdminUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').get(setAuthAsSubAdminUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').patch(setAuthAsSubAdminUser, loadNodeWithPermssion, responseNode);
-                router.route('/node/:nodeId').delete(setAuthAsSubAdminUser, loadNodeWithPermssion, responseNode);
+                router.route('/node').post(setAuthAsSubAdminUser, loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').get(setAuthAsSubAdminUser, loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').patch(setAuthAsSubAdminUser, loadNodeWithPermission, responseNode);
+                router.route('/node/:nodeId').delete(setAuthAsSubAdminUser, loadNodeWithPermission, responseNode);
             });
             it('Create Forum under permitted node', function () {
                 request['createForum'].body.parentId = '200000000000000000000001';
@@ -268,10 +330,10 @@ describe('Test middlewares', function() {
         //             next();
         //         };
         //         router = express.Router();
-        //         router.route('/node').post(setAuthAsBannedUser, loadNodeWithPermssion, responseNode);
-        //         router.route('/node/:nodeId').get(setAuthAsBannedUser, loadNodeWithPermssion, responseNode);
-        //         router.route('/node/:nodeId').patch(setAuthAsBannedUser, loadNodeWithPermssion, responseNode);
-        //         router.route('/node/:nodeId').delete(setAuthAsBannedUser, loadNodeWithPermssion, responseNode);
+        //         router.route('/node').post(setAuthAsBannedUser, loadNodeWithPermission, responseNode);
+        //         router.route('/node/:nodeId').get(setAuthAsBannedUser, loadNodeWithPermission, responseNode);
+        //         router.route('/node/:nodeId').patch(setAuthAsBannedUser, loadNodeWithPermission, responseNode);
+        //         router.route('/node/:nodeId').delete(setAuthAsBannedUser, loadNodeWithPermission, responseNode);
         //     });
         //     it('Create Topic', function () {
         //         return supertest(app)

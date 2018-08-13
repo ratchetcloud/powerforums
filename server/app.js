@@ -33,7 +33,10 @@ global.JWT_KEY = jwtKey;
 // Load userGroup
 UserGroup.find({})
          .then(function (userGroups){
-            global.USER_GROUPS = userGroups;
+            global.USER_GROUPS = {};
+            userGroups.forEach(userGroup => {
+                global.USER_GROUPS[userGroup._id] = { permissions: userGroup.permissions, name: userGroup.name };
+            });
          })
 
 // Include routes files.

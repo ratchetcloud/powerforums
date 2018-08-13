@@ -47,7 +47,10 @@ before(function (done) {
                 let userGroups = require('./fixtures/userGroups');
                 UserGroup.collection.insertMany(require('./fixtures/userGroups'), function (err, r) {
                     if (err) reject(err);
-                    global.USER_GROUPS = userGroups;
+                    global.USER_GROUPS = {};
+                    userGroups.forEach(userGroup => {
+                        global.USER_GROUPS[userGroup._id] = { permissions: userGroup.permissions, name: userGroup.name };
+                    });
                     resolve();
                 });
             });
