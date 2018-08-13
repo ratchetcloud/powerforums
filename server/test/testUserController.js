@@ -34,7 +34,7 @@ describe('Test userController', function() {
             .expect(401);
     });
 
-    it('Signup with all filled data', function(done) {
+    it('Sign up with all filled data', function(done) {
         const payload = {
             name: 'Jasper',
             email: 'jasper.kim@powerforums.io',
@@ -57,21 +57,21 @@ describe('Test userController', function() {
 
     });
 
-    it('Signup with missing field', function() {
+    it('Sign up with missing field', function() {
         return supertest(app)
             .put('/user/signup')
             .send({name: 'missing', password: 'parameter'})
             .expect(400);
     });
 
-    it('Signup with invalid email format', function() {
+    it('Sign up with invalid email format', function() {
         return supertest(app)
             .put('/user/signup')
             .send({name: 'testname', email: 'invalid_format', password: 'password'})
             .expect(400);
     });
 
-    it('Signup with duplicate email', function () {
+    it('Sign up with duplicate email', function () {
         return supertest(app)
             .put('/user/signup')
             .send({name: 'duplicate_user', email: global.normalUser.email, password: 'password31331'})

@@ -165,12 +165,12 @@ exports.user_login = (req, res, next) => {
         });
 }
 
-exports.user_signup = (req, res, next) => {
+exports.user_signUp = (req, res, next) => {
     // Declare error objects for the endpoint.
-    const errorMissingParameter = { message: "Can't signup, a parameter is missing." };
-    const errorDuplicateParameter = { message: "Can't signup, duplicated user already exist."};
-    const errorInvalidParameter = { message: "Can't signup, email value is invalid."};
-    const errorUnexpected = { message: "Can't signup, unexpected error." };
+    const errorMissingParameter = { message: "Can't sign up, a parameter is missing." };
+    const errorDuplicateParameter = { message: "Can't sign up, duplicated user already exist."};
+    const errorInvalidParameter = { message: "Can't sign up, email value is invalid."};
+    const errorUnexpected = { message: "Can't sign up, unexpected error." };
 
     // Filter user parameters.
     if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password')) {

@@ -18,7 +18,7 @@ const Login = Loadable({
     loader: () => import(/* webpackChunkName: "user_login" */ './Login'),
     loading: Loading,
 });
-const UserSignup = Loadable({
+const UserSignUp = Loadable({
     loader: () => import(/* webpackChunkName: "user_signup" */ './SignUp'),
     loading: Loading,
 });
@@ -50,7 +50,7 @@ class App extends Component {
                     <Route exact path="/" component={NodeView} />
                     <Route path="/n/:nodeId" component={NodeView} />
                     <Route path="/login" component={Login} />
-                    <Route path="/signup" component={UserSignup} />
+                    <Route path="/signup" component={UserSignUp} />
                 </Switch>
             </div>
         )
