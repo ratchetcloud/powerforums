@@ -22,9 +22,7 @@ class NodeView extends Component {
         let nodeId = this.props.match.params.hasOwnProperty('nodeId') ?
             this.props.match.params.nodeId :
             ROOT_FORUM_ID;
-
-        this.props.setNodeId(nodeId);
-        this.props.load();
+        this.props.load(nodeId);
     }
 
     componentDidMount() {
@@ -37,8 +35,7 @@ class NodeView extends Component {
     }
 
     handlePaginationChange(newPagination) {
-        this.props.changePagination(newPagination);
-        this.props.load();
+        this.props.reload(newPagination.currentPage, newPagination.perPage);
     }
 
     handleChildEvent(eventType, nodeId, values=null) {
@@ -116,11 +113,11 @@ const mapDispatchToProps = dispatch => ({
     changePagination: (newPagination) => {
         dispatch(actions.changePagination(newPagination));
     },
-    setNodeId: (nodeId) => {
-        dispatch(actions.setNodeID(nodeId));
+    load: (nodeId) => {
+        dispatch(actions.load(nodeId));
     },
-    load: () => {
-        dispatch(actions.fetch());
+    reload: (currentPage=undefined, perPage=undefined) => {
+        dispatch(actions.reload(currentPage, perPage));
     },
     updateNode: (node) => {
         dispatch(actions.updateNode(node));

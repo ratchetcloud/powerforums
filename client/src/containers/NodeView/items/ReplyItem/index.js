@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import UpdateReplyForm from './updateReplyForm';
-import DeleteButton from "../../../../components/interactive-btns/DeleteButton";
-import EditButton from "../../../../components/interactive-btns/EditButton";
-import {Well} from "react-bootstrap";
-import TimeAgo from "react-timeago";
-import ToggleStickyButton from "../../../../components/interactive-btns/ToggleStickyButton";
-
-const img_flag = '/assets/images/flag-128.png';
-const img_trash = '/assets/images/trash-128.png';
-const img_edit = '/assets/images/edit-128.png';
+import TimeAgo from 'react-timeago';
+import DeleteButton from '../../../../components/interactive-btns/DeleteButton';
+import EditButton from '../../../../components/interactive-btns/EditButton';
+import ToggleStickyButton from '../../../../components/interactive-btns/ToggleStickyButton';
 
 
 export default class ReplyItem extends Component {
@@ -18,6 +13,13 @@ export default class ReplyItem extends Component {
 
         this.startEditingHandler = this.startEditingHandler.bind(this);
         this.finishEditingHandler = this.finishEditingHandler.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // Init `editing` state if `node` is changed
+        // (eg. reload is executed after editing finished)
+        if (this.props.node !== prevProps.node)
+            this.setState({'editing': false});
     }
 
     startEditingHandler() {

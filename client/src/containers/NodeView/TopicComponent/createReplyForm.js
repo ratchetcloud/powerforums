@@ -10,7 +10,7 @@ export const createReplyFormSubmit = formValues => (dispatch, getState, APIClien
     return APIClient.createNode( formValues )
         .then(response => {
             // Node creation was successful, we want to refresh node list.
-            dispatch(actions.fetch());
+            dispatch(actions.reload());
         })
         .catch(error => {
             // Node creation failed, we want to display the error (redux-forms managing).
