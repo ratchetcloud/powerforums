@@ -125,7 +125,7 @@ function checkPermission (req, user) {
         }
 
         // Add defaultSignedUpUser rule
-        permissionList.add('defaultSignedupUser');
+        permissionList.add('defaultSignedUpUser');
     }
 
     // Check permission rules
