@@ -64,16 +64,15 @@ exports.node_create = (req, res) => {
     newNode
         .save()
         .then(document => {
-            // TODO: add then/cath after update
-            Topic.findByIdAndUpdate(newNode._parentId, {$inc: { replyCount: 1}}, function(err, data) {
-                if(err) console.log(err);
-                console.log("success")
-            });
-            res.status(201).json(document)
+            if (newNode.type === 'Reply') {
+                Topic.findByIdAndUpdate(document._parentId, { $inc: { replyCount: 1 } })
+                     .then(result => res.status(201).json(document))
+                     .catch(error => res.status(500).json(error));
+            } else {
+                res.status(201).json(document);
+            }
         })
-        .catch(error => {
-            res.status(500).json(error)
-        });
+        .catch(error => res.status(500).json(error));
 };
 
 // Get a node by ID.
@@ -92,8 +91,9 @@ exports.node_update = (req, res) => {
             // When node is a Topic or a Reply.
             for (let key in req.body) {
                 if (!req.body.hasOwnProperty(key)) continue;
-                node[key] = req.body[key]
+                node[key] = req.body[key];
             }
+            
             node.save()
                 .then(document => res.status(201).json(document))
                 .catch(error => res.status(500).json(error));
@@ -101,7 +101,6 @@ exports.node_update = (req, res) => {
 
         default:
             // TODO: Forum can be changed.
-            // But some attr would be restricted like `sticky`
             return res.status(500).json({ message: "Forum cannot be updated" })
     }
 };
@@ -109,31 +108,44 @@ exports.node_update = (req, res) => {
 // Delete a node.
 exports.node_delete = (req, res) => {
     // Constants.
-    const errorNotFound = { message: "Node to delete could not be found." };
-    const successDeleted = { message: "Node and its children were deleted." };
+    // const errorNotFound = { message: "Node to delete could not be found." };
+    // const successDeleted = { message: "Node and its children were deleted." };
 
     let node = req.node;
 
-    // If nodeId exists in request and is valid.
-    // Remove the node itself, and every other node that have the nodeId in its ancestors array (=> all node children).
-    Node.find({ $or:[ {'_id': node._id}, {'ancestorList._id': ObjectId(node._id)} ] })
-        .remove()
-        .exec()
-        .then(result => {
-            // TODO: add decrease reply count of parent
-            if (result.n > 0) {
-                // If document was deleted.
-                return res.status(200).json(successDeleted);
-
-            }else {
-                // If document was not deleted (not found).
-                return res.status(500).json(errorNotFound);
+    node.remove()
+        .then(document => {
+            if (node.type === 'Reply') { 
+                Topic.findByIdAndUpdate(document._parentId, { $inc: { replyCount: -1 } })
+                     .then(result => res.status(200).json(document))
+                     .catch(error => res.status(500).json(error)); 
+            } else {
+                res.status(200).json(document);
             }
         })
-        .catch(error => {
-            // When an error occurred during selection/deletion, return the error.
-            return res.status(500).json(error);
-        });
+        .catch(error => res.status(500).json(error));
+
+    // // If nodeId exists in request and is valid.
+    // // Remove the node itself, and every other node that have the nodeId in its ancestors array (=> all node children).
+    // Node.find({ $or:[ {'_id': node._id}, {'ancestorList._id': ObjectId(node._id)} ] })
+    //     .remove()
+    //     .exec()
+    //     .then(result => {
+    //         // TODO: add decrease reply count of parent
+    //         if (result.n > 0) {
+    //             // If document was deleted.
+    //             return res.status(200).json(successDeleted);
+
+    //         }else {
+    //             // If document was not deleted (not found).
+    //             // It is checked at loadNodeWithPermission.
+    //             return res.status(500).json(errorNotFound);
+    //         }
+    //     })
+    //     .catch(error => {
+    //         // When an error occurred during selection/deletion, return the error.
+    //         return res.status(500).json(error);
+    //     });
 };
 
 // Get children of a given node, with paginated information.
