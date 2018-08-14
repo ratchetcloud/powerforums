@@ -34,7 +34,7 @@ Then open [http://localhost:4000](http://localhost:4000).
 $ cd mongo_data
 $ mongoimport --db powerforums --collection nodes < databaseExport/1.1/nodes.json
 $ mongoimport --db powerforums --collection users < databaseExport/1.1/users.json
-$ mongoimport --db powerforums --collection userGroups.json < databaseExport/1.1/userGroups.json.json
+$ mongoimport --db powerforums --collection userGroups.json < databaseExport/1.1/userGroups.json
 ```
 
 #### Server
