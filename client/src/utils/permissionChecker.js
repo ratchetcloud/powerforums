@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
  */
 export function blurIfNoPermission(WrappedComponent) {
     const mapStateToProps = state => ({
-        user: state.login.currentUser
+        currentUser: state.login.currentUser
     });
 
     return connect(mapStateToProps)(
@@ -17,7 +17,7 @@ export function blurIfNoPermission(WrappedComponent) {
             }
 
             render() {
-                if (this.props.user) {
+                if (this.props.currentUser) {
                     // TODO: check for permission for each node
                     return <WrappedComponent {...this.props} />;
                 }else {
@@ -42,7 +42,7 @@ export function blurIfNoPermission(WrappedComponent) {
  */
 export function hideIfNoPermission(WrappedComponent) {
     const mapStateToProps = state => ({
-        user: state.login.currentUser
+        currentUser: state.login.currentUser
     });
 
     return connect(mapStateToProps)(
@@ -52,7 +52,7 @@ export function hideIfNoPermission(WrappedComponent) {
             }
 
             render() {
-                if (this.props.user) {
+                if (this.props.currentUser) {
                     // TODO: check for permission for each node
                     return <WrappedComponent {...this.props} />;
                 } else {

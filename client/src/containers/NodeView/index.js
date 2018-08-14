@@ -39,12 +39,11 @@ class NodeView extends Component {
     }
 
     handleChildEvent(eventType, nodeId, values=null) {
-        console.log(eventType);
-        console.log(nodeId);
-        if (values)
-            console.log(values);
-
         switch (eventType) {
+            case 'CREATE':
+                this.props.createNode(values);
+                break;
+
             case 'UPDATE':
                 this.props.updateNode({...values, ...{_id: nodeId}});
                 break;
@@ -64,41 +63,41 @@ class NodeView extends Component {
 
     render() {
         const {node, children, pagination, error} = this.props;
+        let component;
 
-        if (error)
-            return (
-                <div className="container">
-                    <ErrorMessage error={error} />
-                    <button onClick={() => location.reload()}>Reload</button>
-                </div>
-            );
-
-        if (!node || !children)
+        if (!node || !children) {
             // Node or children are not load yet.
-            return <Loading />;
+            component = <Loading />
 
-        switch (node.type) {
-            case 'Forum':
-                return (
-                    <ForumComponent node={node}
-                           children={children}
-                           pagination={pagination}
-                           onPaginationChange={this.handlePaginationChange}
-                           onChildEvent={this.handleChildEvent} />
-                );
-
-            case 'Topic':
-                return (
-                    <TopicComponent node={node}
+        }else {
+            switch (node.type) {
+                case 'Forum':
+                    component = <ForumComponent node={node}
                                     children={children}
                                     pagination={pagination}
                                     onPaginationChange={this.handlePaginationChange}
-                                    onChildEvent={this.handleChildEvent} />
-                );
+                                    onChildEvent={this.handleChildEvent}/>;
+                    break;
 
-            default:
-                return <ErrorMessage error={{message: 'Invalid node type'}} />;
+                case 'Topic':
+                    component = <TopicComponent node={node}
+                                    children={children}
+                                    pagination={pagination}
+                                    onPaginationChange={this.handlePaginationChange}
+                                    onChildEvent={this.handleChildEvent}/>;
+                    break;
+
+                default:
+                    return <ErrorMessage error={{message: 'Invalid node type'}}/>;
+            }
         }
+
+        return (
+            <div>
+                {error !== false && <ErrorMessage error={error} />}
+                {component}
+            </div>
+        );
     }
 }
 
@@ -110,14 +109,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    changePagination: (newPagination) => {
-        dispatch(actions.changePagination(newPagination));
-    },
     load: (nodeId) => {
         dispatch(actions.load(nodeId));
     },
     reload: (currentPage=undefined, perPage=undefined) => {
         dispatch(actions.reload(currentPage, perPage));
+    },
+    createNode: (node) => {
+        dispatch(actions.createNode(node))
     },
     updateNode: (node) => {
         dispatch(actions.updateNode(node));

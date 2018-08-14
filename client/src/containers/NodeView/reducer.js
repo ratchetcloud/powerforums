@@ -21,7 +21,7 @@ export const nodeViewReducer = (state = initialState, action) => {
             return {...state, ...{ node: null, children: [], error: action.payload }};
 
         case 'NODE_SUBMISSION_ERROR':
-            return {...state, ...{ node: null, children: [], error: action.payload }};
+            return {...state, ...{ error: action.payload }};
 
         default:
             return {...state};

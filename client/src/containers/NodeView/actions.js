@@ -1,4 +1,6 @@
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
+import { push } from 'react-router-redux';
+
 
 /**
  * Load node with given ID
@@ -74,7 +76,23 @@ const nodeSubmissionError = error => ({
 });
 
 /**
- * Update node
+ * Create a node
+ * @param node: Set of properties of node
+ */
+export const createNode = (node) => (dispatch, getState, APIClient) => {
+    return APIClient.createNode(node)
+        .then(response => {
+            // dispatch(push('/n/'+response._id));
+            // dispatch(load(response._id));
+            dispatch(reload());
+        })
+        .catch(error => {
+            dispatch(nodeSubmissionError(error));
+        });
+};
+
+/**
+ * Update a node
  * @param node: Set of properties to update. (`_id` field is required.)
  */
 export const updateNode = (node) => (dispatch, getState, APIClient) => {

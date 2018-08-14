@@ -8,6 +8,8 @@ import TopicItem from "../items/TopicItem";
 
 const ForumComponent = (props) => {
     const {node, children, pagination, onPaginationChange, onChildEvent} = props;
+    const onNodeCreate = (values) => onChildEvent('CREATE', null, values);
+
     return (
         <div className="forum-view node-view">
             <div className="header container-fluid">
@@ -26,7 +28,13 @@ const ForumComponent = (props) => {
                 </ul>
 
                 <h3>Topics</h3>
-                <CreateTopicForm parentId={node._id} />
+                <CreateTopicForm parentId={node._id}
+                                 initialValues={{ parentId: node._id, type: 'Topic' }}
+                                 onSubmit={onNodeCreate} />
+
+                <CreateForumForm parentId={node._id}
+                                 initialValues={{ parentId: node._id, type: 'Forum' }}
+                                 onSubmit={onNodeCreate} />
 
                 <ul className="topics list-unstyled mt-3">
                     {children.map(child => {
@@ -36,10 +44,6 @@ const ForumComponent = (props) => {
                 </ul>
 
                 <Pagination pagination={pagination} onChange={onPaginationChange} />
-
-                {/*<div>*/}
-                    {/*<CreateForumForm parentId={node._id} />*/}
-                {/*</div>*/}
             </div>
         </div>
     )
