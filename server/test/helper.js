@@ -51,7 +51,6 @@ before(function (done) {
                     for (let userGroup of userGroups) {
                         global.USER_GROUPS[userGroup._id] = { permissions: userGroup.permissions, name: userGroup.name };
                     }
-                    console.log(global.USER_GROUPS)
                     resolve();
                 });
             });

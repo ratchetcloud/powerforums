@@ -5,7 +5,6 @@ const options = { discriminatorKey: 'type' };
 // Topic schema, inheriting from Node.
 const TopicSchema = new mongoose.Schema({
     title: String,
-    description: String,
     content: String,
     replyCount: Number,
     sticky: Boolean
