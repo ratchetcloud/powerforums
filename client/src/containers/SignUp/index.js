@@ -28,10 +28,20 @@ class SignUp extends Component {
         } else {
             // sign up success
             return (
-                <div>Sign up Success.<br />
-                    <button>
-                        <NavLink to="/">Go home</NavLink>
-                    </button>
+                <div className="container text-center mt-5">
+                    <h2>Welcome!</h2>
+                    <p>
+                        Sign-up is done successfully.
+                    </p>
+                    <p>
+                        <NavLink to="/login" role="button" className="btn btn-primary">
+                            Login
+                        </NavLink>
+                        &nbsp;
+                        <NavLink to="/" role="button" className="btn btn-secondary">
+                            Go home
+                        </NavLink>
+                    </p>
                 </div>
             );
         }
