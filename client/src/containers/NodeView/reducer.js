@@ -5,7 +5,8 @@ const initialState = {
         currentPage: 0,
         perPage: 10
     },
-    error: false
+    error: false,
+    permissions: [], // TODO: load dynamically
 };
 
 export const nodeViewReducer = (state = initialState, action) => {

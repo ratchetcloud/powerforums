@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import UpdateReplyForm from './updateReplyForm';
 import TimeAgo from 'react-timeago';
-import DeleteButton from '../../../../components/interactive-btns/DeleteButton';
+import {DeleteReplyButton} from '../../../../components/interactive-btns/DeleteButton';
 import EditButton from '../../../../components/interactive-btns/EditButton';
 import ToggleStickyButton from '../../../../components/interactive-btns/ToggleStickyButton';
 
@@ -65,9 +65,9 @@ export default class ReplyItem extends Component {
                         <p className="card-text">{node.content}</p>
                     </div>
                     <div className="card-footer bg-transparent">
-                        <EditButton onClick={this.startEditingHandler} />
-                        <DeleteButton onClick={onDeleteHandler}/>
-                        <ToggleStickyButton sticky={node.sticky} onClick={onToggleStickyHandler} />
+                        <EditButton node={node} onClick={this.startEditingHandler} />
+                        <DeleteReplyButton node={node} onClick={onDeleteHandler}/>
+                        <ToggleStickyButton node={node} sticky={node.sticky} onClick={onToggleStickyHandler} />
                     </div>
                 </li>
             )

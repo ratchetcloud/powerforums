@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { blurIfNoPermission } from "../../../utils/permissionChecker";
+import { blurIfNoPermission, CAN_CREATE_FORUM } from "../../../utils/permissionChecker";
 import './createForumForm.css';
 
 
@@ -75,4 +75,4 @@ class CreateForumForm extends Component {
     }
 }
 
-export default blurIfNoPermission(reduxForm({form: 'createForumForm'})(CreateForumForm))
+export default blurIfNoPermission(CAN_CREATE_FORUM)(reduxForm({form: 'createForumForm'})(CreateForumForm))

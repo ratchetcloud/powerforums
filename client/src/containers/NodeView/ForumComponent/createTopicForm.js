@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { blurIfNoPermission } from '../../../utils/permissionChecker';
+import { blurIfNotLogged } from '../../../utils/permissionChecker';
 import './createTopicForm.css';
 
 const renderField = ({ input, label, type, placeholder, meta: { touched, error } }) => (
@@ -90,4 +90,4 @@ class CreateTopicForm extends Component {
     }
 }
 
-export default blurIfNoPermission(reduxForm({form: 'createTopicForm'})(CreateTopicForm))
+export default blurIfNotLogged()(reduxForm({form: 'createTopicForm'})(CreateTopicForm))
