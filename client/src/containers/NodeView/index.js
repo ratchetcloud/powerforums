@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import ErrorMessage from '../../components/ErrorMessage';
+import Error404 from '../../components/Error404';
 import ForumComponent from './ForumComponent';
 import TopicComponent from './TopicComponent';
 import * as actions from './actions';
@@ -64,6 +65,9 @@ class NodeView extends Component {
     render() {
         const {node, children, pagination, error} = this.props;
         let component;
+
+        if (error && error.response.status === 404)
+            return <Error404 />;
 
         if (!node || !children) {
             // Node or children are not load yet.
