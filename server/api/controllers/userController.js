@@ -154,16 +154,18 @@ exports.user_login = (req, res, next) => {
                                    _nodeId: userPerm._nodeId,
                                    permissionRules: USER_GROUPS[userPerm._userGroupId].permissions })
             }
-            const data = {
+
+            const userData = {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 permissions: permissions
             };
-            const token = jwt.sign(data, global.JWT_KEY, { expiresIn: "1h" });
+
+            const token = jwt.sign(userData, global.JWT_KEY, { expiresIn: "1h" });
 
             return res.status(200).json({
-                currentUser: user,
+                currentUser: userData,
                 token: token
             });
         })
