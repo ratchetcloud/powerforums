@@ -91,4 +91,4 @@ class CreateTopicForm extends Component {
     }
 }
 
-export default blurIfNotLogged()(reduxForm({form: 'createTopicForm'})(CreateTopicForm))
+export default blurIfNotLogged()(reduxForm({form: 'createTopicForm', enableReinitialize: true})(CreateTopicForm));

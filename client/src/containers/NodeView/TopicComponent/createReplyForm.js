@@ -42,4 +42,5 @@ class CreateReplyForm extends Component {
     }
 }
 
-export default blurIfNotLogged()(reduxForm({form: 'createReplyForm'})(CreateReplyForm));
+export default blurIfNotLogged()
+    (reduxForm({form: 'createReplyForm', enableReinitialize: true})(CreateReplyForm));
