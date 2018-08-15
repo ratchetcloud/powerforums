@@ -148,7 +148,7 @@ exports.user_login = (req, res, next) => {
         })
         .then(user => {
             // Send permissionRules too.
-            permissions = [];
+            let permissions = [];
             for (let userPerm of user.permissions) {
                 permissions.push({ _userGroupId: userPerm._userGroupId,
                                    _nodeId: userPerm._nodeId,
