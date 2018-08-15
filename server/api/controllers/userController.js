@@ -147,11 +147,18 @@ exports.user_login = (req, res, next) => {
             });
         })
         .then(user => {
+            // Send permissionRules too.
+            permissions = [];
+            for (let userPerm of user.permissions) {
+                permissions.push({ _userGroupId: userPerm._userGroupId,
+                                   _nodeId: userPerm._nodeId,
+                                   permissionRules: USER_GROUPS[userPerm._userGroupId].permissions })
+            }
             const data = {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                permissions: user.permissions
+                permissions: permissions
             };
             const token = jwt.sign(data, global.JWT_KEY, { expiresIn: "1h" });
 
