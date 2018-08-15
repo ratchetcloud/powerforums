@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import UpdateReplyForm from './updateReplyForm';
-import DeleteButton from "../../../../components/interactive-btns/DeleteButton";
-import EditButton from "../../../../components/interactive-btns/EditButton";
-import {Well} from "react-bootstrap";
-import TimeAgo from "react-timeago";
-import ToggleStickyButton from "../../../../components/interactive-btns/ToggleStickyButton";
-
-const img_flag = '/assets/images/flag-128.png';
-const img_trash = '/assets/images/trash-128.png';
-const img_edit = '/assets/images/edit-128.png';
+import TimeAgo from 'react-timeago';
+import {DeleteReplyButton} from '../../../../components/interactive-btns/DeleteButton';
+import EditButton from '../../../../components/interactive-btns/EditButton';
+import ToggleStickyButton from '../../../../components/interactive-btns/ToggleStickyButton';
 
 
 export default class ReplyItem extends Component {
@@ -18,6 +13,13 @@ export default class ReplyItem extends Component {
 
         this.startEditingHandler = this.startEditingHandler.bind(this);
         this.finishEditingHandler = this.finishEditingHandler.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // Init `editing` state if `node` is changed
+        // (eg. reload is executed after editing finished)
+        if (this.props.node !== prevProps.node)
+            this.setState({'editing': false});
     }
 
     startEditingHandler() {
@@ -63,9 +65,9 @@ export default class ReplyItem extends Component {
                         <p className="card-text">{node.content}</p>
                     </div>
                     <div className="card-footer bg-transparent">
-                        <EditButton onClick={this.startEditingHandler} />
-                        <DeleteButton onClick={onDeleteHandler}/>
-                        <ToggleStickyButton sticky={node.sticky} onClick={onToggleStickyHandler} />
+                        <EditButton node={node} onClick={this.startEditingHandler} />
+                        <DeleteReplyButton node={node} onClick={onDeleteHandler}/>
+                        <ToggleStickyButton node={node} sticky={node.sticky} onClick={onToggleStickyHandler} />
                     </div>
                 </li>
             )

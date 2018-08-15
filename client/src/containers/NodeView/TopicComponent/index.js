@@ -4,8 +4,6 @@ import Pagination from "../../../components/Pagination";
 import CreateReplyForm from './createReplyForm';
 import ReplyItem from "../items/ReplyItem";
 import TimeAgo from "react-timeago";
-import {NavLink} from "react-router-dom";
-import ToggleStickyButton from "../../../components/interactive-btns/ToggleStickyButton";
 import DeleteButton from "../../../components/interactive-btns/DeleteButton";
 
 
@@ -13,6 +11,7 @@ const TopicComponent = (props) => {
     const {node, children, pagination, onPaginationChange, onChildEvent} = props;
 
     const onReportHandler = () => onChildEvent('REPORT', node._id);
+    const onNodeCreate = (values) => onChildEvent('CREATE', null, values);
 
     return (
         <div className="topic-view node-view">
@@ -48,7 +47,10 @@ const TopicComponent = (props) => {
                 { children.length > 0 && <Pagination pagination={pagination} onChange={onPaginationChange}/> }
 
                 <div>
-                    <CreateReplyForm parentId={node._id} />
+                    <CreateReplyForm parentId={node._id}
+                                     initialValues={{ parentId: node._id, type: 'Reply' }}
+                                     node={node}
+                                     onSubmit={onNodeCreate} />
                 </div>
             </div>
         </div>

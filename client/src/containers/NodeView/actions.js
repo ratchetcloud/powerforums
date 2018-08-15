@@ -1,23 +1,39 @@
-// Actions
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
+import { push } from 'react-router-redux';
 
-export const changePagination = (newPagination) => ({
-   type: 'NODE_PAGINATION_CHANGED',
-   payload: newPagination
-});
 
-export const setNodeID = (nodeId) => ({
-    type: 'NODE_SET_NODE_ID',
-    payload: nodeId
-});
+/**
+ * Load node with given ID
+ * @param nodeId: ID of node model
+ */
+export const load = (nodeId) => (dispatch, getState, APIClient) => {
+    dispatch(_fetch(nodeId, 0, (getState().nodeView.pagination.perPage || 10)));
+};
 
-export const fetch = () => (dispatch, getState, APIClient) => {
+/**
+ * Reload node. `load()` would be executed before call `reload()`
+ * @param currentPage: (optional) Reload with custom currentPage
+ * @param perPage: (optional) Reload with custom perPage
+ */
+export const reload = (currentPage=undefined, perPage=undefined) => (dispatch, getState, APIClient) => {
     const currentState = getState();
-    const nodeId = currentState.nodeView.nodeId;
-    const currentPage = currentState.nodeView.pagination.currentPage;
-    const perPage = currentState.nodeView.pagination.perPage;
-    let nodeData;
+    let nodeId = currentState.nodeView.node._id;
 
+    if (currentPage === undefined)
+        currentPage = currentState.nodeView.pagination.currentPage;
+    if (perPage === undefined)
+        perPage = currentState.nodeView.pagination.perPage;
+
+    dispatch(_fetch(nodeId, currentPage, perPage));
+};
+
+
+const _fetch = (nodeId, currentPage, perPage) => (dispatch, getState, APIClient) => {
+    dispatch(showLoading());
     dispatch(fetchPending());
+
+    // Save nodeData until all promise is fulfilled
+    let nodeData;
 
     APIClient.getNodeById(nodeId)
         .then(response => {
@@ -26,12 +42,13 @@ export const fetch = () => (dispatch, getState, APIClient) => {
         })
         .then(response => {
             dispatch(fetchFulfilled(nodeData, response.results, response.pagination));
+            dispatch(hideLoading());
         })
         .catch(response => {
             dispatch(fetchRejected(response));
+            dispatch(hideLoading());
         });
 };
-
 const fetchPending = () => ({
     type: 'NODE_FETCH_PENDING'
 });
@@ -43,47 +60,76 @@ const fetchFulfilled = (node, children, pagination) => ({
         pagination: pagination
     }
 });
-
 const fetchRejected = error => ({
     type: 'NODE_FETCH_REJECTED',
     payload: error
 });
 
 
-
+//---------------------------------------------
 // Submission (Update/Delete/...) actions
+//---------------------------------------------
 
 const nodeSubmissionError = error => ({
     type: 'NODE_SUBMISSION_ERROR',
     payload: error
 });
 
+/**
+ * Create a node
+ * @param node: Set of properties of node
+ */
+export const createNode = (node) => (dispatch, getState, APIClient) => {
+    return APIClient.createNode(node)
+        .then(response => {
+            // dispatch(push('/n/'+response._id));
+            // dispatch(load(response._id));
+            dispatch(reload());
+        })
+        .catch(error => {
+            dispatch(nodeSubmissionError(error));
+        });
+};
+
+/**
+ * Update a node
+ * @param node: Set of properties to update. (`_id` field is required.)
+ */
 export const updateNode = (node) => (dispatch, getState, APIClient) => {
-    APIClient.updateNode(node)
+    return APIClient.updateNode(node)
         .then(response => {
-            dispatch(fetch());
+            dispatch(reload());
         })
         .catch(error => {
             dispatch(nodeSubmissionError(error));
-        })
+        });
 };
 
+/**
+ * Delete given node
+ * @param nodeId: ID of node model
+ */
 export const deleteNode = (nodeId) => (dispatch, getState, APIClient) => {
-    APIClient.deleteNode(nodeId)
+    return APIClient.deleteNode(nodeId)
         .then(response => {
-            dispatch(fetch());
+            dispatch(reload());
         })
         .catch(error => {
             dispatch(nodeSubmissionError(error));
-        })
+        });
 };
 
+/**
+ * Set `sticky` property of node
+ * @param nodeId: ID of node model
+ * @param sticky: Boolean
+ */
 export const stickNode = (nodeId, sticky) => (dispatch, getState, APIClient) => {
-    APIClient.stickNode(nodeId, sticky)
+    return APIClient.stickNode(nodeId, sticky)
         .then(response => {
-            dispatch(fetch());
+            dispatch(reload());
         })
         .catch(error => {
             dispatch(nodeSubmissionError(error));
-        })
+        });
 };

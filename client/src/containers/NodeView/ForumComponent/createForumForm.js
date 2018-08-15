@@ -1,91 +1,79 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
-import { blurIfNoPermission } from "../../../utils/permissionChecker";
-import * as actions from '../actions';
+import { Field, reduxForm } from 'redux-form';
+import { hideIfNoPermission, CAN_CREATE_FORUM } from "../../../utils/permissionChecker";
 import './createForumForm.css';
 
-export const createForumFormSubmit = formValues => (dispatch, getState, APIClient) => {
-    // Make an API call (createNode) using form values.
-     return APIClient.createNode( formValues )
-        .then(response => {
-            // Node creation was successful, we want to refresh node list.
-            dispatch(actions.fetch())
-        })
-        .catch(error => {
-            // Node creation failed, we want to display the error (redux-forms managing).
-            throw new SubmissionError({_error: error.response.data.message})
-        });
-}
 
 const renderField = ({ input, label, type, placeholder, meta: { touched, error } }) => (
-    <div>
-        <label>{label}</label>
-        <div>
-            <input {...input} placeholder={placeholder} type={type} />
-            {touched && error && <span>{error}</span>}
-        </div>
+    <div className="form-group">
+        <label className="mb-0" htmlFor={input.name}>{label}</label>
+        <input {...input}
+               placeholder={placeholder}
+               id={input.name}
+               type={type}
+               className="form-control form-control-sm" />
+        {touched && error && <span>{error}</span>}
     </div>
-)
+);
 
 class CreateForumForm extends Component {
     constructor(props) {
         super(props);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    }
-
-    handleFormSubmit(formValues) {
-        // Add "not user related" values to form, and trigger the submission with merged value set.
-        return this.props.handleFormSubmit(Object.assign({
-            type: "Forum",
-            parentId: this.props.parentId
-        }, formValues));
+        this.state = {opened: false};
     }
 
     render() {
-        const {error, handleSubmit, pristine, reset, submitting} = this.props;
-        return (
-            <div className="create-forum-form">
-                {error && <strong>{error}</strong>}
-                <form onSubmit={handleSubmit(formValues => this.handleFormSubmit(formValues))}>
-                    <div>New Forum</div>
-                    <div>
+        const {error, handleSubmit, pristine, reset, submitting, onSubmit} = this.props;
+        const onSubmitHandler = (formValues) => {
+            onSubmit(formValues);
+            this.setState({opened: false});
+            reset();
+        };
+
+        if (!this.state.opened) {
+            return (
+                <div className="create-forum-form">
+                    <button className="open-btn" onClick={() => this.setState({opened: true})}>
+                        Create new forum
+                    </button>
+                </div>
+            );
+
+        }else {
+            return (
+                <div className="create-forum-form">
+                    <div className="meta">Create new forum</div>
+                    {error && <strong>{error}</strong>}
+
+                    <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <Field name="title"
                                label="Title"
                                placeholder="Please enter forum title"
                                component={renderField}
-                               type="text" />
-                    </div>
-                    <div>
+                               type="text"/>
+
                         <Field name="description"
                                label="Description"
                                placeholder="Please enter forum description"
                                component={renderField}
-                               type="text" />
-                    </div>
-                    <div>
-                        <button type="submit" disabled={submitting}>Create forum</button>
-                        <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
-                    </div>
-                </form>
-            </div>
-        );
+                               type="text"/>
+
+                        <div className="mt-3">
+                            <button type="submit" disabled={submitting} className="btn btn-primary btn-sm">
+                                Create
+                            </button>
+                            &nbsp;
+                            <button type="button" disabled={submitting}
+                                    onClick={() => this.setState({opened: false})}
+                                    className="btn btn-secondary btn-sm">
+                                Close
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            );
+        }
     }
 }
 
-const mapStateToProps = state => ({
-    //parentId: state.nodeList.parentNodeId
-});
-
-const mapDispatchToProps = dispatch => ({
-    handleFormSubmit: formValues => {
-        return dispatch(createForumFormSubmit(formValues));
-    }
-});
-
-
-export default blurIfNoPermission(
-    connect(mapStateToProps, mapDispatchToProps)
-        (reduxForm({form: 'createForumForm'})
-            (CreateForumForm))
-)
+export default hideIfNoPermission(CAN_CREATE_FORUM)(reduxForm({form: 'createForumForm'})(CreateForumForm))

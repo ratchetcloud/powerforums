@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Switch, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import Loadable from 'react-loadable';
+import LoadingBar from 'react-redux-loading-bar';
 
 import Loading from '../components/Loading';
 import CurrentUserInfo from '../components/CurrentUserInfo'
@@ -38,12 +39,15 @@ class App extends Component {
 
         return (
             <div className="app">
-                <header className="container-fluid">
-                    <CurrentUserInfo currentUser={currentUser} onLogout={this.props.logout} />
-                    <div className="logo-wrap">
-                        <NavLink to="/">
-                            <h1 className="logo"><span>PowerForums</span></h1>
-                        </NavLink>
+                <header>
+                    <LoadingBar className="loading-bar" />
+                    <div className="container-fluid">
+                        <CurrentUserInfo currentUser={currentUser} onLogout={this.props.logout} />
+                        <div className="logo-wrap">
+                            <NavLink to="/">
+                                <h1 className="logo"><span>PowerForums</span></h1>
+                            </NavLink>
+                        </div>
                     </div>
                 </header>
                 <Switch>

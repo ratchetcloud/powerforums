@@ -1,8 +1,7 @@
 import React from 'react';
-import {hideIfNoPermission} from '../../utils/permissionChecker';
+import {hideIfNoPermission, CAN_IF_OWNER} from '../../utils/permissionChecker';
 
 const EditButton = (props) => {
-    // TODO: Permission Control
     const {onClick} = props;
     return (
         <button type="button" className="btn btn-light btn-sm" onClick={onClick}>
@@ -12,4 +11,4 @@ const EditButton = (props) => {
     )
 };
 
-export default hideIfNoPermission(EditButton);
+export default hideIfNoPermission(CAN_IF_OWNER)(EditButton);

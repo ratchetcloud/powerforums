@@ -1,8 +1,7 @@
 import React from 'react';
-import {hideIfNoPermission} from '../../utils/permissionChecker';
+import {hideIfNoPermission, CAN_SET_STICKY} from '../../utils/permissionChecker';
 
 const ToggleStickyButton = (props) => {
-    // TODO: Permission Control
     const {sticky, onClick} = props;
     return (
         <button type="button" className="btn btn-light btn-sm" onClick={onClick}>
@@ -11,4 +10,4 @@ const ToggleStickyButton = (props) => {
         </button>
     )
 };
-export default hideIfNoPermission(ToggleStickyButton);
+export default hideIfNoPermission(CAN_SET_STICKY)(ToggleStickyButton);

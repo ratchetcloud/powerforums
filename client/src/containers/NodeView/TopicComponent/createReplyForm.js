@@ -1,45 +1,21 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Field, reduxForm, SubmissionError } from 'redux-form'
-import { blurIfNoPermission } from "../../../utils/permissionChecker";
-import * as actions from '../actions';
-
-export const createReplyFormSubmit = formValues => (dispatch, getState, APIClient) => {
-    // Make an API call (createNode) using form values.
-    console.log(formValues);
-    return APIClient.createNode( formValues )
-        .then(response => {
-            // Node creation was successful, we want to refresh node list.
-            dispatch(actions.fetch());
-        })
-        .catch(error => {
-            // Node creation failed, we want to display the error (redux-forms managing).
-            throw new SubmissionError({ _error: error.response.data.message });
-        })
-}
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { blurIfNotLogged } from '../../../utils/permissionChecker';
 
 class CreateReplyForm extends Component {
-    constructor(props) {
-        super(props);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    }
-
-    handleFormSubmit(formValues) {
-        // Add "not user related" values to form, and trigger the submission with merged value set.
-        return this.props.handleFormSubmit(Object.assign({
-                type: "Reply",
-                parentId: this.props.parentId
-        }, formValues));
-    }
-
     render() {
-        const {error, handleSubmit, pristine, reset, submitting, currentUser} = this.props;
+        const {error, handleSubmit, pristine, reset, submitting, currentUser, onSubmit} = this.props;
+
+        const onSubmitHandler = (formValues) => {
+            onSubmit(formValues);
+            reset();
+        };
 
         return (
             <div className="create-reply-form">
                 {error && <strong>{error}</strong>}
 
-                <form onSubmit={handleSubmit(formValues => this.handleFormSubmit(formValues))} className="mt-5">
+                <form onSubmit={handleSubmit(onSubmitHandler)} className="mt-5">
                     <div className="header mb-1">
                         <span className="meta">Reply as {currentUser.name}</span>
                     </div>
@@ -66,19 +42,4 @@ class CreateReplyForm extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    currentUser: state.login.currentUser,
-});
-
-const mapDispatchToProps = dispatch => ({
-    handleFormSubmit: formValues => {
-        return dispatch(createReplyFormSubmit(formValues))
-    }
-});
-
-
-export default blurIfNoPermission(
-    connect(mapStateToProps, mapDispatchToProps)
-        (reduxForm({form: 'createReplyForm'})
-            (CreateReplyForm))
-)
+export default blurIfNotLogged()(reduxForm({form: 'createReplyForm'})(CreateReplyForm));

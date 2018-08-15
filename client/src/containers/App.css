@@ -16,8 +16,12 @@ html, body{
 }
 
 header{
-  padding: 15px 50px;
+  /*padding: 15px 50px;*/
   background-color: rgb(255, 255, 255);
+}
+
+header > .container-fluid{
+  padding: 15px;
 }
 
 header .logo-wrap{
@@ -39,6 +43,14 @@ header .current-user-info{
 }
 header .current-user-info a{
   margin-left: 5px;
+}
+
+
+header .loading-bar{
+  position: fixed;
+  background-color: #007bff;
+  height: 3px;
+  z-index: 999;
 }
 
 span.meta,

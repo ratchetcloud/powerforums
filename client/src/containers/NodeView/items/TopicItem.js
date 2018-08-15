@@ -1,8 +1,9 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import TimeAgo from 'react-timeago'
-import DeleteButton from '../../../components/interactive-btns/DeleteButton';
+import {DeleteTopicButton} from '../../../components/interactive-btns/DeleteButton';
 import ToggleStickyButton from '../../../components/interactive-btns/ToggleStickyButton';
+import EditButton from "../../../components/interactive-btns/EditButton";
 
 const TopicItem = (props) => {
     const {node, onEvent} = props;
@@ -31,8 +32,8 @@ const TopicItem = (props) => {
                     </span>
                 </div>
                 <div className="float-right">
-                    <ToggleStickyButton sticky={node.sticky} onClick={onToggleStickyHandler} />
-                    <DeleteButton onClick={onDeleteHandler}/>
+                    <ToggleStickyButton node={node} sticky={node.sticky} onClick={onToggleStickyHandler} />
+                    <DeleteTopicButton node={node} onClick={onDeleteHandler}/>
                 </div>
             </div>
         </li>
