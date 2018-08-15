@@ -42,6 +42,7 @@ class CreateTopicForm extends Component {
         const onSubmitHandler = (formValues) => {
             onSubmit(formValues);
             this.setState({opened: false});
+            reset();
         };
 
         if (!this.state.opened) {

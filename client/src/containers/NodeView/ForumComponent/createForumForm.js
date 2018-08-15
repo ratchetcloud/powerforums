@@ -14,7 +14,7 @@ const renderField = ({ input, label, type, placeholder, meta: { touched, error }
                className="form-control form-control-sm" />
         {touched && error && <span>{error}</span>}
     </div>
-)
+);
 
 class CreateForumForm extends Component {
     constructor(props) {
@@ -27,6 +27,7 @@ class CreateForumForm extends Component {
         const onSubmitHandler = (formValues) => {
             onSubmit(formValues);
             this.setState({opened: false});
+            reset();
         };
 
         if (!this.state.opened) {

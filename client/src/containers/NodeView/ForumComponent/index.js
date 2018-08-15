@@ -30,10 +30,12 @@ const ForumComponent = (props) => {
                 <h3>Topics</h3>
                 <CreateTopicForm parentId={node._id}
                                  initialValues={{ parentId: node._id, type: 'Topic' }}
+                                 node={node}
                                  onSubmit={onNodeCreate} />
 
                 <CreateForumForm parentId={node._id}
                                  initialValues={{ parentId: node._id, type: 'Forum' }}
+                                 node={node}
                                  onSubmit={onNodeCreate} />
 
                 <ul className="topics list-unstyled mt-3">
