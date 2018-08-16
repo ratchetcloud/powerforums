@@ -17,7 +17,8 @@ describe('Test userController', function() {
                 assert(response.body.token.length > 0);
                 assert(response.body.currentUser != null);
                 assert(response.body.currentUser.email === payload.email);
-            })
+                assert(response.body.currentUser.permissions != undefined);
+            });
     });
 
     it('Login with non-existing username', function () {
@@ -34,7 +35,25 @@ describe('Test userController', function() {
             .expect(401);
     });
 
-    it('Signup with all filled data', function(done) {
+    // When user having special permissions login, 
+    // server returns permission list with userGroupId, nodeId and permissionRules
+    it('Login user having special permissions', function () {
+        return supertest(app)
+            .post('/user/login')
+            .send({email: global.adminUser.email, password: 'password'})
+            .expect(200)
+            .then(response => {
+                assert(response.body.token.length > 0);
+                assert(response.body.currentUser != null);
+                assert(response.body.currentUser.email === global.adminUser.email);
+                assert(response.body.currentUser.permissions.length > 0);
+                assert(response.body.currentUser.permissions[0]._userGroupId != undefined);
+                assert(response.body.currentUser.permissions[0]._nodeId != undefined);
+                assert(response.body.currentUser.permissions[0].permissionRules != undefined);
+            });
+    });
+
+    it('Sign up with all filled data', function(done) {
         const payload = {
             name: 'Jasper',
             email: 'jasper.kim@powerforums.io',
@@ -57,21 +76,21 @@ describe('Test userController', function() {
 
     });
 
-    it('Signup with missing field', function() {
+    it('Sign up with missing field', function() {
         return supertest(app)
             .put('/user/signup')
             .send({name: 'missing', password: 'parameter'})
             .expect(400);
     });
 
-    it('Signup with invalid email format', function() {
+    it('Sign up with invalid email format', function() {
         return supertest(app)
             .put('/user/signup')
             .send({name: 'testname', email: 'invalid_format', password: 'password'})
             .expect(400);
     });
 
-    it('Signup with duplicate email', function () {
+    it('Sign up with duplicate email', function () {
         return supertest(app)
             .put('/user/signup')
             .send({name: 'duplicate_user', email: global.normalUser.email, password: 'password31331'})

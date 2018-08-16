@@ -1,9 +1,0 @@
-.create-role-form{
-    max-width: 500px;
-    padding: 20px 12px 10px 20px;
-    font: 13px Arial, Helvetica, sans-serif;
-}
-
-.create-role-form span.required{
-    color:red;
-}

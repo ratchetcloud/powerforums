@@ -33,8 +33,8 @@ Then open [http://localhost:4000](http://localhost:4000).
 ```bash
 $ cd mongo_data
 $ mongoimport --db powerforums --collection nodes < databaseExport/1.1/nodes.json
-$ mongoimport --db powerforums --collection roles < databaseExport/1.1/roles.json
 $ mongoimport --db powerforums --collection users < databaseExport/1.1/users.json
+$ mongoimport --db powerforums --collection userGroups < databaseExport/1.1/userGroups.json
 ```
 
 #### Server

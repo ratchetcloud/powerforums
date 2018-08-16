@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/userModel')
 
 module.exports = (req, res, next) => {
     try {
@@ -10,7 +11,7 @@ module.exports = (req, res, next) => {
                 // If authorization header is well formed.
                 const token = authHeader[1];
                 const decoded = jwt.verify(token, global.JWT_KEY);
-                res.locals.userData = decoded;
+                res.locals.userData = new User(decoded);
                 next();
             } else {
                 // If authorization header is not well formed.

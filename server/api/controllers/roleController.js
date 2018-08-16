@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
 // Import Models.
-const Role = require("../models/roleModel");
+const UserGroup = require("../models/userGroupModel");
 
 exports.role_create = (req, res, next) => {
     // Declare error objects for the endpoint.

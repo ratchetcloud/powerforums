@@ -10,9 +10,11 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     },
-    permissions: Array,
+    permissions: [{
+        _userGroupId: mongoose.Schema.Types.ObjectId,
+        _nodeId: mongoose.Schema.Types.ObjectId
+    }],
     password: String,
-    isAdmin:Boolean // TODO: move this feature to permissions or roles
 });
 
 module.exports = mongoose.model('User', UserSchema);

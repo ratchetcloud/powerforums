@@ -147,16 +147,25 @@ exports.user_login = (req, res, next) => {
             });
         })
         .then(user => {
-            const data = {
+            // Send permissionRules too.
+            let permissions = [];
+            for (let userPerm of user.permissions) {
+                permissions.push({ _userGroupId: userPerm._userGroupId,
+                                   _nodeId: userPerm._nodeId,
+                                   permissionRules: USER_GROUPS[userPerm._userGroupId].permissions })
+            }
+
+            const userData = {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                permissions: user.permissions
+                permissions: permissions
             };
-            const token = jwt.sign(data, global.JWT_KEY, { expiresIn: "1h" });
+
+            const token = jwt.sign(userData, global.JWT_KEY, { expiresIn: "1h" });
 
             return res.status(200).json({
-                currentUser: user,
+                currentUser: userData,
                 token: token
             });
         })
@@ -165,12 +174,12 @@ exports.user_login = (req, res, next) => {
         });
 }
 
-exports.user_signup = (req, res, next) => {
+exports.user_signUp = (req, res, next) => {
     // Declare error objects for the endpoint.
-    const errorMissingParameter = { message: "Can't signup, a parameter is missing." };
-    const errorDuplicateParameter = { message: "Can't signup, duplicated user already exist."};
-    const errorInvalidParameter = { message: "Can't signup, email value is invalid."};
-    const errorUnexpected = { message: "Can't signup, unexpected error." };
+    const errorMissingParameter = { message: "Can't sign up, a parameter is missing." };
+    const errorDuplicateParameter = { message: "Can't sign up, duplicated user already exist."};
+    const errorInvalidParameter = { message: "Can't sign up, email value is invalid."};
+    const errorUnexpected = { message: "Can't sign up, unexpected error." };
 
     // Filter user parameters.
     if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password')) {
