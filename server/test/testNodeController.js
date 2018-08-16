@@ -133,6 +133,32 @@ describe('Test nodeController', function() {
                     assert.equal(topic.title, sampleTopicData.title);
                 });
         });
+        // To set sticky does not change lastUpdatedDate
+        it('Set sticky topic', function () {
+            return supertest(app)
+                .patch('/node/' + nodeId)
+                .set('Authorization', authHeader)
+                .send({ sticky: true })
+                .expect(201)
+                .then(response => {
+                    assert.equal(response.body.sticky, true);
+                    assert(response.body.lastUpdatedDate == response.body.creationDate);
+                });
+        });
+        // To unset sticky does not change lastUpdatedDate
+        it('Unset sticky topic', function () {
+            return supertest(app)
+                .patch('/node/' + nodeId)
+                .set('Authorization', authHeader)
+                .send({ sticky: false })
+                .expect(201)
+                .then(response => {
+                    assert.equal(response.body.sticky, false);
+                    assert(response.body.lastUpdatedDate == response.body.creationDate);
+                });
+        });
+        // To update title or content change lastUpdatedDate.
+        // If update node test is executed before sticky node test, test will fail. 
         it('Update topic under forums', function () {
             return supertest(app)
                 .patch('/node/' + nodeId)
@@ -141,6 +167,7 @@ describe('Test nodeController', function() {
                 .expect(201)
                 .then(response => {
                     assert.equal(response.body.title, 'I love tracer');
+                    assert(response.body.lastUpdatedDate != response.body.creationDate);
                 });
         });
         it('Delete topic', function () {
@@ -203,6 +230,32 @@ describe('Test nodeController', function() {
                     assert.equal(reply.content, sampleReplyData.content);
                 });
         });
+        // To make sticky does not change lastUpdatedDate
+        it('Sticky reply', function () {
+            return supertest(app)
+                .patch('/node/' + nodeId)
+                .set('Authorization', authHeader)
+                .send({ sticky: true })
+                .expect(201)
+                .then(response => {
+                    assert.equal(response.body.sticky, true);
+                    assert(response.body.lastUpdatedDate == response.body.creationDate);
+                });
+        });
+        // To unset sticky does not change lastUpdatedDate
+        it('Unset sticky reply', function () {
+            return supertest(app)
+                .patch('/node/' + nodeId)
+                .set('Authorization', authHeader)
+                .send({ sticky: false })
+                .expect(201)
+                .then(response => {
+                    assert.equal(response.body.sticky, false);
+                    assert(response.body.lastUpdatedDate == response.body.creationDate);
+                });
+        });
+        // To update title or content change lastUpdatedDate.
+        // If update node test is executed before sticky node test, test will fail. 
         it('Update reply', function () {
             return supertest(app)
                 .patch('/node/' + nodeId)
@@ -211,6 +264,7 @@ describe('Test nodeController', function() {
                 .expect(201)
                 .then(response => {
                     assert.equal(response.body.content, 'D.VA!!');
+                    assert(response.body.lastUpdatedDate != response.body.creationDate);
                 });
         });
         it('Delete reply', function () {

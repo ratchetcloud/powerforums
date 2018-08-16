@@ -93,7 +93,13 @@ exports.node_update = (req, res) => {
                 if (!req.body.hasOwnProperty(key)) continue;
                 node[key] = req.body[key];
             }
-            
+
+            // If update sticky flag, do not update lastUpdatedDate.
+            // If want to add new exception, please add element name in has function below.
+            if (req.body.hasOwnProperty('title') || req.body.hasOwnProperty('content')) {
+                node.lastUpdatedDate = new Date();
+            }     
+
             node.save()
                 .then(document => res.status(201).json(document))
                 .catch(error => res.status(500).json(error));
