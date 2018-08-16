@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 const fs = require('fs');
 const UserGroup = require("./api/models/userGroupModel");
 
+// [Notice] make code related to report and role as annotation 
+//          because it is not fully implemented and there is no test code.
+
 // MongoDB connection.
 const mongoEnv = {
     host: process.env.DB_HOST || 'localhost',
@@ -41,9 +44,11 @@ UserGroup.find({})
 
 // Include routes files.
 const nodeRoutes = require('./api/routes/nodeRoutes');
-const reportRoutes = require('./api/routes/reportRoutes');
 const userRoutes = require('./api/routes/userRoutes');
-const roleRoutes = require('./api/routes/roleRoutes');
+
+
+// const reportRoutes = require('./api/routes/reportRoutes');
+// const roleRoutes = require('./api/routes/roleRoutes');
 
 // Log received requests.
 if (process.env.MODE !== 'test')
@@ -67,9 +72,9 @@ app.use((req, res, next) => {
 
 // Routes handled.
 app.use('/node', nodeRoutes);
-app.use('/report', reportRoutes);
 app.use('/user', userRoutes);
-app.use('/role', roleRoutes);
+//app.use('/report', reportRoutes);
+//app.use('/role', roleRoutes);
 
 // No route found.
 // Return 404.
