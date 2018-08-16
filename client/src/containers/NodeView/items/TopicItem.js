@@ -4,6 +4,7 @@ import TimeAgo from 'react-timeago'
 import {DeleteTopicButton} from '../../../components/interactive-btns/DeleteButton';
 import ToggleStickyButton from '../../../components/interactive-btns/ToggleStickyButton';
 import EditButton from "../../../components/interactive-btns/EditButton";
+import {nodeUrl} from '../../../utils/urls';
 
 const TopicItem = (props) => {
     const {node, onEvent} = props;
@@ -18,7 +19,7 @@ const TopicItem = (props) => {
                 <span>Posted by {node.authorInformation.name}</span>
                 <TimeAgo date={node.creationDate} />
             </div>
-            <NavLink to={"/n/" + node._id}>
+            <NavLink to={nodeUrl(node._id)}>
                 <div className="card-body">
                     <h5 className="card-title">{node.title}</h5>
                     <p className="card-text">{node.content}</p>
