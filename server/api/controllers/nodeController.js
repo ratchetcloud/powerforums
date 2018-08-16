@@ -7,6 +7,7 @@ const Forum = require("../models/forumModel");
 const Topic = require("../models/topicModel");
 const Reply = require("../models/replyModel");
 const User = require("../models/userModel");
+const has = require('underscore').has;
 
 // Create a node. Node can be a Forum, a Topic or a Reply.
 exports.node_create = (req, res) => {
@@ -93,7 +94,13 @@ exports.node_update = (req, res) => {
                 if (!req.body.hasOwnProperty(key)) continue;
                 node[key] = req.body[key];
             }
-            
+
+            // If update sticky flag, do not update lastUpdatedDate.
+            // If want to add new exception, please add element name in has function below.
+            if (has(req.body, 'sticky') === false) {
+                node.lastUpdatedDate = new Date();
+            }     
+
             node.save()
                 .then(document => res.status(201).json(document))
                 .catch(error => res.status(500).json(error));

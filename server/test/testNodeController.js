@@ -141,6 +141,7 @@ describe('Test nodeController', function() {
                 .expect(201)
                 .then(response => {
                     assert.equal(response.body.title, 'I love tracer');
+                    assert(response.body.lastUpdatedDate != response.body.creationDate);
                 });
         });
         it('Delete topic', function () {
@@ -211,6 +212,7 @@ describe('Test nodeController', function() {
                 .expect(201)
                 .then(response => {
                     assert.equal(response.body.content, 'D.VA!!');
+                    assert(response.body.lastUpdatedDate != response.body.creationDate);
                 });
         });
         it('Delete reply', function () {

@@ -4,8 +4,6 @@
  * @returns {boolean} True if allowed, false otherwise
  */
 
-const has = require('underscore').has;
-
 module.exports = (req) => {
 	switch(req.method) {
 		case 'DELETE':
