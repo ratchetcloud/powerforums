@@ -51,7 +51,7 @@ export default class ReplyItem extends Component {
                     {header}
                     <div className="card-body">
                         <UpdateReplyForm form={`UpdateReplyForm_${node._id}`}
-                                         initialValues={{ _id: node._id, content: node.content }}
+                                         initialValues={{ _id: node._id, content: node.content, lastUpdatedDate: new Date() }}
                                          onSubmit={onEditHandler}
                                          onCancel={this.finishEditingHandler}/>
                     </div>
