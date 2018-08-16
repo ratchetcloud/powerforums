@@ -5,22 +5,26 @@ const checkAuth = require('../middleware/checkAuth');
 // Import controllers.
 const UserController = require('../controllers/userController');
 
-/**
- * Create a new User.
- */
-router.put('/', checkAuth, UserController.user_create);
+// [Notice] make codes related to user management as annotation 
+//          because it is not fully implemented and there is no test code.
+//          in userRoutes, /login and /signup are impelemented and have test codes.
 
-/**
- * Get users.
- */
-router.post('/getPaginated', checkAuth, UserController.user_getPaginated);
+// /**
+//  * Create a new User.
+//  */
+// router.put('/', checkAuth, UserController.user_create);
 
-router.get('/:userId([a-fA-F0-9]{24})?', checkAuth, UserController.user_getById);
+// /**
+//  * Get users.
+//  */
+// router.post('/getPaginated', checkAuth, UserController.user_getPaginated);
 
-/**
- * Delete an User.
- */
-router.delete('/:userId([a-fA-F0-9]{24})?', checkAuth, UserController.user_delete);
+// router.get('/:userId([a-fA-F0-9]{24})?', checkAuth, UserController.user_getById);
+
+// /**
+//  * Delete an User.
+//  */
+// router.delete('/:userId([a-fA-F0-9]{24})?', checkAuth, UserController.user_delete);
 
 /**
  * Authenticate an User.
