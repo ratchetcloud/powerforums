@@ -1,4 +1,4 @@
-# PowerForums &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ratchetcloud/powerforums/blob/master/LICENSE) [![Coverage Status](https://coveralls.io/repos/github/ratchetcloud/powerforums/badge.svg?branch=dev-ys)](https://coveralls.io/github/ratchetcloud/powerforums?branch=dev-ys)  [![Build Status](https://travis-ci.org/ratchetcloud/powerforums.svg)](https://travis-ci.org/ratchetcloud/powerforums) 
+# PowerForums &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ratchetcloud/powerforums/blob/master/LICENSE) [![Coverage Status](https://coveralls.io/repos/github/ratchetcloud/powerforums/badge.svg)](https://coveralls.io/github/ratchetcloud/powerforums)  [![Build Status](https://travis-ci.org/ratchetcloud/powerforums.svg)](https://travis-ci.org/ratchetcloud/powerforums) 
 
 Scalable forums with essentials forums features.
 
