@@ -23,6 +23,22 @@
 .node-view > .header .nav .nav-item:first-child a{ padding-left: 0 }
 .node-view > .header .nav .nav-item:last-child a{ font-size: 20px }
 
+.node-view .footer span,
+.node-view .footer button,
+.node-view .card-footer span,
+.node-view .card-footer button{
+  color: #666;
+  font-size: 13px;
+  padding: 2px 4px;
+  background: none;
+  border: none;
+  outline: none;
+}
+.node-view .footer button:hover,
+.node-view .card-footer button:hover{ background-color: #eee }
+
+
+/* Cards */
 .node-view .card{
   margin-bottom: 10px;
 }
@@ -62,17 +78,6 @@
   color: #ff6e00;
   font-size: 12px;
 }
-
-.node-view .card .card-footer span,
-.node-view .card .card-footer button{
-  color: #666;
-  font-size: 13px;
-  padding: 2px 4px;
-  background: none;
-  border: none;
-  outline: none;
-}
-.node-view .card .card-footer button:hover{ background-color: #eee }
 
 
 

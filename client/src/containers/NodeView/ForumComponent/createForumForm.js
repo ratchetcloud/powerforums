@@ -76,4 +76,5 @@ class CreateForumForm extends Component {
     }
 }
 
-export default hideIfNoPermission(CAN_CREATE_FORUM)(reduxForm({form: 'createForumForm'})(CreateForumForm))
+export default hideIfNoPermission(CAN_CREATE_FORUM)
+    (reduxForm({form: 'createForumForm', enableReinitialize: true})(CreateForumForm))

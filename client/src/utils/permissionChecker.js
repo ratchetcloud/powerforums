@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 export const CAN_CREATE_FORUM = 'canCreateForum';
-export const CAN_DELETE_FORUN = 'canDeleteForum';
+export const CAN_DELETE_FORUM = 'canDeleteForum';
 export const CAN_DELETE_REPLY = 'canDeleteReply';
 export const CAN_DELETE_TOPIC = 'canDeleteTopic';
 export const CAN_SET_STICKY = 'canSetSticky';

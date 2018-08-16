@@ -7,6 +7,7 @@ import LoadingBar from 'react-redux-loading-bar';
 
 import Loading from '../components/Loading';
 import CurrentUserInfo from '../components/CurrentUserInfo'
+import Error404 from '../components/Error404';
 import * as loginActions from './Login/actions';
 import './App.css'
 
@@ -55,6 +56,7 @@ class App extends Component {
                     <Route path="/n/:nodeId" component={NodeView} />
                     <Route path="/login" component={Login} />
                     <Route path="/signup" component={UserSignUp} />
+                    <Route component={Error404} />
                 </Switch>
             </div>
         )

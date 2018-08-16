@@ -4,13 +4,13 @@ import Pagination from "../../../components/Pagination";
 import CreateReplyForm from './createReplyForm';
 import ReplyItem from "../items/ReplyItem";
 import TimeAgo from "react-timeago";
-import DeleteButton from "../../../components/interactive-btns/DeleteButton";
+import {DeleteTopicButton} from "../../../components/interactive-btns/DeleteButton";
 
 
 const TopicComponent = (props) => {
     const {node, children, pagination, onPaginationChange, onChildEvent} = props;
 
-    const onReportHandler = () => onChildEvent('REPORT', node._id);
+    const onDeleteHandler = () => onChildEvent('DELETE', node._id);
     const onNodeCreate = (values) => onChildEvent('CREATE', null, values);
 
     return (
@@ -30,11 +30,16 @@ const TopicComponent = (props) => {
                     <p>
                         {node.content}
                     </p>
-                    <div className="footer">
-                        <span className="comment">
-                            <i className="fas fa-comments" />&nbsp;
-                            <span>{node.replyCount} Replies</span>
-                        </span>
+                    <div className="footer clearfix">
+                        <div className="float-left">
+                            <span className="comment">
+                                <i className="fas fa-comments" />&nbsp;
+                                <span>{node.replyCount} Replies</span>
+                            </span>
+                        </div>
+                        <div className="float-right">
+                            <DeleteTopicButton node={node} onClick={onDeleteHandler}/>
+                        </div>
                     </div>
                 </article>
 
