@@ -50,7 +50,9 @@ class NodeView extends Component {
                 break;
 
             case 'DELETE':
-                this.props.deleteNode(nodeId);
+                // If deleting current page's node, redirect to parent node.
+                let nextNodeId = (nodeId === this.props.node._id) ? this.props.node._parentId : undefined;
+                this.props.deleteNode(nodeId, nextNodeId);
                 break;
 
             case 'TOGGLE_STICKY':
@@ -125,8 +127,8 @@ const mapDispatchToProps = dispatch => ({
     updateNode: (node) => {
         dispatch(actions.updateNode(node));
     },
-    deleteNode: (node) => {
-        dispatch(actions.deleteNode(node));
+    deleteNode: (node, nextNodeId=undefined) => {
+        dispatch(actions.deleteNode(node, nextNodeId));
     },
     stickNode: (node, sticky) => {
         dispatch(actions.stickNode(node, sticky));

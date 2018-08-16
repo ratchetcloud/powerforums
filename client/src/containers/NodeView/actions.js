@@ -108,11 +108,18 @@ export const updateNode = (node) => (dispatch, getState, APIClient) => {
 /**
  * Delete given node
  * @param nodeId: ID of node model
+ * @param nextNodeId: If defined, goto given node after delete node
  */
-export const deleteNode = (nodeId) => (dispatch, getState, APIClient) => {
+export const deleteNode = (nodeId, nextNodeId=undefined) => (dispatch, getState, APIClient) => {
     return APIClient.deleteNode(nodeId)
         .then(response => {
-            dispatch(reload());
+            if (nextNodeId) {
+                dispatch(push('/n/'+nextNodeId));
+                dispatch(load(nextNodeId));
+
+            }else {
+                dispatch(reload());
+            }
         })
         .catch(error => {
             dispatch(nodeSubmissionError(error));
