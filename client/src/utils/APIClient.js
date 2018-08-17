@@ -95,11 +95,12 @@ export default class APIClient {
     getNodePaginatedChildren(parentId, page, perPage, sort = {}) {
         return new Promise((fulfill, reject) => {
             this.httpClient
-                .post('/node/getPaginatedChildren', {
-                    parentId: parentId,
-                    page: page,
-                    perPage: perPage,
-                    sort: sort
+                .get('/node/'+parentId+'/children', {
+                    params: {
+                        page: page,
+                        perPage: perPage,
+                        sort: sort
+                    }
                 })
                 .then(response => fulfill(response.data))
                 .catch(error => _pipeAPIError(error, reject));

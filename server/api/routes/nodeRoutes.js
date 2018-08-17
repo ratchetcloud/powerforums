@@ -15,6 +15,7 @@ router.post("/",
 
 // Get a node by ID.
 router.get('/:nodeId([a-fA-F0-9]{24})',
+    checkAuth,
     loadNodeWithPermission,
     NodeController.node_getById
 );
@@ -34,7 +35,9 @@ router.delete('/:nodeId([a-fA-F0-9]{24})',
 );
 
 // Get children of a given node, with paginated information.
-router.post('/getPaginatedChildren',
+router.get('/:nodeId([a-fA-F0-9]{24})/children/',
+    checkAuth,
+    loadNodeWithPermission,
     NodeController.node_getPaginatedChildren
 );
 

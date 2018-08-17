@@ -117,7 +117,7 @@ function checkPermission (req, user) {
                 // Check permission of upper node
                 if (!ancestorIds.some(ancestorId => ancestorId.equals(permissionObject._nodeId)))
                     continue;
-
+                
                 // add the permission to permissionList
                 for (let permission of USER_GROUPS[permissionObject._userGroupId].permissions)
                     permissionList.add(permission);
@@ -132,6 +132,7 @@ function checkPermission (req, user) {
     for (let permission of permissionList) {
         let filter = require('../../permissionRules/' + permission);
         if(filter(req, user)) {
+            req.permissions = permissionList;
             return true;
         }
     } 
@@ -143,6 +144,7 @@ module.exports = (req, res, next) => {
     let user = null;
     if (res.locals.userData)
         user = res.locals.userData;
+    
     load(req)
         .then((node) => {
             req.node = node;
