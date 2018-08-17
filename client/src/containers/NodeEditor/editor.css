@@ -1,0 +1,18 @@
+.editor h2{
+  font-size: 26px;
+}
+
+.editor-body{
+  background-color: white;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 5px;
+}
+
+.ck-editor .ck-file-dialog-button{
+  display: none;
+}
+
+.ck-editor .ck-content{
+  height: 300px;
+}

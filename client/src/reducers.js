@@ -4,6 +4,7 @@ import { loadingBarReducer } from 'react-redux-loading-bar';
 
 import {loginReducer} from './containers/Login/reducer';
 import {nodeViewReducer} from './containers/NodeView/reducer';
+import {nodeEditorReducer} from './containers/NodeEditor/reducer';
 import {signUpReducer} from './containers/SignUp/reducer';
 
 const allReducers = {
@@ -12,6 +13,7 @@ const allReducers = {
     loadingBar: loadingBarReducer,
     login: loginReducer,
     nodeView: nodeViewReducer,
+    nodeEditor: nodeEditorReducer,
     signUp: signUpReducer,
 };
 export default allReducers;
