@@ -32,10 +32,12 @@ class CreateForumForm extends Component {
 
         if (!this.state.opened) {
             return (
-                <div className="create-forum-form">
-                    <button className="open-btn" onClick={() => this.setState({opened: true})}>
-                        Create new forum
-                    </button>
+                <div className="mt-2">
+                    <div className="open-btn">
+                        <button onClick={() => this.setState({opened: true})}>
+                            Create new forum
+                        </button>
+                    </div>
                 </div>
             );
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-import TimeAgo from 'react-timeago'
+import TimeAgo from 'react-timeago';
+import sanitizeHtml from 'sanitize-html';
 import {DeleteTopicButton} from '../../../components/interactive-btns/DeleteButton';
 import ToggleStickyButton from '../../../components/interactive-btns/ToggleStickyButton';
 import EditButton from "../../../components/interactive-btns/EditButton";
@@ -22,7 +23,8 @@ const TopicItem = (props) => {
             <NavLink to={nodeUrl(node._id)}>
                 <div className="card-body">
                     <h5 className="card-title">{node.title}</h5>
-                    <p className="card-text">{node.content}</p>
+                    <p className="card-text"
+                       dangerouslySetInnerHTML={{__html: sanitizeHtml(node.content)}} />
                 </div>
             </NavLink>
             <div className="card-footer bg-transparent clearfix">
