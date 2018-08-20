@@ -7,7 +7,7 @@ import {blurIfNotLogged} from "../../utils/permissionChecker";
 class NodeEditorForm extends React.Component {
     constructor(props) {
         super(props);
-        this.content = '';
+        this.content = this.props.initialValues.content || '';
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
@@ -17,6 +17,7 @@ class NodeEditorForm extends React.Component {
 
     render() {
         const { tree, handleSubmit, submitting } = this.props;
+
         return (
             <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                 <div className="form-group mb-2">

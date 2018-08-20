@@ -40,6 +40,22 @@ export const createNode = (node) => (dispatch, getState, APIClient) => {
         });
 };
 
+/**
+ * Update a node
+ * @param node: Set of properties to update. (`_id` field is required.)
+ */
+export const updateNode = (node) => (dispatch, getState, APIClient) => {
+    return APIClient.updateNode(node)
+        .then(response => {
+            dispatch(submissionFulfilled(response));
+        })
+        .catch(error => {
+            dispatch(submissionRejected(error));
+        });
+};
+
+
+
 const submissionFulfilled = node => ({
     type: 'EDITING_SUBMISSION_FULFILLED',
     payload: node
