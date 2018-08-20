@@ -14,9 +14,9 @@ const NodeEditorComponent = (props) => {
 
     return (
         <div className="editor container mt-5">
-            <div>
-                <h2 className="mb-1">Post new topic</h2>
-            </div>
+            <h2 className="mb-1">
+                {(mode === 'edit') ? 'Edit topic' : 'Post new topic'}
+            </h2>
             <div className="editor-body">
                 <NodeEditorForm tree={tree.map((node) => node.title).join('/')}
                                 initialValues={initialValues}
