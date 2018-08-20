@@ -3,8 +3,14 @@ import NodeEditorForm from './form';
 import './editor.css';
 
 const NodeEditorComponent = (props) => {
-    const {node, onSubmit} = props;
+    const {node, mode, onSubmit} = props;
     const tree = node.ancestorList.concat([{_id: node._id, title: node.title}]);
+
+    // If editing mode, set `_id`, `title` and `content` of original node to initialValues,
+    // else, means submitting new node, only set `parentId` that new node belongs to.
+    const initialValues = (mode === 'edit') ?
+        { type: 'Topic', _id: node._id, title: node.title, content: node.content } :
+        { type: 'Topic', parentId: node._id };
 
     return (
         <div className="editor container mt-5">
@@ -13,7 +19,7 @@ const NodeEditorComponent = (props) => {
             </div>
             <div className="editor-body">
                 <NodeEditorForm tree={tree.map((node) => node.title).join('/')}
-                                initialValues={{ parentId: node._id, type: 'Topic' }}
+                                initialValues={initialValues}
                                 onSubmit={onSubmit}/>
             </div>
         </div>

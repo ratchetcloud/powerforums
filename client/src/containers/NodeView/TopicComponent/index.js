@@ -6,6 +6,7 @@ import Pagination from '../../../components/Pagination';
 import CreateReplyForm from './createReplyForm';
 import ReplyItem from '../items/ReplyItem';
 import {DeleteTopicButton} from '../../../components/interactive-btns/DeleteButton';
+import EditButton from '../../../components/interactive-btns/EditButton';
 
 
 const TopicComponent = (props) => {
@@ -37,6 +38,7 @@ const TopicComponent = (props) => {
                             </span>
                         </div>
                         <div className="float-right">
+                            <EditButton node={node} to='./edit' />
                             <DeleteTopicButton node={node} onClick={onDeleteHandler}/>
                         </div>
                     </div>

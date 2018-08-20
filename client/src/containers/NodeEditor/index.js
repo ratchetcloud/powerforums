@@ -16,6 +16,9 @@ class NodeEditor extends Component {
     _loadFromRouteParam() {
         let nodeId = this.props.match.params.nodeId;
         this.props.load(nodeId);
+
+        // URL url for edit: `/n/:nodeId/edit`, for post: `/n/:parentNodeId/post`
+        this.mode = this.props.match.path.indexOf('edit') !== -1 ? 'edit' : 'post';
     }
 
     componentDidMount() {
@@ -32,7 +35,18 @@ class NodeEditor extends Component {
     }
 
     onSubmit(values) {
-        this.props.submit(values);
+        switch (this.mode) {
+            case 'post':
+                this.props.createNode(values);
+                break;
+
+            case 'edit':
+                this.props.updateNode(values);
+                break;
+
+            default:
+                alert('Error: invalid type');
+        }
     }
 
     render() {
@@ -46,7 +60,7 @@ class NodeEditor extends Component {
             // Submission succeed, go to target node
             return <Redirect to={nodeUrl(nextNodeId)} />;
 
-        return <NodeEditorComponent node={node} onSubmit={this.onSubmit} />
+        return <NodeEditorComponent node={node} mode={this.mode} onSubmit={this.onSubmit} />
     }
 }
 
@@ -60,8 +74,11 @@ const mapDispatchToProps = dispatch => ({
     load: (nodeId) => {
         dispatch(actions.load(nodeId));
     },
-    submit: (values) => {
+    createNode: (values) => {
         dispatch(actions.createNode(values));
+    },
+    updateNode: (values) => {
+        dispatch(actions.updateNode(values));
     },
     finishEditing: () => {
         dispatch(actions.finishEditing());

@@ -4,7 +4,6 @@ import TimeAgo from 'react-timeago';
 import sanitizeHtml from 'sanitize-html';
 import {DeleteTopicButton} from '../../../components/interactive-btns/DeleteButton';
 import ToggleStickyButton from '../../../components/interactive-btns/ToggleStickyButton';
-import EditButton from "../../../components/interactive-btns/EditButton";
 import {nodeUrl} from '../../../utils/urls';
 
 const TopicItem = (props) => {
