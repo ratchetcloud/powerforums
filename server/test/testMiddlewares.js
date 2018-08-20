@@ -54,7 +54,7 @@ describe('Test middlewares', function() {
         it('Send request without Authorization', function () {
             return supertest(app)
                 .get('/')
-                .expect(401);
+                .expect(200);
         });
         it('Send request with wrong Authorization', function () {
             return supertest(app)

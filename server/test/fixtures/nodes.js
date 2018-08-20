@@ -12,6 +12,7 @@ module.exports = [
             "_id": null,
             "name": null
         },
+        "deleted":false
     },
     {
         "_id": ObjectId("200000000000000000000001"),
@@ -28,7 +29,8 @@ module.exports = [
             "_id": ObjectId("100000000000000000000000"),
             "name": "Admin"
         },
-        "description": "Blizzard's FPS game"
+        "description": "Blizzard's FPS game",
+        "deleted":false
     },
     {
         "_id": ObjectId("200000000000000000000002"),
@@ -49,7 +51,8 @@ module.exports = [
             "_id": ObjectId("100000000000000000000000"),
             "name": "Admin"
         },
-        "description": "Announcements"
+        "description": "Announcements",
+        "deleted":false
     },
     {
         "_id": ObjectId("200000000000000000000003"),
@@ -70,7 +73,8 @@ module.exports = [
             "_id": ObjectId("100000000000000000000001"),
             "name": "User"
         },
-        "description": "haha"
+        "description": "haha",
+        "deleted":false
     },
     {
         "_id": ObjectId("200000000000000000000004"),
@@ -87,7 +91,8 @@ module.exports = [
             "_id": ObjectId("100000000000000000000000"),
             "name": "Admin"
         },
-        "description": "Epic Games"
+        "description": "Epic Games",
+        "deleted":false
     },
     {
         "_id": ObjectId("200000000000000000000005"),
@@ -108,6 +113,7 @@ module.exports = [
             "_id": ObjectId("100000000000000000000002"),
             "name": "BannedUser"
         },
-        "description": "haha"
+        "description": "haha",
+        "deleted":false
     },
 ]

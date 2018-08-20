@@ -111,7 +111,12 @@ function checkPermission (req, user) {
         // Signed up user who has special permissions
         if (user.permissions.length > 0) {
             let ancestorIds = req.node.ancestorList.map(ancestor => ancestor._id);
-
+            
+            // All user can read current node. Therefore, check permission about current node.
+            if (req.method === 'GET') {
+                ancestorIds.push(req.node._id);
+            }
+            
             // Concat permission which have permissions about req.node
             for (let permissionObject of user.permissions) {
                 // Check permission of upper node
