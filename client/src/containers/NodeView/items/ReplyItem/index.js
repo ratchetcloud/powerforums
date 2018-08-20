@@ -1,16 +1,15 @@
-import React, { Component } from 'react'
-import UpdateReplyForm from './updateReplyForm';
+import React, { Component } from 'react';
+import ui from 'redux-ui';
 import TimeAgo from 'react-timeago';
 import {DeleteReplyButton} from '../../../../components/interactive-btns/DeleteButton';
 import EditButton from '../../../../components/interactive-btns/EditButton';
 import ToggleStickyButton from '../../../../components/interactive-btns/ToggleStickyButton';
+import UpdateReplyForm from './updateReplyForm';
 
 
-export default class ReplyItem extends Component {
+class ReplyItem extends Component {
     constructor(props) {
         super(props);
-        this.state = {'editing': false};
-
         this.startEditingHandler = this.startEditingHandler.bind(this);
         this.finishEditingHandler = this.finishEditingHandler.bind(this);
     }
@@ -19,19 +18,19 @@ export default class ReplyItem extends Component {
         // Init `editing` state if `node` is changed
         // (eg. reload is executed after editing finished)
         if (this.props.node !== prevProps.node)
-            this.setState({'editing': false});
+            this.props.resetUI();
     }
 
     startEditingHandler() {
-        this.setState({'editing': true});
+        this.props.updateUI({'editing': true});
     }
 
     finishEditingHandler() {
-        this.setState({'editing': false});
+        this.props.resetUI();
     }
 
     render() {
-        const {node, onEvent} = this.props;
+        const {node, onEvent, ui} = this.props;
 
         const onDeleteHandler = () => onEvent('DELETE', node._id);
         const onEditHandler = (values) => onEvent('UPDATE', node._id, values);
@@ -45,7 +44,7 @@ export default class ReplyItem extends Component {
             </div>
         );
 
-        if (this.state.editing) {
+        if (ui.editing) {
             return (
                 <li className="card reply-card">
                     {header}
@@ -74,3 +73,9 @@ export default class ReplyItem extends Component {
         }
     }
 }
+
+// Toggling to edit-mode is working with `redux-ui`,
+// it's useful block-level scoping with simple UI state.
+export default ui({state: {
+    editing: false
+}})(ReplyItem);
