@@ -25,8 +25,10 @@
 
 .node-view .footer span,
 .node-view .footer button,
+.node-view .footer a,
 .node-view .card-footer span,
-.node-view .card-footer button{
+.node-view .card-footer button,
+.node-view .card-footer a{
   color: #666;
   font-size: 13px;
   padding: 2px 4px;
@@ -35,7 +37,9 @@
   outline: none;
 }
 .node-view .footer button:hover,
-.node-view .card-footer button:hover{ background-color: #eee }
+.node-view .footer a:hover,
+.node-view .card-footer button:hover,
+.node-view .card-footer a:hover{ background-color: #eee }
 
 
 /* Cards */
@@ -61,6 +65,16 @@
   font-size: 14px;
   color: #333;
 }
+.node-view .card .card-body .card-text h3,
+.node-view .card .card-body .card-text h4,
+.node-view .card .card-body .card-text h5,
+.node-view .card .card-body .card-text h6{
+  font-size: 14px;
+}
+.node-view .card .card-body .card-text p{
+  margin-bottom: 2px;
+}
+
 
 .node-view .card .card-header,
 .node-view .card .card-footer{
@@ -97,6 +111,30 @@
 .forum-view .card:hover{
   border-color: #aaa;
 }
+
+
+.forum-view .open-btn{
+  padding: 10px 15px;
+  background-color: rgba(253, 253, 253, 0.6);
+}
+
+.forum-view .open-btn button,
+.forum-view .open-btn a{
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 14px;
+  background: none;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 
 
 /* TopicComponent */

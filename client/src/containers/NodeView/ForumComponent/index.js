@@ -1,10 +1,22 @@
 import React from 'react';
 import Navigation from "../../../components/Navigation";
 import Pagination from "../../../components/Pagination";
-import CreateTopicForm from "./createTopicForm";
 import CreateForumForm from "./createForumForm";
 import ForumItem from "../items/ForumItem";
 import TopicItem from "../items/TopicItem";
+import {NavLink} from "react-router-dom";
+import {blurIfNotLogged} from "../../../utils/permissionChecker";
+import {nodeUrl} from "../../../utils/urls";
+
+const PostNewTopicButton = blurIfNotLogged()((props) => {
+    return (
+        <div className="open-btn">
+            <NavLink to={nodeUrl(props.node._id, 'post')}>
+                Post new topic in {props.node.title}
+            </NavLink>
+        </div>
+    );
+});
 
 const ForumComponent = (props) => {
     const {node, children, pagination, onPaginationChange, onChildEvent} = props;
@@ -28,10 +40,7 @@ const ForumComponent = (props) => {
                 </ul>
 
                 <h3>Topics</h3>
-                <CreateTopicForm parentId={node._id}
-                                 initialValues={{ parentId: node._id, type: 'Topic' }}
-                                 node={node}
-                                 onSubmit={onNodeCreate} />
+                <PostNewTopicButton node={node} />
 
                 <CreateForumForm parentId={node._id}
                                  initialValues={{ parentId: node._id, type: 'Forum' }}

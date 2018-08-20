@@ -1,6 +1,6 @@
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import { push } from 'react-router-redux';
-
+import { nodeUrl } from '../../utils/urls';
 
 /**
  * Load node with given ID
@@ -114,7 +114,7 @@ export const deleteNode = (nodeId, nextNodeId=undefined) => (dispatch, getState,
     return APIClient.deleteNode(nodeId)
         .then(response => {
             if (nextNodeId) {
-                dispatch(push('/n/'+nextNodeId));
+                dispatch(push(nodeUrl(nextNodeId)));
                 dispatch(load(nextNodeId));
 
             }else {

@@ -1,10 +1,12 @@
 import React from 'react';
-import Navigation from "../../../components/Navigation";
-import Pagination from "../../../components/Pagination";
+import TimeAgo from 'react-timeago';
+import sanitizeHtml from 'sanitize-html';
+import Navigation from '../../../components/Navigation';
+import Pagination from '../../../components/Pagination';
 import CreateReplyForm from './createReplyForm';
-import ReplyItem from "../items/ReplyItem";
-import TimeAgo from "react-timeago";
-import {DeleteTopicButton} from "../../../components/interactive-btns/DeleteButton";
+import ReplyItem from '../items/ReplyItem';
+import {DeleteTopicButton} from '../../../components/interactive-btns/DeleteButton';
+import EditButton from '../../../components/interactive-btns/EditButton';
 
 
 const TopicComponent = (props) => {
@@ -27,9 +29,7 @@ const TopicComponent = (props) => {
                         <TimeAgo date={node.creationDate} />
                     </div>
                     <h2>{node.title}</h2>
-                    <p>
-                        {node.content}
-                    </p>
+                    <p dangerouslySetInnerHTML={{__html: sanitizeHtml(node.content)}} />
                     <div className="footer clearfix">
                         <div className="float-left">
                             <span className="comment">
@@ -38,6 +38,7 @@ const TopicComponent = (props) => {
                             </span>
                         </div>
                         <div className="float-right">
+                            <EditButton node={node} to='./edit' />
                             <DeleteTopicButton node={node} onClick={onDeleteHandler}/>
                         </div>
                     </div>

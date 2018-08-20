@@ -4,21 +4,6 @@
   background-color: rgba(253, 253, 253, 0.6);
 }
 
-.create-forum-form button.open-btn{
-  display: block;
-  width: 100%;
-  text-align: left;
-  color: #007bff;
-  font-weight: bold;
-  font-size: 14px;
-  background: none;
-  border: none;
-  outline: none;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
-}
-
 .create-forum-form form{
   padding-top: 10px;
 }
