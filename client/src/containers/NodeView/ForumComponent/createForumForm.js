@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { hideIfNoPermission, CAN_CREATE_FORUM } from "../../../utils/permissionChecker";
+import ui from 'redux-ui';
+import { hideIfNoPermission, CAN_CREATE_FORUM } from '../../../utils/permissionChecker';
 import './createForumForm.css';
 
 
@@ -19,22 +20,21 @@ const renderField = ({ input, label, type, placeholder, meta: { touched, error }
 class CreateForumForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {opened: false};
     }
 
     render() {
-        const {error, handleSubmit, pristine, reset, submitting, onSubmit} = this.props;
+        const {error, handleSubmit, pristine, reset, submitting, onSubmit, ui} = this.props;
         const onSubmitHandler = (formValues) => {
             onSubmit(formValues);
-            this.setState({opened: false});
+            this.props.resetUI();
             reset();
         };
 
-        if (!this.state.opened) {
+        if (!ui.editing) {
             return (
                 <div className="mt-2">
                     <div className="open-btn">
-                        <button onClick={() => this.setState({opened: true})}>
+                        <button onClick={() => this.props.updateUI({'editing': true})}>
                             Create new forum
                         </button>
                     </div>
@@ -66,7 +66,7 @@ class CreateForumForm extends Component {
                             </button>
                             &nbsp;
                             <button type="button" disabled={submitting}
-                                    onClick={() => this.setState({opened: false})}
+                                    onClick={() => this.props.updateUI({'editing': false})}
                                     className="btn btn-secondary btn-sm">
                                 Close
                             </button>
@@ -79,4 +79,8 @@ class CreateForumForm extends Component {
 }
 
 export default hideIfNoPermission(CAN_CREATE_FORUM)
-    (reduxForm({form: 'createForumForm', enableReinitialize: true})(CreateForumForm))
+    (reduxForm({form: 'createForumForm', enableReinitialize: true})
+        (ui({state: {
+            editing: false
+        }})
+        (CreateForumForm)))

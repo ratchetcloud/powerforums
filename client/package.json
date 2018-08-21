@@ -60,6 +60,7 @@
     "redux-promise": "^0.5.3",
     "redux-promise-middleware": "^5.1.1",
     "redux-thunk": "^2.2.0",
+    "redux-ui": "^0.1.1",
     "sanitize-html": "^1.18.4",
     "violet-paginator": "^3.0.0-beta-6",
     "webpack": "^4.12.2",

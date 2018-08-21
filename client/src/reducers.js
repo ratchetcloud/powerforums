@@ -1,6 +1,7 @@
 import { reducer as formReducer } from 'redux-form';
 import { reducer as modalReducer } from 'redux-modal';
 import { loadingBarReducer } from 'react-redux-loading-bar';
+import { reducer as uiReducer } from 'redux-ui';
 
 import {loginReducer} from './containers/Login/reducer';
 import {nodeViewReducer} from './containers/NodeView/reducer';
@@ -11,6 +12,7 @@ const allReducers = {
     modal: modalReducer,
     form: formReducer,
     loadingBar: loadingBarReducer,
+    ui: uiReducer,
     login: loginReducer,
     nodeView: nodeViewReducer,
     nodeEditor: nodeEditorReducer,
