@@ -69,7 +69,7 @@ const blurMaskStyles = {
  */
 export function blurIfNotLogged() {
     const mapStateToProps = state => ({
-        currentUser: state.login.currentUser,
+        currentUser: state.auth.currentUser,
     });
 
     return function(WrappedComponent) {
@@ -98,7 +98,7 @@ export function blurIfNotLogged() {
  */
 export function blurIfNoPermission(...allowedPermissions) {
     const mapStateToProps = state => ({
-        currentUser: state.login.currentUser,
+        currentUser: state.auth.currentUser,
     });
 
     return function(WrappedComponent) {
@@ -128,7 +128,7 @@ export function blurIfNoPermission(...allowedPermissions) {
  */
 export function hideIfNoPermission(...allowedPermissions) {
     const mapStateToProps = state => ({
-        currentUser: state.login.currentUser,
+        currentUser: state.auth.currentUser,
     });
 
     return function(WrappedComponent) {

@@ -24,6 +24,12 @@ const TopicComponent = (props) => {
             </div>
             <div className="topic-body container">
                 <article>
+                    {node.deleted === true &&
+                    <div className="alert alert-warning" role="alert">
+                        This post is deleted. Only permitted user can see this.
+                    </div>
+                    }
+
                     <div className="header">
                         <span>Posted by {node.authorInformation.name}</span>
                         <TimeAgo date={node.creationDate} />
@@ -37,10 +43,12 @@ const TopicComponent = (props) => {
                                 <span>{node.replyCount} Replies</span>
                             </span>
                         </div>
+                        {node.deleted !== true &&
                         <div className="float-right">
-                            <EditButton node={node} to='./edit' />
+                            <EditButton node={node} to='./edit'/>
                             <DeleteTopicButton node={node} onClick={onDeleteHandler}/>
                         </div>
+                        }
                     </div>
                 </article>
 

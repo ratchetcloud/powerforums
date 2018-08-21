@@ -6,9 +6,10 @@
 
 module.exports = (req) => {
 	switch(req.method) {
-		//can read all nodes
 		case 'GET':
-			return true;
+            // can read deleted nodes
+            if (req.node.deleted)
+				return true;
 	}
 	return false;
 }
