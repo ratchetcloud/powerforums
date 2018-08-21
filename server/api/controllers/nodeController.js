@@ -77,12 +77,7 @@ exports.node_create = (req, res) => {
 
 // Get a node by ID.
 exports.node_getById = (req, res) => {
-    // If node is soft deleted and user does not have permission to read,
-    // return 410(Gone).
-    if (req.node.deleted && !req.permissions.has('canReadDeleted')) {
-        res.status(410).json({ message: "Access to deleted node." })
-    }  
-    // Node is already loaded in `loadNode`
+    // Node is already loaded in `load`
     res.status(200).json(req.node);
 };
 

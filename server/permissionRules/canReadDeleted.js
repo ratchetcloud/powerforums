@@ -6,6 +6,7 @@
 
 module.exports = (req) => {
 	switch(req.method) {
+		//can read all nodes
 		case 'GET':
 			return true;
 	}

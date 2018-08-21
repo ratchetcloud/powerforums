@@ -16,6 +16,8 @@ const errorObjectId = { message: "Provided ObjectId is not valid.", code : 400 }
 const errorInvalidType = { message: "Provided action type is not valid", code: 500 };
 const errorParentNodeNotFound = { message: "Parent node not found.", code: 404 };
 const errorMissingParameter = { message: "Parameter is missing.", code: 400 };
+const errorForbidden = { message: "Forbidden", code: 403 };
+const errorDeletedNode = { message: "Target node is deleted", code: 410 };
 
 /**
  * Load node data from `req`
@@ -24,6 +26,7 @@ const errorMissingParameter = { message: "Parameter is missing.", code: 400 };
  */
 function load(req) {
     return new Promise(function (resolve, reject) {
+        let result = { errorExpected: errorForbidden };
         switch (req.method) {
             case 'POST':
                 if (!req.body.parentId) {
@@ -60,7 +63,8 @@ function load(req) {
                     .exec()
                     .then(parentNode => {
                         req.body.ancestorList = parentNode.ancestorList.concat({_id: parentNode._id, title: 'title' in parentNode ? parentNode.title : ''});
-                        resolve(req.body);
+                        result.node = req.body; 
+                        resolve(result);
                     })
                     .catch(error => {
                         reject(error);
@@ -87,7 +91,13 @@ function load(req) {
                             reject(errorNotFound);
                             return;
                         }
-                        resolve(document);
+                        // If node is soft deleted and user does not have permission,
+                        // return 410(Gone).
+                        if (document.deleted) {
+                            result.errorExpected = errorDeletedNode;
+                        }
+                        result.node = document; 
+                        resolve(result);
                     })
                     .catch(error => {
                         reject(error);
@@ -151,12 +161,12 @@ module.exports = (req, res, next) => {
         user = res.locals.userData;
     
     load(req)
-        .then((node) => {
-            req.node = node;
+        .then((result) => {
+            req.node = result.node;
             if (checkPermission(req, user)) {
                 next();
             } else
-                res.status(403).json({ message: 'Forbidden' });
+                res.status(result.errorExpected.code).json({ message: result.errorExpected.message });
         })
         .catch((err) => {
             console.log(err)
