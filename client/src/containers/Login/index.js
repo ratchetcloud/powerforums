@@ -26,8 +26,8 @@ class Login extends Component {
 
 
 const mapStateToProps = state => ({
+    currentUser: state.auth.currentUser,
     loading: state.login.loading,
-    currentUser: state.login.currentUser,
     error: state.login.error,
 });
 

@@ -39,7 +39,10 @@ export default class APIClient {
      * @param authorizationToken: JWT token generated in server.
      */
     setAuthorizationToken(authorizationToken) {
-        this.httpClient.defaults.headers.common['Authorization'] = `Bearer ${authorizationToken}`;
+        if (authorizationToken === false)
+            delete this.httpClient.defaults.headers.common['Authorization'];
+        else
+            this.httpClient.defaults.headers.common['Authorization'] = `Bearer ${authorizationToken}`;
     }
 
     /**

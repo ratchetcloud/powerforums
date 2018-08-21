@@ -116,7 +116,6 @@ const mapStateToProps = state => ({
     children: state.nodeView.children,
     pagination: state.nodeView.pagination,
     error: state.nodeView.error,
-    currentUser: state.login.currentUser,
 });
 
 const mapDispatchToProps = dispatch => ({
