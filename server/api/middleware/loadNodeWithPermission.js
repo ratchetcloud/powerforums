@@ -16,6 +16,8 @@ const errorObjectId = { message: "Provided ObjectId is not valid.", code : 400 }
 const errorInvalidType = { message: "Provided action type is not valid", code: 500 };
 const errorParentNodeNotFound = { message: "Parent node not found.", code: 404 };
 const errorMissingParameter = { message: "Parameter is missing.", code: 400 };
+const errorForbidden = { message: "Forbidden", code: 403 };
+const errorDeletedNode = { message: "Target node is deleted", code: 410 };
 
 /**
  * Load node data from `req`
@@ -24,6 +26,7 @@ const errorMissingParameter = { message: "Parameter is missing.", code: 400 };
  */
 function load(req) {
     return new Promise(function (resolve, reject) {
+        let result = { fallbackError: errorForbidden };
         switch (req.method) {
             case 'POST':
                 if (!req.body.parentId) {
@@ -60,10 +63,11 @@ function load(req) {
                     .exec()
                     .then(parentNode => {
                         req.body.ancestorList = parentNode.ancestorList.concat({_id: parentNode._id, title: 'title' in parentNode ? parentNode.title : ''});
-                        resolve(req.body);
+                        result.node = req.body; 
+                        resolve(result);
                     })
                     .catch(error => {
-                        reject(error);
+                        reject({code: 500, message: error.response.data.message });
                     });
 
                 break;
@@ -87,10 +91,16 @@ function load(req) {
                             reject(errorNotFound);
                             return;
                         }
-                        resolve(document);
+                        // If node is soft deleted and user does not have permission,
+                        // return 410(Gone).
+                        if (document.deleted) {
+                            result.fallbackError = errorDeletedNode;
+                        }
+                        result.node = document; 
+                        resolve(result);
                     })
                     .catch(error => {
-                        reject(error);
+                        reject({code: 500, message: error.response.data.message });
                     });
                 break;
 
@@ -111,13 +121,18 @@ function checkPermission (req, user) {
         // Signed up user who has special permissions
         if (user.permissions.length > 0) {
             let ancestorIds = req.node.ancestorList.map(ancestor => ancestor._id);
-
+            
+            // All user can read current node. Therefore, check permission about current node.
+            if (req.method === 'GET') {
+                ancestorIds.push(req.node._id);
+            }
+            
             // Concat permission which have permissions about req.node
             for (let permissionObject of user.permissions) {
                 // Check permission of upper node
                 if (!ancestorIds.some(ancestorId => ancestorId.equals(permissionObject._nodeId)))
                     continue;
-
+                
                 // add the permission to permissionList
                 for (let permission of USER_GROUPS[permissionObject._userGroupId].permissions)
                     permissionList.add(permission);
@@ -132,6 +147,7 @@ function checkPermission (req, user) {
     for (let permission of permissionList) {
         let filter = require('../../permissionRules/' + permission);
         if(filter(req, user)) {
+            req.permissions = permissionList;
             return true;
         }
     } 
@@ -143,20 +159,16 @@ module.exports = (req, res, next) => {
     let user = null;
     if (res.locals.userData)
         user = res.locals.userData;
+    
     load(req)
-        .then((node) => {
-            req.node = node;
-            if (checkPermission(req, user)) {
+        .then((result) => {
+            req.node = result.node;
+            if (checkPermission(req, user)) 
                 next();
-            } else
-                res.status(403).json({ message: 'Forbidden' });
+            else 
+                throw result.fallbackError;
         })
         .catch((err) => {
-            console.log(err)
-            if (err.code) {
-                res.status(err.code).json({ message: err.message });
-            } else {
-                res.status(500).json({ message: error.response.data.message });
-            }  
+            res.status(err.code).json({ message: err.message });
         })
 };

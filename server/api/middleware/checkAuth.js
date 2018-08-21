@@ -18,8 +18,9 @@ module.exports = (req, res, next) => {
                 throw "Authorization header was not well formed.";
             }
         } else {
-            // If no authorization header was found in the http request.
-            throw "No authorization header was found.";
+            // If no authorization header was found in the http request,
+            // it means user is guest. Guest permission will be added at checkPermission.
+            next();
         }
 
     } catch (error) {
