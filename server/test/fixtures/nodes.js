@@ -12,7 +12,7 @@ module.exports = [
             "_id": null,
             "name": null
         },
-        "deleted":false
+        "deleted": false
     },
     {
         "_id": ObjectId("200000000000000000000001"),
@@ -30,7 +30,7 @@ module.exports = [
             "name": "Admin"
         },
         "description": "Blizzard's FPS game",
-        "deleted":false
+        "deleted": false
     },
     {
         "_id": ObjectId("200000000000000000000002"),
@@ -52,7 +52,7 @@ module.exports = [
             "name": "Admin"
         },
         "description": "Announcements",
-        "deleted":false
+        "deleted": false
     },
     {
         "_id": ObjectId("200000000000000000000003"),
@@ -74,7 +74,7 @@ module.exports = [
             "name": "User"
         },
         "description": "haha",
-        "deleted":false
+        "deleted": false
     },
     {
         "_id": ObjectId("200000000000000000000004"),
@@ -92,7 +92,7 @@ module.exports = [
             "name": "Admin"
         },
         "description": "Epic Games",
-        "deleted":false
+        "deleted": false
     },
     {
         "_id": ObjectId("200000000000000000000005"),
@@ -114,6 +114,46 @@ module.exports = [
             "name": "BannedUser"
         },
         "description": "haha",
-        "deleted":false
+        "deleted": false
+    },
+    {
+        "_id": ObjectId("200000000000000000000006"),
+        "title": "DeletedGameForum",
+        "type": "Forum",
+        "_parentId": ObjectId("200000000000000000000000"),
+        "ancestorList": [
+            {
+                "_id": ObjectId("200000000000000000000000"),
+                "title": "Forums"
+            }
+        ],
+        "authorInformation": {
+            "_id": ObjectId("100000000000000000000000"),
+            "name": "Admin"
+        },
+        "description": "DeletedGameForum",
+        "deleted": true
+    },
+    {
+        "_id": ObjectId("200000000000000000000007"),
+        "title": "Deleted Topic",
+        "type": "Topic",
+        "_parentId": ObjectId("200000000000000000000006"),
+        "ancestorList": [
+            {
+                "_id": ObjectId("200000000000000000000000"),
+                "title": "Forums"
+            },
+            {
+                "_id": ObjectId("200000000000000000000006"),
+                "title": "DeletedGameForum"
+            }
+        ],
+        "authorInformation": {
+            "_id": ObjectId("100000000000000000000001"),
+            "name": "User"
+        },
+        "description": "Deleted Topic",
+        "deleted": true
     },
 ]

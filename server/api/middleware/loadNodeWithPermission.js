@@ -26,7 +26,7 @@ const errorDeletedNode = { message: "Target node is deleted", code: 410 };
  */
 function load(req) {
     return new Promise(function (resolve, reject) {
-        let result = { errorExpected: errorForbidden };
+        let result = { fallbackError: errorForbidden };
         switch (req.method) {
             case 'POST':
                 if (!req.body.parentId) {
@@ -67,7 +67,7 @@ function load(req) {
                         resolve(result);
                     })
                     .catch(error => {
-                        reject(error);
+                        reject({code: 500, message: error.response.data.message });
                     });
 
                 break;
@@ -94,13 +94,13 @@ function load(req) {
                         // If node is soft deleted and user does not have permission,
                         // return 410(Gone).
                         if (document.deleted) {
-                            result.errorExpected = errorDeletedNode;
+                            result.fallbackError = errorDeletedNode;
                         }
                         result.node = document; 
                         resolve(result);
                     })
                     .catch(error => {
-                        reject(error);
+                        reject({code: 500, message: error.response.data.message });
                     });
                 break;
 
@@ -163,17 +163,12 @@ module.exports = (req, res, next) => {
     load(req)
         .then((result) => {
             req.node = result.node;
-            if (checkPermission(req, user)) {
+            if (checkPermission(req, user)) 
                 next();
-            } else
-                res.status(result.errorExpected.code).json({ message: result.errorExpected.message });
+            else 
+                throw result.fallbackError;
         })
         .catch((err) => {
-            console.log(err)
-            if (err.code) {
-                res.status(err.code).json({ message: err.message });
-            } else {
-                res.status(500).json({ message: error.response.data.message });
-            }  
+            res.status(err.code).json({ message: err.message });
         })
 };
