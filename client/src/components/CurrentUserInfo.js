@@ -13,7 +13,7 @@ const CurrentUserInfo = (props) => {
     }else{
         return (
             <div className="current-user-info">
-                <NavLink to="/login" className="btn btn-outline-primary btn-sm">
+                <NavLink to={"/login?next=" + encodeURIComponent(location.pathname)} className="btn btn-outline-primary btn-sm">
                     LOGIN
                 </NavLink>
                 <NavLink to="/signup" className="btn btn-primary btn-sm">
