@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import ErrorMessage from '../../components/ErrorMessage';
 import Error404 from '../../components/Error404';
+import Error410 from '../../components/Error410';
 import ForumComponent from './ForumComponent';
 import TopicComponent from './TopicComponent';
 import * as actions from './actions';
@@ -71,9 +72,12 @@ class NodeView extends Component {
         if (error && error.response.status === 404)
             return <Error404 />;
 
+            if (error && error.response.status === 410)
+            return <Error410 />;
+
         if (!node || !children) {
             // Node or children are not load yet.
-            component = <Loading />
+            component = <Loading />;
 
         }else {
             switch (node.type) {
@@ -112,6 +116,7 @@ const mapStateToProps = state => ({
     children: state.nodeView.children,
     pagination: state.nodeView.pagination,
     error: state.nodeView.error,
+    currentUser: state.login.currentUser,
 });
 
 const mapDispatchToProps = dispatch => ({

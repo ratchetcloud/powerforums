@@ -36,8 +36,10 @@ class ReplyItem extends Component {
         const onEditHandler = (values) => onEvent('UPDATE', node._id, values);
         const onToggleStickyHandler = () => onEvent('TOGGLE_STICKY', node._id, !node.sticky);
 
+        const cardClassName = "reply-card card" + (node.deleted ? ' deleted' : '');
         const header = (
             <div className="card-header">
+                {node.deleted === true && <span className="deleted">Deleted</span>}
                 {node.sticky === true && <span className="sticky"><i className="fas fa-thumbtack" /></span>}
                 <span>By {node.authorInformation.name}</span>
                 <TimeAgo date={node.creationDate} />
@@ -46,7 +48,7 @@ class ReplyItem extends Component {
 
         if (ui.editing) {
             return (
-                <li className="card reply-card">
+                <li className={cardClassName}>
                     {header}
                     <div className="card-body">
                         <UpdateReplyForm form={`UpdateReplyForm_${node._id}`}
@@ -58,16 +60,18 @@ class ReplyItem extends Component {
             )
         } else {
             return (
-                <li className="card reply-card">
+                <li className={cardClassName}>
                     {header}
                     <div className="card-body">
                         <p className="card-text">{node.content}</p>
                     </div>
+                    {node.deleted !== true &&
                     <div className="card-footer bg-transparent">
-                        <EditButton node={node} onClick={this.startEditingHandler} />
+                        <EditButton node={node} onClick={this.startEditingHandler}/>
                         <DeleteReplyButton node={node} onClick={onDeleteHandler}/>
-                        <ToggleStickyButton node={node} sticky={node.sticky} onClick={onToggleStickyHandler} />
+                        <ToggleStickyButton node={node} sticky={node.sticky} onClick={onToggleStickyHandler}/>
                     </div>
+                    }
                 </li>
             )
         }
