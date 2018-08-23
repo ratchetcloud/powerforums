@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import ErrorMessage from '../../components/ErrorMessage';
 import Error404 from '../../components/Error404';
-import Error410 from '../../components/Error410';
+import ErrorPageDeleted from '../../components/ErrorPageDeleted';
 import ForumComponent from './ForumComponent';
 import TopicComponent from './TopicComponent';
 import * as actions from './actions';
@@ -69,12 +69,12 @@ class NodeView extends Component {
         const {node, children, pagination, error} = this.props;
         let component;
 
-        if (error && error.response.status === 404)
-            return <Error404 />;
-
-            if (error && error.response.status === 410)
-            return <Error410 />;
-
+        if (error && error.response.status === 404) {
+            if (error.response.data.deleted) 
+                return <ErrorPageDeleted />;
+            else
+                return <Error404 />;
+        }
         if (!node || !children) {
             // Node or children are not load yet.
             component = <Loading />;

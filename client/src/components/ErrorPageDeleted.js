@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Error410 = () => {
+const ErrorPageDeleted = () => {
     return (
         <div className="container mt-5 p-5 text-center">
             <h2 style={{fontSize: '40px'}}>Post is deleted</h2>
@@ -8,4 +8,4 @@ const Error410 = () => {
         </div>
     )
 };
-export default Error410;
+export default ErrorPageDeleted;
