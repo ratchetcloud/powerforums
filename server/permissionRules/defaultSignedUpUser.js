@@ -11,7 +11,9 @@ const isEmpty = require('underscore').isEmpty;
 module.exports = (req, user) => {
     switch (req.method) {
         case 'GET':
-            // can read all nodes
+            // can read not deleted nodes
+            if (req.node.deleted)
+                return false;
             return true;
 
         case 'POST':

@@ -1,10 +1,23 @@
 import React from 'react';
 import Navigation from "../../../components/Navigation";
 import Pagination from "../../../components/Pagination";
-import CreateTopicForm from "./createTopicForm";
 import CreateForumForm from "./createForumForm";
 import ForumItem from "../items/ForumItem";
 import TopicItem from "../items/TopicItem";
+import {NavLink} from "react-router-dom";
+import {blurIfNotLogged} from "../../../utils/permissionChecker";
+import {nodeUrl} from "../../../utils/urls";
+
+const PostNewTopicButton = blurIfNotLogged()((props) => {
+    const parentNode = props.node.ancestorList[props.node.ancestorList.length-1];
+    return (
+        <div className="open-btn">
+            <NavLink to={nodeUrl(parentNode._id, 'post')}>
+                Post new topic in {parentNode.title}
+            </NavLink>
+        </div>
+    );
+});
 
 const ForumComponent = (props) => {
     const {node, children, pagination, onPaginationChange, onChildEvent} = props;
@@ -28,14 +41,11 @@ const ForumComponent = (props) => {
                 </ul>
 
                 <h3>Topics</h3>
-                <CreateTopicForm parentId={node._id}
-                                 initialValues={{ parentId: node._id, type: 'Topic' }}
-                                 node={node}
-                                 onSubmit={onNodeCreate} />
+                <PostNewTopicButton node={{ancestorList: node.ancestorList.concat(node)}} />
 
                 <CreateForumForm parentId={node._id}
                                  initialValues={{ parentId: node._id, type: 'Forum' }}
-                                 node={node}
+                                 node={{ancestorList: node.ancestorList.concat(node)}}
                                  onSubmit={onNodeCreate} />
 
                 <ul className="topics list-unstyled mt-3">

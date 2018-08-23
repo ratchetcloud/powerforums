@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
+import queryString from 'querystring';
 import LoginForm from './loginForm';
 import Loading from '../../components/Loading';
 import * as userActions from './actions';
@@ -18,16 +19,18 @@ class Login extends Component {
             return <Loading />;
 
         }else {
-            // Already logged-in.
-            return <Redirect to='/' />;
+            const parsed = queryString.parse(location.search.substr(1));
+            const next = (parsed.next) ? decodeURIComponent(parsed.next) : '/';
+
+            return <Redirect to={next} />;
         }
     }
 }
 
 
 const mapStateToProps = state => ({
+    currentUser: state.auth.currentUser,
     loading: state.login.loading,
-    currentUser: state.login.currentUser,
     error: state.login.error,
 });
 

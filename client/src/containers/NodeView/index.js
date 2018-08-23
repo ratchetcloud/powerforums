@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Loading from '../../components/Loading';
 import ErrorMessage from '../../components/ErrorMessage';
+import Error404 from '../../components/Error404';
+import ErrorPageDeleted from '../../components/ErrorPageDeleted';
 import ForumComponent from './ForumComponent';
 import TopicComponent from './TopicComponent';
 import * as actions from './actions';
@@ -49,7 +51,9 @@ class NodeView extends Component {
                 break;
 
             case 'DELETE':
-                this.props.deleteNode(nodeId);
+                // If deleting current page's node, redirect to parent node.
+                let nextNodeId = (nodeId === this.props.node._id) ? this.props.node._parentId : undefined;
+                this.props.deleteNode(nodeId, nextNodeId);
                 break;
 
             case 'TOGGLE_STICKY':
@@ -65,9 +69,15 @@ class NodeView extends Component {
         const {node, children, pagination, error} = this.props;
         let component;
 
+        if (error && error.response.status === 404) {
+            if (error.response.data.deleted) 
+                return <ErrorPageDeleted />;
+            else
+                return <Error404 />;
+        }
         if (!node || !children) {
             // Node or children are not load yet.
-            component = <Loading />
+            component = <Loading />;
 
         }else {
             switch (node.type) {
@@ -121,8 +131,8 @@ const mapDispatchToProps = dispatch => ({
     updateNode: (node) => {
         dispatch(actions.updateNode(node));
     },
-    deleteNode: (node) => {
-        dispatch(actions.deleteNode(node));
+    deleteNode: (node, nextNodeId=undefined) => {
+        dispatch(actions.deleteNode(node, nextNodeId));
     },
     stickNode: (node, sticky) => {
         dispatch(actions.stickNode(node, sticky));

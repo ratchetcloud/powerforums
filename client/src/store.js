@@ -1,6 +1,6 @@
-import { applyMiddleware, createStore, combineReducers } from "redux";
-import { createLogger } from "redux-logger";
-import reduxThunkMiddleware from "redux-thunk";
+import { applyMiddleware, createStore, combineReducers } from 'redux';
+import { createLogger } from 'redux-logger';
+import reduxThunkMiddleware from 'redux-thunk';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import allReducers from './reducers';
@@ -22,7 +22,7 @@ export const store = createStore(
     combineReducers({...allReducers, ...{router: routerReducer}}),
     applyMiddleware(
         reduxThunkMiddleware.withExtraArgument(new APIClient(API_URL)),
+        routeMiddleware,
         //loggerMiddleware,
-        routeMiddleware
     )
 );

@@ -1,9 +1,10 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-import TimeAgo from 'react-timeago'
+import TimeAgo from 'react-timeago';
+import sanitizeHtml from 'sanitize-html';
 import {DeleteTopicButton} from '../../../components/interactive-btns/DeleteButton';
 import ToggleStickyButton from '../../../components/interactive-btns/ToggleStickyButton';
-import EditButton from "../../../components/interactive-btns/EditButton";
+import {nodeUrl} from '../../../utils/urls';
 
 const TopicItem = (props) => {
     const {node, onEvent} = props;
@@ -12,16 +13,18 @@ const TopicItem = (props) => {
     const onToggleStickyHandler = () => onEvent('TOGGLE_STICKY', node._id, !node.sticky);
 
     return (
-        <li className="topic-card card">
+        <li className={"topic-card card" + (node.deleted ? ' deleted' : '')}>
             <div className="card-header">
+                {node.deleted === true && <span className="deleted">Deleted</span>}
                 {node.sticky === true && <span className="sticky"><i className="fas fa-thumbtack" /></span>}
                 <span>Posted by {node.authorInformation.name}</span>
                 <TimeAgo date={node.creationDate} />
             </div>
-            <NavLink to={"/n/" + node._id}>
+            <NavLink to={nodeUrl(node._id)}>
                 <div className="card-body">
                     <h5 className="card-title">{node.title}</h5>
-                    <p className="card-text">{node.content}</p>
+                    <p className="card-text"
+                       dangerouslySetInnerHTML={{__html: sanitizeHtml(node.content)}} />
                 </div>
             </NavLink>
             <div className="card-footer bg-transparent clearfix">
@@ -31,10 +34,12 @@ const TopicItem = (props) => {
                         <span>{node.replyCount} Replies</span>
                     </span>
                 </div>
+                {node.deleted !== true &&
                 <div className="float-right">
-                    <ToggleStickyButton node={node} sticky={node.sticky} onClick={onToggleStickyHandler} />
+                    <ToggleStickyButton node={node} sticky={node.sticky} onClick={onToggleStickyHandler}/>
                     <DeleteTopicButton node={node} onClick={onDeleteHandler}/>
                 </div>
+                }
             </div>
         </li>
     )

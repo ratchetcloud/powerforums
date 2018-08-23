@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {nodeUrl} from '../utils/urls';
 
 const Navigation = (props) => {
     const {node} = props;
@@ -23,7 +24,7 @@ const Navigation = (props) => {
             {ancestorList.map((node) => {
                 return (
                     <li key={node._id} className="nav-item">
-                        <NavLink to={"/n/"+node._id}>{node.title}</NavLink>
+                        <NavLink to={nodeUrl(node._id)}>{node.title}</NavLink>
                     </li>
                 )
             })}

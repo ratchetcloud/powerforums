@@ -77,7 +77,7 @@ exports.node_create = (req, res) => {
 
 // Get a node by ID.
 exports.node_getById = (req, res) => {
-    // Node is already loaded in `loadNode`
+    // Node is already loaded in `load`
     res.status(200).json(req.node);
 };
 
@@ -93,7 +93,13 @@ exports.node_update = (req, res) => {
                 if (!req.body.hasOwnProperty(key)) continue;
                 node[key] = req.body[key];
             }
-            
+
+            // If update sticky flag, do not update lastUpdatedDate.
+            // If want to add new exception, please add element name in has function below.
+            if (req.body.hasOwnProperty('title') || req.body.hasOwnProperty('content')) {
+                node.lastUpdatedDate = new Date();
+            }     
+
             node.save()
                 .then(document => res.status(201).json(document))
                 .catch(error => res.status(500).json(error));
@@ -101,7 +107,7 @@ exports.node_update = (req, res) => {
 
         default:
             // TODO: Forum can be changed.
-            return res.status(500).json({ message: "Forum cannot be updated" })
+            return res.status(500).json({ message: "Forum cannot be updated." })
     }
 };
 
@@ -113,18 +119,34 @@ exports.node_delete = (req, res) => {
 
     let node = req.node;
 
-    node.remove()
-        .then(document => {
+    // delete function means soft delete. It makes 'deleted' field true.
+    node.delete()
+        .then(function() {
             if (node.type === 'Reply') { 
-                Topic.findByIdAndUpdate(document._parentId, { $inc: { replyCount: -1 } })
-                     .then(result => res.status(200).json(document))
+                Topic.findByIdAndUpdate(node._parentId, { $inc: { replyCount: -1 } })
+                     .then(result => res.status(200).json(node))
                      .catch(error => res.status(500).json(error)); 
             } else {
-                res.status(200).json(document);
+                res.status(200).json(node);
             }
         })
         .catch(error => res.status(500).json(error));
 
+    // remove function means hard delete. 
+    // If need to make delete as hard delete, make above codes as annotation and use codes below.
+    // node.remove()
+    //     .then(document => {
+    //         if (node.type === 'Reply') { 
+    //             Topic.findByIdAndUpdate(document._parentId, { $inc: { replyCount: -1 } })
+    //                  .then(result => res.status(200).json(document))
+    //                  .catch(error => res.status(500).json(error)); 
+    //         } else {
+    //             res.status(200).json(document);
+    //         }
+    //     })
+    //     .catch(error => res.status(500).json(error));
+
+    // Code below is first design for deleting. This do hard deletion about target and its child.
     // // If nodeId exists in request and is valid.
     // // Remove the node itself, and every other node that have the nodeId in its ancestors array (=> all node children).
     // Node.find({ $or:[ {'_id': node._id}, {'ancestorList._id': ObjectId(node._id)} ] })
@@ -150,18 +172,27 @@ exports.node_delete = (req, res) => {
 
 // Get children of a given node, with paginated information.
 exports.node_getPaginatedChildren = (req, res) => {
-    const perPage = (!req.body.perPage || parseInt(req.body.perPage) < 1) ?
-            10 : parseInt(req.body.perPage);
-    const page = (!req.body.page || parseInt(req.body.page) < 0) ?
-            0 : Math.max(0, parseInt(req.body.page));
-    const sort = (!req.body.sort || typeof req.body.sort === "Object") ?
-            {} : req.body.sort;
+    const perPage = (!req.query.perPage || parseInt(req.query.perPage) < 1) ?
+            10 : parseInt(req.query.perPage);
+    const page = (!req.query.page || parseInt(req.query.page) < 0) ?
+            0 : Math.max(0, parseInt(req.query.page));
+    const sort = (!req.query.sort || typeof req.query.sort === "Object") ?
+            {} : req.query.sort;
 
-    if (!req.body.parentId)
+    if (!req.params.nodeId)
         return res.status(500).json({ error: "Missing parameter 'parentId'." });
 
-    const filter = { _parentId: new ObjectId(req.body.parentId) }
-
+    let filter;
+    // If user has permission to read all node including soft-deleted node,
+    // return all nodes.
+    if(req.permissions.has('canReadDeleted')) {
+        filter = { _parentId: new ObjectId(req.params.nodeId) };
+    } else {
+        // If user does not have permission to read soft-deleted node,
+        // return nodes except soft-deleted node.
+        filter = { _parentId: new ObjectId(req.params.nodeId), 
+                         deleted: false };        
+    }
     Node.find(filter)
         .limit(perPage)
         .skip(perPage * page)
@@ -178,5 +209,4 @@ exports.node_getPaginatedChildren = (req, res) => {
                     }})
             })
         });
-
 }

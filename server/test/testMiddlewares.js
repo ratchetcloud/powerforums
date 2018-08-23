@@ -46,7 +46,7 @@ describe('Test middlewares', function() {
                 function(req, res) {
                     // After passed 'checkAuth' middleware,
                     // userData is saved to `res.locals.userData`.
-                    let user = new User(res.locals.userData);
+                    let user = res.locals.userData ? new User(res.locals.userData) : null;
                     return res.json({'user': user});
                 }
             );
@@ -54,7 +54,10 @@ describe('Test middlewares', function() {
         it('Send request without Authorization', function () {
             return supertest(app)
                 .get('/')
-                .expect(401);
+                .expect(200)
+                .then(response => {
+                    assert(response.body.user === null);
+                });
         });
         it('Send request with wrong Authorization', function () {
             return supertest(app)
@@ -114,6 +117,14 @@ describe('Test middlewares', function() {
                     .get('/node/200000000000000000000000')
                     .expect(200);
             });
+            it('Read Deleted Forum', function () {
+                return supertest(app)
+                    .get('/node/200000000000000000000006')
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
+                    });
+            });
             it('Update Forum', function () {
                 return supertest(app)
                     .patch('/node/200000000000000000000001')
@@ -140,6 +151,14 @@ describe('Test middlewares', function() {
                     .expect(200)
                     .then(response => {
                         assert(response.body.node != null)
+                    });
+            });
+            it('Read Deleted Topic', function () {
+                return supertest(app)
+                    .get('/node/200000000000000000000007')
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
                     });
             });
             it('Update Topic', function () {
@@ -181,6 +200,14 @@ describe('Test middlewares', function() {
                     .get('/node/200000000000000000000000')
                     .expect(200);
             });
+            it('Read Deleted Forum', function () {
+                return supertest(app)
+                    .get('/node/200000000000000000000006')
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
+                    });
+            });
             it('Update Forum', function () {
                 return supertest(app)
                     .patch('/node/200000000000000000000001')
@@ -211,6 +238,14 @@ describe('Test middlewares', function() {
                     .expect(200)
                     .then(response => {
                         assert(response.body.node != null)
+                    });
+            });
+            it('Read Deleted Topic', function () {
+                return supertest(app)
+                    .get('/node/200000000000000000000007')
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
                     });
             });
             it('Update Topic', function () {
@@ -248,6 +283,16 @@ describe('Test middlewares', function() {
                     .post('/node')
                     .send(request['createForum'].body)
                     .expect(200);
+            });
+            it('Read Deleted Forum', function () {
+                return supertest(app)
+                    .get('/node/200000000000000000000006')
+                    .expect(200);
+            });
+            it('Read Deleted Topic', function () {
+                return supertest(app)
+                    .get('/node/200000000000000000000007')
+                    .expect(200)
             });
             it('Update Forum', function () {
                 // Admin can't. Only owner can update forum.
@@ -318,6 +363,21 @@ describe('Test middlewares', function() {
                 return supertest(app)
                     .delete('/node/200000000000000000000004')
                     .expect(403);
+            });
+            it('Read Deleted Topic with permission', function () {
+                // Subadmin can read deleted node having permission
+                return supertest(app)
+                    .get('/node/200000000000000000000002')
+                    .expect(200)
+            });
+            it('Read Deleted Topic without permission', function () {
+                // Subadmin can't read deleted node not having permission
+                return supertest(app)
+                    .get('/node/200000000000000000000007')
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
+                    });
             });
         });
 

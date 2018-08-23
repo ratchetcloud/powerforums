@@ -10,6 +10,7 @@ module.exports = [
             "canDeleteTopic",
             "canDeleteReply",
             "canSetSticky",
+            "canReadDeleted"
         ]
     },
     {
@@ -21,6 +22,7 @@ module.exports = [
             "canDeleteTopic",
             "canDeleteReply",
             "canSetSticky",
+            "canReadDeleted"
         ]
     },
     {

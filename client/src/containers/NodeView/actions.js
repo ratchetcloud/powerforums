@@ -1,6 +1,6 @@
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import { push } from 'react-router-redux';
-
+import { nodeUrl } from '../../utils/urls';
 
 /**
  * Load node with given ID
@@ -108,11 +108,18 @@ export const updateNode = (node) => (dispatch, getState, APIClient) => {
 /**
  * Delete given node
  * @param nodeId: ID of node model
+ * @param nextNodeId: If defined, goto given node after delete node
  */
-export const deleteNode = (nodeId) => (dispatch, getState, APIClient) => {
+export const deleteNode = (nodeId, nextNodeId=undefined) => (dispatch, getState, APIClient) => {
     return APIClient.deleteNode(nodeId)
         .then(response => {
-            dispatch(reload());
+            if (nextNodeId) {
+                dispatch(push(nodeUrl(nextNodeId)));
+                dispatch(load(nextNodeId));
+
+            }else {
+                dispatch(reload());
+            }
         })
         .catch(error => {
             dispatch(nodeSubmissionError(error));
