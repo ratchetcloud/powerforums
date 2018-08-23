@@ -63,7 +63,7 @@ const TopicComponent = (props) => {
                 <div>
                     <CreateReplyForm parentId={node._id}
                                      initialValues={{ parentId: node._id, type: 'Reply' }}
-                                     node={node}
+                                     node={{ancestorList: node.ancestorList.concat(node)}}
                                      onSubmit={onNodeCreate} />
                 </div>
             </div>
