@@ -120,7 +120,10 @@ describe('Test middlewares', function() {
             it('Read Deleted Forum', function () {
                 return supertest(app)
                     .get('/node/200000000000000000000006')
-                    .expect(410);
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
+                    });
             });
             it('Update Forum', function () {
                 return supertest(app)
@@ -153,7 +156,10 @@ describe('Test middlewares', function() {
             it('Read Deleted Topic', function () {
                 return supertest(app)
                     .get('/node/200000000000000000000007')
-                    .expect(410)
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
+                    });
             });
             it('Update Topic', function () {
                 return supertest(app)
@@ -197,7 +203,10 @@ describe('Test middlewares', function() {
             it('Read Deleted Forum', function () {
                 return supertest(app)
                     .get('/node/200000000000000000000006')
-                    .expect(410);
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
+                    });
             });
             it('Update Forum', function () {
                 return supertest(app)
@@ -234,7 +243,10 @@ describe('Test middlewares', function() {
             it('Read Deleted Topic', function () {
                 return supertest(app)
                     .get('/node/200000000000000000000007')
-                    .expect(410)
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
+                    });
             });
             it('Update Topic', function () {
                 return supertest(app)
@@ -362,7 +374,10 @@ describe('Test middlewares', function() {
                 // Subadmin can't read deleted node not having permission
                 return supertest(app)
                     .get('/node/200000000000000000000007')
-                    .expect(410)
+                    .expect(404)
+                    .then(response => {
+                        assert(response.body.deleted === true);
+                    });
             });
         });
 

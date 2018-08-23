@@ -17,7 +17,7 @@ const errorInvalidType = { message: "Provided action type is not valid", code: 5
 const errorParentNodeNotFound = { message: "Parent node not found.", code: 404 };
 const errorMissingParameter = { message: "Parameter is missing.", code: 400 };
 const errorForbidden = { message: "Forbidden", code: 403 };
-const errorDeletedNode = { message: "Target node is deleted", code: 410 };
+const errorDeletedNode = { message: "Target node is deleted", code: 404, deleted: true };
 
 /**
  * Load node data from `req`
@@ -169,6 +169,6 @@ module.exports = (req, res, next) => {
                 throw result.fallbackError;
         })
         .catch((err) => {
-            res.status(err.code).json({ message: err.message });
+            res.status(err.code).json(err);
         })
 };
