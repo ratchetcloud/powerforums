@@ -3,17 +3,10 @@
 Scalable forums with essentials forums features.
 
 
-## Server
-RESTFul API server for forums,
-powered by [`express`](http://expressjs.com/) and [`mongodb`](https://www.mongodb.com/),
-can be easily scale-out with state-less design.
+- **Server**: RESTFul API server for forums, powered by [`express`](http://expressjs.com/) and [`mongodb`](https://www.mongodb.com/), can be easily scale-out with state-less design.
+- **Client**: Powered by [`react`](https://reactjs.org/) + [`redux`](https://redux.js.org/), using [`webpack`](https://webpack.js.org/) and [`babel`](https://babeljs.io/) to support most browsers, and can be deployed to static servers easily.
 
-
-## Client
-Powered by [`react`](https://reactjs.org/) + [`redux`](https://redux.js.org/),
-using [`webpack`](https://webpack.js.org/) and [`babel`](https://babeljs.io/) to support most browsers,
-and can be deployed to static servers easily.
-
+See more in [Wiki](https://github.com/ratchetcloud/powerforums/wiki).
 
 ## How to install & run
 Our services are packed with `Docker`, proudly, so you can easily start service with below script.
